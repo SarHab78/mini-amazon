@@ -65,37 +65,6 @@ CREATE TABLE Seller_review (
     PRIMARY KEY(uid, seller_name)
 );
 
-CREATE TABLE cart_total(
-    uid REFERENCES Users PRIMARY KEY,
-    totalitems INTEGER NOT NULL,
-    totalcost INTEGER NOT NULL,
-    orderID INTEGER NOT NULL REFERENCES total,
-    inprogress BOOLEAN default TRUE
-);
-
-CREATE TABLE total (
-    pid INTEGER NOT NULL REFERENCES products,
-    uid INTEGER NOT NULL REFERENCES Users,
-    orderID INTEGER NOT NULL,
-    quantity INTEGER NOT NULL,
-    PRIMARY KEY (pid)
-);
-
-CREATE TABLE ordertotal(
-    orderID REFERENCES total NOT NULL,
-    timestamp TIMESTAMP NOT NULL,
-    fulfilled BOOLEAN DEFAULT FALSE,
-    PRIMARY KEY (orderID)
-);
-
-CREATE TABLE balance(
-    uid REFERENCES Users NOT NULL,
-    credit INTEGER NOT NULL,
-    PRIMARY KEY (uid)
-);
-
-
-
 CREATE FUNCTION TF_email() RETURNS TRIGGER AS $$
 BEGIN
   IF EXISTS (SELECT * FROM  Users
@@ -114,48 +83,4 @@ CREATE TRIGGER TG_email
   EXECUTE PROCEDURE TF_email();
 
 
-CREATE FUNCTION TF_balance() RETURNS TRIGGER AS $$
-BEGIN
-  IF EXISTS (SELECT * FROM  Users
-  WHERE balance < 0 
-  THEN 
-  RAISE EXCEPTION 'Balance has fallen below 0';
-  END IF;
 
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER TG_balance
-  BEFORE INSERT OR UPDATE ON Users
-  FOR EACH ROW
-  EXECUTE PROCEDURE TF_balance();
-
-CREATE FUNCTION CheckBalance() RETURNS TRIGGER AS $$
-BEGIN
-  IF EXISTS (SELECT * FROM balance, total
-  WHERE balance.card<total.totalcost
-  THEN 
-  RAISE EXCEPTION 'Insufficient funds';
- IF EXISTS (SELECT * FROM balance, total
-  WHERE balance.card>total.totalcost
-  THEN 
-EXECUTE PROCEDURE UpdateBalance();
-
-  END IF;
-
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER InsufFunds()
-  BEFORE INSERT OR UPDATE ON total
-  FOR EACH ROW
-  EXECUTE PROCEDURE CheckBalance();
-
-CREATE PROCEDURE UpdateBalance() 
-AS
-BEGIN //how to access seller’s balance from here?
-  SET balance.card = balance.card - total.totalcost AND seller.balance = seller.balance + total.totalcost
-UPDATE balance.card, seller.balance
-END
