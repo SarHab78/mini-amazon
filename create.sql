@@ -64,6 +64,12 @@ CREATE TABLE Seller_review (
     review VARCHAR(256) NOT NULL,
     PRIMARY KEY(uid, seller_name)
 );
+CREATE TABLE orders_fulfilled(
+   user REFERENCES UID PRIMARY KEY,
+   prod REFERENCES product_id PRIMARY KEY,
+   order _quantity INTEGER NOT NULL,
+   Date INTEGER default NULL
+);
 
 CREATE FUNCTION TF_email() RETURNS TRIGGER AS $$
 BEGIN
