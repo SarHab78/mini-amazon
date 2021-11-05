@@ -133,6 +133,44 @@ THEN email, address,
 ELSE balance END)
 FROM Users, reviews where users.UID=reviews.sellerid;
 
+--to ensure the user trying to write review has purchased this product
+CREATE FUNCTION TF_NewReview() RETURNS TRIGGER AS $$
+BEGIN
+  IF NOT EXISTS (SELECT * FROM orders_fulfilled
+   WHERE product_id = NEW.product_id AND uid = NEW.uid
+   THEN                       
+  RAISE EXCEPTION 'user % has not ordered product', uid
+  ;
+
+  END IF;
+
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER UserHasNotPurchased
+  BEFORE INSERT OR UPDATE ON product_review
+  FOR EACH ROW
+  EXECUTE PROCEDURE TF_NewReview();
+
+
+--to ensure user trying to edit review matches user that wrote it:
+CREATE FUNCTION TF_EditReview() RETURNS TRIGGER AS $$
+BEGIN
+  IF NOT EXISTS (SELECT * FROM product_review
+   WHERE uid = NEW.uid
+   THEN                       
+  RAISE EXCEPTION 'user does not match original author'
+  ;
+
+  END IF;
+
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER UserCannotEdit
+  BEFORE UPDATE ON product_review
+  FOR EACH ROW
+  EXECUTE PROCEDURE TF_EditReview();
+
+
 
 
 
