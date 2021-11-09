@@ -43,12 +43,12 @@ class RegistrationForm(FlaskForm):
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    address = StringField(_l('Address'), validators=[DataRequired()])
+    seller = BooleanField(_l('Are you a Seller?'))
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
                                            EqualTo('password')])
-    address = StringField(_l('Address'), validators=[DataRequired()])
-    seller = StringField(_l('Are you a Seller? (Y or N)'), validators=[DataRequired()])
     submit = SubmitField(_l('Register'))
 
     def validate_email(self, email):
