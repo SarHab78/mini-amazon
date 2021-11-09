@@ -47,6 +47,8 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
                                            EqualTo('password')])
+    address = StringField(_l('Address'), validators=[DataRequired()])
+    seller = StringField(_l('Are you a Seller? (Y or N)'), validators=[DataRequired(), EqualTo('Y' | 'N')])
     submit = SubmitField(_l('Register'))
 
     def validate_email(self, email):
