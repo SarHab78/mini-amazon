@@ -44,7 +44,7 @@ class RegistrationForm(FlaskForm):
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    seller = BooleanField(_l('Are you a Seller?'))
+    #seller = BooleanField(_l('Are you a Seller?'))
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
@@ -66,8 +66,8 @@ def register():
                          form.password.data,
                          form.firstname.data,
                          form.lastname.data,
-                         form.address.data,
-                         form.seller.data):
+                         form.address.data
+                         ):
             flash('Congratulations, you are now a registered user!')
             return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
