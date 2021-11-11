@@ -34,6 +34,21 @@
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
+   <p>
+    {{ form.balance.label }} (Must be a number greater than 0)<br/>
+    {{ form.balance(size=64) }}<br/>
+    {% for error in form.balance.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  
+  <p>
+    {{ form.is_seller.label }} (Must be Y or N)<br/>
+    {{ form.is_seller(size=64) }}<br/>
+    {% for error in form.is_seller.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
   <p>
     {{ form.password.label }}<br/>
     {{ form.password(size=32) }}<br/>
