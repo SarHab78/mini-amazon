@@ -23,7 +23,12 @@ CREATE TABLE Products (
 	image_id VARCHAR(255) NOT NULL,
     price FLOAT NOT NULL,
 	link VARCHAR(255) NOT NULL,
-	UID REFERENCES Users(UID),
+	UID INT UNIQUE NOT NULL REFERENCES Users,
 	quantity FLOAT NOT NULL,
     available VARCHAR(1) NOT NULL
+);
+
+CREATE TABLE Purchases (
+	product_id INT UNIQUE NOT NULL references Products,
+	UID INT UNIQUE NOT NULL references Users
 );
