@@ -30,7 +30,7 @@
       <th scope="col">Product ID</th>
       <th scope="col">Product Name</th>
       <th scope="col">Price</th>
-      <th scope = "col">Cart</th>
+      <th scope = "col">Add to Cart</th>
     </tr>
   </thead>
   <tbody>
@@ -39,7 +39,7 @@
         <th scope="row">{{product.id}}</th>
         <td>{{product.name}}</td>
         <td>{{product.price}}</td>
-        <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Register</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Add to Cart</a></td>
       </tr>
     {% endfor %}
   </tbody>
