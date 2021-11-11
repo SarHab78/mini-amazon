@@ -29,6 +29,8 @@
       <th scope="col">Product ID</th>
       <th scope="col">Product Name</th>
       <th scope="col">Price</th>
+      {% if current_user.is_authenticated %}
+      <th scope="col">Cart</th>
     </tr>
   </thead>
   <tbody>
