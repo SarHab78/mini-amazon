@@ -77,6 +77,7 @@
       <th scope="col">Purchase ID</th>
       <th scope="col">Product Name</th>
       <th scope="col">Price</th>
+      <th scope = "col">Write a Review</th>
     </tr>
   </thead>
   <tbody>
@@ -85,6 +86,7 @@
         <th scope="row">{{purchase.id}}</th>
         <td>{{purchase.pid}}</td>
         <td>{{purchase.time_purchased}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Add to Cart</a></td>
       </tr>
     {% endfor %}
   </tbody>
