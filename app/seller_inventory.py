@@ -2,11 +2,11 @@ from flask import render_template
 from flask_login import current_user
 import datetime
 
-from .models.product import Product
-from .models.purchase import Purchase
+from .models.base_model import Product
+from .models.base_model import Purchase
 
 from flask import Blueprint
-bp = Blueprint('index', __name__)
+bp = Blueprint('seller_inventory', __name__)
 
 
 @bp.route('/')
