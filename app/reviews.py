@@ -27,8 +27,6 @@ class AddAReview(FlaskForm):
 
 @bp.route('/post_review', methods=['GET', 'POST'])
 def post_review():
-    if current_user.is_authenticated:
-        return redirect(url_for('index.index'))
     form = AddAReview()
     if form.validate_on_submit():
         if Product_review.get_prod(
