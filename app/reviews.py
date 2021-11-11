@@ -25,7 +25,7 @@ class AddAReview(FlaskForm):
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality - Jo?
 
-@bp.route('/review_form', methods=['GET', 'POST'])
+@bp.route('/post_review', methods=['GET', 'POST'])
 def post_review():
     if current_user.is_authenticated:
         return redirect(url_for('index.index'))
@@ -38,4 +38,4 @@ def post_review():
                          form.review.data):
             flash('Review Posted')
             return redirect(url_for('index.index'))
-    return render_template('review_form.html', title='AddAReview', form=form)
+    return render_template('review_form.html', title='Post Review', form=form)
