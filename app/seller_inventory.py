@@ -10,7 +10,7 @@ bp = Blueprint('seller_inventory', __name__)
 
 
 @bp.route('/')
-def index():
+def seller_inventory():
     # get all available products for sale:
     products = Product.get_all(True)
     # find the products current user has bought:
@@ -20,6 +20,6 @@ def index():
     else:
         purchases = None
     # render the page by adding information to the index.html file
-    return render_template('index.html',
+    return render_template('seller_inventory.html',
                            avail_products=products,
                            purchase_history=purchases)
