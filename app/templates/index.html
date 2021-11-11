@@ -39,7 +39,7 @@
         <th scope="row">{{product.id}}</th>
         <td>{{product.name}}</td>
         <td>{{product.price}}</td>
-        <td>{{product.price}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Register</a></td>
       </tr>
     {% endfor %}
   </tbody>
