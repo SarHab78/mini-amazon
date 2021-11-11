@@ -25,7 +25,7 @@ CREATE TABLE Products (
 	link VARCHAR(255) NOT NULL,
 	UID REFERENCES Users(UID),
 	quantity FLOAT NOT NULL,
-    available BIT DEFAULT TRUE 
+    available VARCHAR(1) NOT NULL
 );
 
 CREATE TABLE product_review(
