@@ -2,19 +2,21 @@ from flask import current_app as app
 
 
 class Product_review:
-    def __init__(self, review_id, product_id, uid, rating, review):
-        self.review_id = review_id
-        self.product_id = product_id
+    def __init__(self, rid, pid, uid, email, timestamp, rating, review):
+        self.rid = rid
+        self.pid = pid
         self.uid = uid
+        self.email = email
+        self.timestamp = timestamp
         self.rating = rating
         self.review = review
 
     @staticmethod
-    def get_prod(product_id):
+    def get_prod(pid):
         rows = app.db.execute('''
-SELECT review_id, product_id, uid, rating, review
+SELECT rid, pid, uid, email, timestamp, rating, review
 FROM product_review
-WHERE product_id = :product_id
+WHERE pid = :pid
 ''',
-                              review_id=review_id)
+                              rid=rid)
         return product_review(*(rows[0])) if rows is not None else None
