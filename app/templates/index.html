@@ -31,15 +31,17 @@
       <th scope="col">Product Name</th>
       <th scope="col">Price</th>
       <th scope = "col">Add to Cart</th>
+      <th scope = "col">Write a Review</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody> 
     {% for product in avail_products%}
       <tr>
         <th scope="row">{{product.id}}</th>
         <td>{{product.name}}</td>
         <td>{{product.price}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('reviews.review_form') }}" role="button">Write a Review</a></td>
       </tr>
     {% endfor %}
   </tbody>
