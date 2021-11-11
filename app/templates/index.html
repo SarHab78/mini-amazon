@@ -41,7 +41,7 @@
         <td>{{product.name}}</td>
         <td>{{product.price}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
-        <td><a class="btn btn-secondary" href="{{ url_for('reviews.review_form') }}" role="button">Write a Review</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('reviews.post_review') }}" role="button">Write a Review</a></td>
       </tr>
     {% endfor %}
   </tbody>
