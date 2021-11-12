@@ -4,19 +4,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from .. import login
 
-#user table information
+
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname):
+    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        
+        self.address = address
+        self.balance = balance
+        self.is_seller = is_seller
 
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT password, id, email, firstname, lastname
+SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
@@ -40,17 +42,20 @@ WHERE email = :email
         return len(rows) > 0
 
     @staticmethod
-    def register(email, password, firstname, lastname):
+    def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, password, firstname, lastname)
-VALUES(:email, :password, :firstname, :lastname)
+INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
+VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
                                   password=generate_password_hash(password),
                                   firstname=firstname,
-                                  lastname=lastname)
+                                  lastname=lastname,
+                                  address= address,
+                                  balance = balance,
+                                  is_seller = is_seller)
             id = rows[0][0]
             return User.get(id)
         except Exception:
@@ -62,7 +67,7 @@ RETURNING id
     @login.user_loader
     def get(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname
+SELECT id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
