@@ -40,3 +40,11 @@ CREATE TABLE product_review(
     review VARCHAR(100) NOT NULL,
     UNIQUE(uid, pid)
 );
+
+CREATE TABLE Orders(
+   user REFERENCES User(UID) PRIMARY KEY,
+   prod REFERENCES Products(product_id) PRIMARY KEY,
+   order _quantity INTEGER NOT NULL,
+   Date INTEGER default NULL
+);
+
