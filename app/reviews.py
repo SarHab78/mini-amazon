@@ -17,7 +17,7 @@ from .models.review import Product_review
 from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
-class AddAReview(FlaskForm):
+class reviews(FlaskForm):
     email = StringField(_l('email'), validators=[DataRequired()])
     rating = IntegerField(_l('rating'), validators=[DataRequired()])
     pid = IntegerField(_l('rating'), validators=[DataRequired()])
@@ -25,10 +25,10 @@ class AddAReview(FlaskForm):
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality - Jo?
 
-@bp.route('/post_review', methods=['GET', 'POST'])
-def post_review():
+@bp.route('/reviews', methods=['GET', 'POST'])
+def reviews()):
     form = ContactForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
-    return render_template('review_form.html', title='Post Review', form=form)
+    return render_template('reviews.html', title='reviews', form=form)
 
