@@ -18,7 +18,7 @@ from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
 class AddAReview(FlaskForm):
-    email = StringField(_l('email'), validators=[DataRequired(), Email()])
+    email = StringField(_l('email'), validators=[DataRequired()])
     rating = IntegerField(_l('rating'), validators=[DataRequired()])
     pid = IntegerField(_l('rating'), validators=[DataRequired()])
     review = StringField(_l('rating'), validators=[DataRequired()])
