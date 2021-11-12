@@ -50,7 +50,6 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
                                            EqualTo('password')])
-    recaptcha = RecaptchaField()
     submit = SubmitField(_l('Register'))
 
     def validate_email(self, email):
