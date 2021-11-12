@@ -27,14 +27,8 @@ class AddAReview(FlaskForm):
 
 @bp.route('/post_review', methods=['GET', 'POST'])
 def post_review():
-    form = AddAReview()
+    form = ContactForm()
     if form.validate_on_submit():
-        if Product_review.get_prod(
-                         form.pid.data,
-                         form.email.data,
-                         form.rating.data,
-                         form.review.data):
-            flash('Review Posted')
-            return redirect(url_for('index.index'))
+        return redirect(url_for('index.index'))
     return render_template('review_form.html', title='Post Review', form=form)
 
