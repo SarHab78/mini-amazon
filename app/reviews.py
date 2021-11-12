@@ -17,48 +17,12 @@ from flask import Blueprint
 bp = Blueprint('users', __name__)
 
 
-class LoginForm(FlaskForm):
+class ReviewForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    password = PasswordField(_l('Password'), validators=[DataRequired()])
-    remember_me = BooleanField(_l('Remember Me'))
-    submit = SubmitField(_l('Sign In'))
-
-
-@bp.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index.index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.get_by_auth(form.email.data, form.password.data)
-        if user is None:
-            flash('Invalid email or password')
-            return redirect(url_for('users.login'))
-        login_user(user)
-        next_page = request.args.get('next')
-        if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index.index')
-
-        return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
-
-
-class RegistrationForm(FlaskForm):
-    firstname = StringField(_l('First Name'), validators=[DataRequired()])
-    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
-    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
-    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
-    password = PasswordField(_l('Password'), validators=[DataRequired()])
-    password2 = PasswordField(
-        _l('Repeat Password'), validators=[DataRequired(),
-                                           EqualTo('password')])
-    submit = SubmitField(_l('Register'))
-
-    def validate_email(self, email):
-        if User.email_exists(email.data):
-            raise ValidationError(_('Already a user with this email.'))
+    pid = IntegerField(_l('Product ID'), validators=[DataRequired()])
+    rev = StringField(_l('Review'), validators=[DataRequired()])
+    rating = IntegerField(_l('Rating'), validators=[DataRequired()])
+    submit = SubmitField(_l('Submit'))
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -68,18 +32,10 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         if User.register(form.email.data,
-                         form.password.data,
-                         form.firstname.data,
-                         form.lastname.data,
-                         form.address.data,
-                         form.balance.data,
-                         form.is_seller.data):
-            flash('Congratulations, you are now a registered user!')
+                         form.pid.data,
+                         form.rev.data,
+                         form.rating.data
+        ):
+            flash('Congratulations, you submitted a review!')
             return redirect(url_for('users.login'))
-    return render_template('register.html', title='Register', form=form)
-
-
-@bp.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index.index'))
+    return render_template('review_form.html', title='review_form', form=form)
