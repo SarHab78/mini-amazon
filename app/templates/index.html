@@ -31,7 +31,6 @@
       <th scope="col">Product Name</th>
       <th scope="col">Price</th>
       <th scope = "col">Add to Cart</th>
-      <th scope = 'col'>Write a Review</th>
     </tr>
   </thead>
   <tbody> 
@@ -41,7 +40,6 @@
         <td>{{product.name}}</td>
         <td>{{product.price}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Add to Cart</a></td>
-        <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Review</a></td>
       </tr>
     {% endfor %}
   </tbody>
