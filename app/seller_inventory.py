@@ -9,6 +9,8 @@ from flask import Blueprint
 bp = Blueprint('seller_inventory', __name__)
 
 
+
+
 @bp.route('/')
 def seller_inventory():
     # get all available products for sale:
