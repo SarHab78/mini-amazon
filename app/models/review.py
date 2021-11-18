@@ -15,7 +15,7 @@ class Product_review(UserMixin):
         self.review = review
 
     @staticmethod
-    def get_by_auth(pid):
+    def get_prod_reviews(pid):
         rows = app.db.execute('''
 SELECT rid, pid, uid, email, timestamp, rating, review
 FROM product_review
