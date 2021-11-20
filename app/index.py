@@ -14,7 +14,7 @@ bp = Blueprint('index', __name__)
 def index():
    # print(Sellers.get_all_sellers())
     # get all available products for sale:
-    products = Product.get_all(True)
+    products = Product.get_all('Y')
     print(products)
     #this is referencing the function in the model folder where we're getting all the possible products
     #models are for writing sql queries, have the inits so that you can do like product.id or just use to x.y to get the specific parameter of a table
@@ -33,3 +33,22 @@ def index():
                            #avail products is parameter name that will be passed to html, product has the actual data
 
                            purchase_history=purchases)
+
+
+@bp.route('/inventory')
+def inventory():
+   # print(Sellers.get_all_sellers())
+    # get all available products for sale:
+    products = Product.get_all('Y')
+    print(products)
+    #this is referencing the function in the model folder where we're getting all the possible products
+    #models are for writing sql queries, have the inits so that you can do like product.id or just use to x.y to get the specific parameter of a table
+
+
+
+    # find the products current user has bought:
+    
+    return render_template('seller_inventory.html'
+    )
+                           
+            
