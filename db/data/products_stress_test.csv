@@ -1,4 +1,3 @@
-product_name,product_id,product_description,Image_id,price,id,quantity,avaliable
 Book 1,1,book,https://www.google.com/url?sa=i&url=https%3A%2F%2Fturnerduckworth.com%2Famazon&psig=AOvVaw3RIni91rPpsr0LNlXz78T3&ust=1636692817287000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLiC-4HCj_QCFQAAAAAdAAAAABAD,10,1,1,Y
 Book 2,2,book,https://www.google.com/url?sa=i&url=https%3A%2F%2Fturnerduckworth.com%2Famazon&psig=AOvVaw3RIni91rPpsr0LNlXz78T3&ust=1636692817287000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLiC-4HCj_QCFQAAAAAdAAAAABAD,10,2,1,Y
 Book 3,3,book,https://www.google.com/url?sa=i&url=https%3A%2F%2Fturnerduckworth.com%2Famazon&psig=AOvVaw3RIni91rPpsr0LNlXz78T3&ust=1636692817287000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCLiC-4HCj_QCFQAAAAAdAAAAABAD,10,3,1,Y

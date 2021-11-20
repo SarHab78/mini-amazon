@@ -128,7 +128,7 @@ WHERE id = :id
         return Product(*(rows[0])) if rows is not None else None
 
     @staticmethod
-    def get_all(available=True):
+    def get_all(available= 'Y'):
         rows = app.db.execute('''
 SELECT id, name, price, available
 FROM Products
