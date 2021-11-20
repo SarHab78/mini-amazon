@@ -36,6 +36,5 @@ def index():
 
 @bp.route('/carts')
 def carts():
-    products = Product.get_all(True)
     return render_template('carts.html')
 
