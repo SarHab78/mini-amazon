@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from .. import login
 
 
-class Product_review(UserMixin):
+class Product_review:
     def __init__(self, rid, pid, uid, email, timestamp, rating, review):
         self.rid = rid
         self.pid = pid
