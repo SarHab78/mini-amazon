@@ -25,10 +25,10 @@ class reviews(FlaskForm):
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality - Jo?
 
-@bp.route('/', methods=['GET', 'POST'])
-def reviews()):
+@bp.route('/review_form', methods=['GET', 'POST'])
+def write_review()):
     form = ContactForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
-    return render_template('reviews.html', title='reviews', form=form)
+    return render_template('review_form.html', title='reviews', form=form)
 
