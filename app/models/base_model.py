@@ -112,16 +112,18 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, product_id, product_name, price, available):
+    def __init__(self, product_id, product_name, product_description, image_url, price, available):
         self.product_id = product_id
         self.product_name = product_name
+        self.product_description = product_description
+        self.image_url = image_url
         self.price = price
         self.available = available
 
     @staticmethod
     def get(product_id):
         rows = app.db.execute('''
-SELECT product_id, product_name, price, available
+SELECT product_id, product_name, product_description, image_url, price, available
 FROM Products
 WHERE product_id = :product_id
 ''',
@@ -131,9 +133,20 @@ WHERE product_id = :product_id
     @staticmethod
     def get_all(available='Y'):
         rows = app.db.execute('''
-SELECT product_id, product_name, price, available
+SELECT product_id, product_name, product_description, image_url, price, available
 FROM Products
 WHERE available = :available
 ''',
                               available=available)
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_search_result(search_str='', available='Y'):
+        rows = app.db.execute('''
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE available = :available AND product_name LIKE :search_str
+ORDER BY price
+''',
+                              search_str = '%' + search_str + '%', available=available)
         return [Product(*row) for row in rows]
