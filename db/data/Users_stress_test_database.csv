@@ -1,4 +1,4 @@
-﻿id,firstname,lastname,email,pwd,address,balance,is_seller
+id,firstname,lastname,email,pwd,address,balance,is_seller
 1,Olivia,Jack,Olivia@gmail.com,password123,"1 Duke Way, Durham NC 27705 ",1,Y
 2,Emily,Oliver,Emily@gmail.com,password124,"2 Duke Way, Durham NC 27705 ",2,N
 3,Isla,James,Isla@gmail.com,password125,"3 Duke Way, Durham NC 27705 ",3,N
