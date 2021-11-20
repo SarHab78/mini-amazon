@@ -22,6 +22,36 @@
   <p></p>
 </body>
 
+{% if current_user.is_authenticated %}
+<h2>Products for sale:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+      <th scope = "col">Add to Cart</th>
+    </tr>
+  </thead>
+  <tbody> 
+    {% for product in avail_products%}
+    <!-- avail_products is the variable form index.py
+    make sure to make the right number of columns for each of the rows, be careful-->
+      <tr>
+        <th scope="row">{{product.id}}</th>
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <!-- can even make a button for each row, make sure that button is routed to sql function 
+          pass in the parameters you need to make sure you're deleting the right thing
+          in a backend file, have a function called "delete function"
+          product.delete_product(), parameter 1 will be the product id data
+          (specify route, the route should be a function that does a sql query, do a return redirect to get the page after you click that button)-->
+        <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Add to Cart</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
 <h2>Products for sale:</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
@@ -41,6 +71,9 @@
     {% endfor %}
   </tbody>
 </table>
+{% endif %}
+
+
 
 <br><br>
 {% if current_user.is_authenticated %}
@@ -51,6 +84,7 @@
       <th scope="col">Purchase ID</th>
       <th scope="col">Product Name</th>
       <th scope="col">Price</th>
+      <th scope = "col">Write a Review</th>
     </tr>
   </thead>
   <tbody>
@@ -59,6 +93,7 @@
         <th scope="row">{{purchase.id}}</th>
         <td>{{purchase.pid}}</td>
         <td>{{purchase.time_purchased}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
       </tr>
     {% endfor %}
   </tbody>
