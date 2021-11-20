@@ -58,5 +58,7 @@ def inventory():
                            #avail products is parameter name that will be passed to html, product has the actual data
 
                            purchase_history=purchases)
-                           
-            
+@bp.route('/carts')
+def carts():
+    products = Product.get_all(True)
+    return render_template('carts.html')

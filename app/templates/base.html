@@ -19,7 +19,7 @@
 
     .sidenav {
         height: 100%;
-        background-color: #9fc5e8;
+        background-color: #ADB78A;
         overflow-x: hidden;
         padding-top: 20px;
     }
@@ -44,14 +44,16 @@
     }
   </style>
 </head>
-
 <body>
   <div class="sidenav">
     {% block msg %}
       <h1 style="color:black; text-aligh: center">Welcome to the Steminist Girlbosses' Mini Amazon!</h1>
       <div style="color: black; text-align: right; margin-bottom: 25px">
         {% if current_user.is_authenticated %}
-          Hello {{current_user.firstname}}! <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
+          Hello {{current_user.firstname}}! 
+           <a href="{{ url_for('index.carts') }}" type="button" class="btn btn-dark">My Cart</a>
+          <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
+        
         {% else %}
           <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light">Log in</a>
         {% endif %}
@@ -59,7 +61,8 @@
     {% endblock %}
   </div>
   <div class="main">
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
   </div>
 </body>
 
