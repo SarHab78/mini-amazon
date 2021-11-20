@@ -36,8 +36,8 @@
   <tbody> 
     {% for product in avail_products%}
       <tr>
-        <th scope="row">{{product.id}}</th>
-        <td>{{product.name}}</td>
+        <th scope="row">{{product.product_id}}</th>
+        <td>{{product.product_name}}</td>
         <td>{{product.price}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Add to Cart</a></td>
       </tr>
@@ -57,8 +57,8 @@
   <tbody>
     {% for product in avail_products%}
       <tr>
-        <th scope="row">{{product.id}}</th>
-        <td>{{product.name}}</td>
+        <th scope="row">{{product.product_id}}</th>
+        <td>{{product.product_name}}</td>
         <td>{{product.price}}</td>
       </tr>
     {% endfor %}

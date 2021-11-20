@@ -6,26 +6,27 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
+    def __init__(self, id, email, firstname, lastname, addr, pwd, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        self.address = address
+        self.addr = addr
+        self.pwd = pwd
         self.balance = balance
         self.is_seller = is_seller
 
     @staticmethod
-    def get_by_auth(email, password):
+    def get_by_auth(email, pwd):
         rows = app.db.execute("""
-SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, addr, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
                               email=email)
         if not rows:  # email not found
             return None
-        elif not check_password_hash(rows[0][0], password):
+        elif not check_password_hash(rows[0][0], pwd):
             # incorrect password
             return None
         else:
@@ -42,18 +43,18 @@ WHERE email = :email
         return len(rows) > 0
 
     @staticmethod
-    def register(email, password, firstname, lastname, address, balance, is_seller):
+    def register(email, pwd, firstname, lastname, addr, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
-VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
+INSERT INTO Users(email, pwd, firstname, lastname, addr, balance, is_seller)
+VALUES(:email, :pwd, :firstname, :lastname, :addr, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
-                                  password=generate_password_hash(password),
+                                  pwd=generate_password_hash(pwd),
                                   firstname=firstname,
                                   lastname=lastname,
-                                  address= address,
+                                  addr= addr,
                                   balance = balance,
                                   is_seller = is_seller)
             id = rows[0][0]
@@ -67,7 +68,7 @@ RETURNING id
     @login.user_loader
     def get(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
+SELECT id, email, firstname, lastname, addr, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
@@ -111,26 +112,26 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, id, name, price, available):
-        self.id = id
-        self.name = name
+    def __init__(self, product_id, product_name, price, available):
+        self.product_id = product_id
+        self.product_name = product_name
         self.price = price
         self.available = available
 
     @staticmethod
-    def get(id):
+    def get(product_id):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT product_id, product_name, price, available
 FROM Products
-WHERE id = :id
+WHERE product_id = :product_id
 ''',
-                              id=id)
+                              product_id=product_id)
         return Product(*(rows[0])) if rows is not None else None
 
     @staticmethod
-    def get_all(available=True):
+    def get_all(available='Y'):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT product_id, product_name, price, available
 FROM Products
 WHERE available = :available
 ''',
