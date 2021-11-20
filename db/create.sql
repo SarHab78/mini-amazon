@@ -43,7 +43,7 @@ CREATE TABLE product_review(
 
 CREATE TABLE Orders(
    user_id int REFERENCES Users(id),
-   prod_id int REFERENCES Products(product_id),
+   prod_id int REFERENCES Products(id),
    order_quantity INTEGER NOT NULL,
    Date_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC')
 );
