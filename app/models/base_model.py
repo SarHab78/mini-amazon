@@ -15,6 +15,8 @@ class User(UserMixin):
         self.balance = balance
         self.is_seller = is_seller
 
+
+
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
@@ -111,11 +113,31 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, id, name, price, available):
+    def __init__(self, id, name, describe, image_url, price, seller_id, quantity, available):
         self.id = id
+        self.describe = describe
         self.name = name
+        self.image_url = image_url
         self.price = price
+        self.seller_id = seller_id
+        self.quantity = quantity
         self.available = available
+
+
+    @staticmethod
+    def get_seller_products(id):
+        
+        rows = app.db.execute('''
+SELECT Products.id, Products.describe, Products.name, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.seller_id = :id
+AND Users.id = :id
+AND Users.is_seller = 'Y'
+
+''',
+id = id)
+        print(len(rows))
+        return [Product(*row) for row in rows] if rows else []
 
     @staticmethod
     def get(id):
@@ -130,25 +152,13 @@ WHERE id = :id
     @staticmethod
     def get_all(available= 'Y'):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT *
 FROM Products
 WHERE available = :available
 ''',
                               available=available)
         return [Product(*row) for row in rows]
 
-class Sellers:
-    def __init__(self, id, uid, pid, time_purchased):
-        self.id = id
-        self.uid = uid
-        self.pid = pid
-        self.time_purchased = time_purchased
+
         
-    @staticmethod
-    def get_all_sellers():
-        rows = app.db.execute('''
-SELECT id
-FROM Users
-WHERE is_seller = 'Y'
-''')
-        return Sellers(*(rows[0])) if rows else None
+   
