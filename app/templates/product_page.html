@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+<h2>Product Info</h2>
+<a class="btn btn-secondary" href="{{ url_for('review_form.write_review') }}" role="button" color="blue">Write a Review</a>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User</th>
+      <th scope="col">Rating</th>
+      <th scope="col">Review</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for review in product_reviews%}
+      <tr>
+        <th scope="row">{{review.uid}}</th>
+        <td>{{review.rating}}</td>
+        <td>{{review.prod_review}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
