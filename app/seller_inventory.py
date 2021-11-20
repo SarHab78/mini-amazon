@@ -20,11 +20,13 @@ def inventory():
 
     # find the products current user has bought:
     
-    
-    products = Product.get_seller_products(2)
-    
+    if current_user.is_authenticated:
+        id = current_user.id
+    else:
+        id = -1
 
-    
+    products = Product.get_seller_products(id)
+
         
     # render the page by adding information to the index.html file
     return render_template('seller_inventory.html',

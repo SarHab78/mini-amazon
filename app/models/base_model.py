@@ -136,7 +136,7 @@ AND Users.is_seller = 'Y'
 
 ''',
 id = id)
-        print(len(rows))
+       
         return [Product(*row) for row in rows] if rows else []
 
     @staticmethod
