@@ -76,39 +76,7 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
-#add as a method under user in base_model
 
-@staticmethod
-    def get_user_info(id):
-        
-        rows = app.db.execute('''
-SELECT Users.firstname, Users.lastname, Users.email, Users.address, Users.balance, Users.is_seller
-FROM Users
-WHERE Users.id = :id
-
-''',
-id = id)
-        print(len(rows))
-        return [User(*row) for row in rows] if rows else []
-
-    @staticmethod
-    def get(id):
-        rows = app.db.execute('''
-SELECT id, firstname, lastname, email, address, balance, is_seller
-FROM Users
-WHERE id = :id
-''',
-                              id=id)
-        return User(*(rows[0])) if rows is not None else None
-
-    @staticmethod
-    def get_all():
-        rows = app.db.execute('''
-SELECT *
-FROM Users
-''',
-                              )
-        return [User(*row) for row in rows]
 
 #Purchase table information
         
@@ -193,4 +161,3 @@ WHERE available = :available
 
 
         
-   
