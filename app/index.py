@@ -23,3 +23,7 @@ def index():
     return render_template('index.html',
                            avail_products=products,
                            purchase_history=purchases)
+@bp.route('/carts')
+def carts():
+    products = Product.get_all(True)
+    return render_template('carts.html')
