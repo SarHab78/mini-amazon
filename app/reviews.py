@@ -26,7 +26,7 @@ class reviews(FlaskForm):
     # def validate_email(self, email): when we have cart functionality - Jo?
 
 @bp.route('/review_form', methods=['GET', 'POST'])
-def write_review()):
+def write_review():
     form = ContactForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
