@@ -18,7 +18,7 @@ class User(UserMixin):
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT id, firstname, lastname, email, pwd, address, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
@@ -45,14 +45,14 @@ WHERE email = :email
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(id, firstname, lastname, email, pwd, address, balance, is_seller)
-VALUES(:id, :firstname, :lastname, :email, :password, :address, :balance, :is_seller)
+INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
+VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
 RETURNING id
 """,
-                                  firstname=firstname,
-                                  lastname=lastname,
                                   email=email,
                                   password=generate_password_hash(password),
+                                  firstname=firstname,
+                                  lastname=lastname,
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
@@ -67,13 +67,12 @@ RETURNING id
     @login.user_loader
     def get(id):
         rows = app.db.execute("""
-SELECT id, firstname, lastname, email, pwd, address, balance
+SELECT id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
                               id=id)
         return User(*(rows[0])) if rows else None
-
 
 
 
