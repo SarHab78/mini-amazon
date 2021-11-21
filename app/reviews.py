@@ -11,23 +11,24 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
 
-from .models.review import Product_review
+from .models.base_model import Product_review
 
 
 from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
-class reviews(FlaskForm):
+class reviewForm(FlaskForm):
+    # Change strings to int at some point
     email = StringField(_l('email'), validators=[DataRequired()])
-    rating = IntegerField(_l('rating'), validators=[DataRequired()])
-    pid = IntegerField(_l('rating'), validators=[DataRequired()])
-    review = StringField(_l('rating'), validators=[DataRequired()])
+    rating = StringField(_l('rating'), validators=[DataRequired()])
+    pid = StringField(_l('pid'), validators=[DataRequired()])
+    review = StringField(_l('review'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality - Jo?
 
 @bp.route('/review_form', methods=['GET', 'POST'])
 def write_review():
-    form = ContactForm()
+    form = reviewForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
     return render_template('review_form.html', title='reviews', form=form)
