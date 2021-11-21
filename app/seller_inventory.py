@@ -25,7 +25,7 @@ def inventory():
     else:
         id = -1
 
-    products = Product.get_seller_products(id)
+    products = Product.get_seller_products(1)
 
         
     # render the page by adding information to the index.html file
