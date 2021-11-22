@@ -114,9 +114,9 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, id, product_name, describe, image_url, price, seller_id, quantity, available):
+    def __init__(self, id, name, describe, image_url, price, seller_id, quantity, available):
         self.id = id
-        self.product_name = product_name
+        self.name = name
         self.describe = describe
         self.image_url = image_url
         self.price = price
@@ -124,35 +124,35 @@ class Product:
         self.quantity = quantity
         self.available = available
         
-    @staticmethod
-    def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
-        try:
-            rows = app.db.execute("""
-INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
-VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
-RETURNING name
-""",
-                                  id=id,
-                                  describe= describe,
-                                  image_url=image_url,
-                                  price=price,
-                                  seller_id= seller_id,
-                                  quantity = quantity,
-                                  available = available,
-                                product_name = product_name
-            )
-            return User.get(id)
-        except Exception:
-            # likely email already in use; better error checking and
-            # reporting needed
-            return None
+#     #@staticmethod
+#     #def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
+#         try:
+#             rows = app.db.execute("""
+# INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
+# VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
+# RETURNING name
+# """,
+#                                   id=id,
+#                                   describe= describe,
+#                                   image_url=image_url,
+#                                   price=price,
+#                                   seller_id= seller_id,
+#                                   quantity = quantity,
+#                                   available = available,
+#                                 product_name = product_name
+#             )
+#             return User.get(id)
+#         except Exception:
+#             # likely email already in use; better error checking and
+#             # reporting needed
+#             return None
 
 
     @staticmethod
     def get_seller_products(id):
         
         rows = app.db.execute('''
-SELECT * 
+SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
 WHERE Products.seller_id = :id
 AND Users.id = :id
@@ -167,7 +167,7 @@ AND Users.is_seller = 'Y'
     @staticmethod
     def get(id):
         rows = app.db.execute('''
-SELECT *
+SELECT product_id, name, product_description, image_url, price, available
 FROM Products
 WHERE id = :id
 ''',
