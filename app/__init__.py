@@ -27,4 +27,5 @@ def create_app():
     from .seller_inventory import bp as si_bp
     app.register_blueprint(si_bp)
 
+
     return app

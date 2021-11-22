@@ -5,10 +5,10 @@ import datetime
 from .models.base_model import Product
 
 from flask import Blueprint
-bp = Blueprint('seller_inventory', __name__)
+bp = Blueprint('add_items', __name__)
 
-@bp.route('/inventory')
-def inventory():
+@bp.route('/addItems')
+def add_items():
    
     # print(Sellers.get_all_sellers())
     # get all available products for sale:
@@ -20,18 +20,10 @@ def inventory():
 
     # find the products current user has bought:
     
-    if current_user.is_authenticated:
-        sell_id = current_user.id
-    else:
-        sell_id = -1
-        
-    products = Product.get_seller_products(1)
-
-   
-
+    
     # render the page by adding information to the index.html file
-    return render_template('seller_inventory.html',
-                           avail_products=products
+    return render_template('add_items.html'
+                           
                            #avail products is parameter name that will be passed to html, product has the actual data
 )
 
