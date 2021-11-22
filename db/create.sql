@@ -9,7 +9,7 @@ Create Table Users(
 	firstname VARCHAR(256) NOT NULL,
 	lastname VARCHAR(256) NOT NULL,
 	balance INTEGER NOT NULL,
-	is_seller VARCHAR(1) NOT NULL
+	is_seller VARCHAR(2) NOT NULL
 );
 
 
