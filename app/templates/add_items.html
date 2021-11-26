@@ -7,58 +7,58 @@
 <h1>Add Products</h1>
 
 <td><a class="btn btn-secondary" href="{{ url_for('seller_inventory.inventory') }}" role="button" color=#FF5733>Back to Your Inventory</a></td>
-<h2>Your Products</h2>
-<table class='table table-hover table-bordered container'>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Product ID</th>
-      <th scope="col">Product Name</th>
-      <th scope="col">Product Description</th>
-      <th scope="col">Product Image</th>
-      <th scope="col">Price</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Available?</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for product in avail_products%}
-      <tr>
-        <th scope="row">{{product.id}}</th>
-        <td>{{product.name}}</td>
-        <td>{{product.describe}}</td>
-        <td>{{product.image_url}}</td>
-        <td>{{product.price}}</td>
-        <td>{{product.quantity}}</td>
-        <td>{{product.available}}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-
-<br><br>
-{% if current_user.is_authenticated %}
-<h2>Your recent purchases:</h2>
-<table class='table table-hover table-bordered container'>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Purchase ID</th>
-      <th scope="col">Product Name</th>
-      <th scope="col">Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for purchase in purchase_history%}
-      <tr>
-        <th scope="row">{{purchase.id}}</th>
-        <td>{{purchase.pid}}</td>
-        <td>{{purchase.time_purchased}}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+{% if poss_seller|length == 0 %}
+<h3> You are not a seller. Please update your profile</h3>
 {% else %}
-<p><a href="{{ url_for('users.login') }}">Log in</a> to see your purchase history!</p>
+<br><br>
+<h2>Fill out the following to add an item: </h2>
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.product_name.label }}<br/>
+    {{ form.product_name(size=32) }}<br/>
+    {% for error in form.product_name.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.describe.label }}<br/>
+    {{ form.describe(size=32) }}<br/>
+    {% for error in form.describe.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.image_url.label }}<br/>
+    {{ form.image_url(size=32) }}<br/>
+    {% for error in form.image_url.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.price.label }}<br/>
+    {{ form.price(size=32) }}<br/>
+    {% for error in form.price.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.quantity.label }}<br/>
+    {{ form.quantity(size=32) }}<br/>
+    {% for error in form.quantity.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.available.label }}<br/>
+    {{ form.available(size=32) }}<br/>
+    {% for error in form.available.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ form.submit() }}</p>
+</form>
+
 {% endif %}
 
 {% endblock %}
