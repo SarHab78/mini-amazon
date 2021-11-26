@@ -33,6 +33,19 @@ WHERE email = :email
         else:
             return User(*(rows[0][1:]))
 
+
+    @staticmethod
+    def can_sell(id):
+        rows = app.db.execute("""
+SELECT id, email, firstname, lastname, address, balance, is_seller
+FROM Users
+WHERE id = :id
+AND is_seller = 'Y'
+""",
+                              id=id)
+        return ['Y'] if rows else []
+
+
     @staticmethod
     def email_exists(email):
         rows = app.db.execute("""
@@ -124,28 +137,28 @@ class Product:
         self.quantity = quantity
         self.available = available
         
-#     #@staticmethod
-#     #def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
-#         try:
-#             rows = app.db.execute("""
-# INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
-# VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
-# RETURNING name
-# """,
-#                                   id=id,
-#                                   describe= describe,
-#                                   image_url=image_url,
-#                                   price=price,
-#                                   seller_id= seller_id,
-#                                   quantity = quantity,
-#                                   available = available,
-#                                 product_name = product_name
-#             )
-#             return User.get(id)
-#         except Exception:
-#             # likely email already in use; better error checking and
-#             # reporting needed
-#             return None
+    @staticmethod
+    def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
+        try:
+            rows = app.db.execute("""
+INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
+VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
+RETURNING nameS
+""",
+                                  id=id,
+                                  describe= describe,
+                                  image_url=image_url,
+                                  price=price,
+                                  seller_id= seller_id,
+                                  quantity = quantity,
+                                  available = available,
+                                  product_name = product_name
+            )
+            return User.get(id)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
 
     @staticmethod
@@ -163,6 +176,19 @@ AND Users.is_seller = 'Y'
   
   
         return [Product(*row) for row in rows] if rows else []
+
+
+    @staticmethod
+    def product_exists(product_name, id):
+        rows = app.db.execute("""
+SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.name = :name
+AND Users.id = :id
+""",
+                              product_name=product_name
+                              )
+        return len(rows) > 0
 
     @staticmethod
     def get(id):

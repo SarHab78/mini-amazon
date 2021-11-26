@@ -6,11 +6,11 @@
 
 
 
+<td><a class="btn btn-secondary" href="{{ url_for('add_items.add_items') }}" role="button" color=#FF5733>Add to Your Inventory</a></td>
 
 {% if avail_products|length == 0 %}
-<h3> NO PRODUCTS, NOT SELLER</h3>
+<h3> No Products to show - make sure you're a seller! If you are, add inventory to show here!</h3>
 {% else %}
-<td><a class="btn btn-secondary" href="{{ url_for('seller_inventory.inventory') }}" role="button" color=#FF5733>Add to Your Inventory</a></td>
 <h2>Your Products</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
