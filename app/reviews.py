@@ -11,40 +11,25 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
 
-from .models.base_model import Product_review
+from .models.review import Product_review
 
 
 from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
-class reviewForm(FlaskForm):
-    # Change strings to int at some point
+class reviews(FlaskForm):
     email = StringField(_l('email'), validators=[DataRequired()])
-    rating = StringField(_l('rating'), validators=[DataRequired()])
-    pid = StringField(_l('pid'), validators=[DataRequired()])
-    review = StringField(_l('review'), validators=[DataRequired()])
+    rating = IntegerField(_l('rating'), validators=[DataRequired()])
+    pid = IntegerField(_l('rating'), validators=[DataRequired()])
+    review = StringField(_l('rating'), validators=[DataRequired()])
+    uid = StringField(_l('rating'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality - Jo?
 
-@bp.route('/review_form', methods=['GET', 'POST'])
-def write_review():
-    form = reviewForm()
+@bp.route('/reviews', methods=['GET', 'POST'])
+def reviews()):
+    form = ContactForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
-    return render_template('review_form.html', title='reviews', form=form)
+    return render_template('reviews.html', title='reviews', form=form)
 
-class sellerReviewForm(FlaskForm):
-    # Change strings to int at some point
-    email = StringField(_l('email'), validators=[DataRequired()])
-    rating = StringField(_l('rating'), validators=[DataRequired()])
-    sid = StringField(_l('sid'), validators=[DataRequired()])
-    review = StringField(_l('review'), validators=[DataRequired()])
-    submit = SubmitField(_l('Submit'))
-    # def validate_email(self, email): when we have cart functionality - Jo?
-
-@bp.route('/seller_review_form', methods=['GET', 'POST'])
-def write_seller_review():
-    form = reviewForm()
-    if form.validate_on_submit():
-        return redirect(url_for('index.index'))
-    return render_template('seller_review_form.html', title='reviews', form=form)
