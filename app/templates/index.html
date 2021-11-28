@@ -28,6 +28,8 @@
 </body>
 
 {% if current_user.is_authenticated %}
+<td><a class="btn btn-secondary" href="{{ url_for('index.carts') }}" role="button" color="red">My Cart</a></td>
+
 <h2>Products for sale:</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
@@ -82,7 +84,6 @@
 
 <br><br>
 {% if current_user.is_authenticated %}
-<td><a class="btn btn-secondary" href="{{ url_for('index.carts') }}" role="button" color="red">My Cart</a></td>
 
 <h2>Your recent purchases:</h2>
 <table class='table table-hover table-bordered container'>
