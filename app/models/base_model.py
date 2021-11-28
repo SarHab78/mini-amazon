@@ -145,8 +145,42 @@ WHERE available = :available
         rows = app.db.execute('''
 SELECT product_id, product_name, product_description, image_url, price, available
 FROM Products
-WHERE available = :available AND product_name LIKE :search_str
+WHERE available = :available 
+AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
 ORDER BY price
 ''',
-                              search_str = '%' + search_str + '%', available=available)
+                              search_str = '%' + search_str.lower() + '%', available=available)
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_search_result_2(search_str='', available='Y', order_by = 'price'):
+        if order_by == 'name':
+            rows = app.db.execute('''
+    SELECT product_id, product_name, product_description, image_url, price, available
+    FROM Products
+    WHERE available = :available 
+    AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
+    ORDER BY product_name
+    ''',
+                                search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
+        else:
+            rows = app.db.execute('''
+    SELECT product_id, product_name, product_description, image_url, price, available
+    FROM Products
+    WHERE available = :available 
+    AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
+    ORDER BY price DESC
+    ''',
+                                search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_product_for_page(product_id='', available='Y'):
+        rows = app.db.execute('''
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
         return [Product(*row) for row in rows]
