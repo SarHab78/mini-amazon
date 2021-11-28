@@ -4,6 +4,7 @@ import datetime
 
 from .models.base_model import Product
 from .models.base_model import Purchase
+from .models.base_model import Product_review
 
 from flask import Blueprint
 bp = Blueprint('product_page', __name__)
@@ -13,7 +14,7 @@ def product_page(name, product_id):
     searched_products = Product.get_search_result_2(search_str='book')     
     purchases = None
     page_product = Product.get_product_for_page(product_id = product_id)
-    prod_review = product_review_model.get_prod_reviews(pid = product_id)
+    prod_review = Product_review.get_prod_reviews(pid = product_id)
     # Return new template
     #return render_template('index.html',
     #                    avail_products=searched_products,
