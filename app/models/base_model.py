@@ -201,17 +201,19 @@ class Product_review:
 #possibly rename review attr because it could fuck stuff up who knows
 
 
+#to get reviews for a specific product id
     @staticmethod
     def get_prod_reviews(pid):
         rows = app.db.execute('''
 SELECT rid, pid, uid, email, timestamp, rating, review
 FROM product_review
-WHERE pid = :product_id
+WHERE pid = :pid
 ''',
-                              rid=id)
+                              rid=rid)
         return product_review(*(rows[0])) if rows is not None else None
 
 
+#add a review 
     @staticmethod
     def add_review(rid, pid, uid, email, timestamp, rating, review):
         try:
@@ -220,8 +222,8 @@ INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
 VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
 RETURNING nameS
 """, ##what is nameS
-                                  rid=id,
-                                  pid= product_id,
+                                  rid=rid,
+                                  pid= pid,
                                   uid=uid,
                                   email=email,
                                   timestamp= timestamp,
