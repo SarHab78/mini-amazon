@@ -19,8 +19,8 @@ bp = Blueprint('reviews', __name__)
 
 class reviews(FlaskForm):
     email = StringField(_l('email'), validators=[DataRequired()])
-    rating = IntegerField(_l('rating'), validators=[DataRequired()])
-    pid = IntegerField(_l('rating'), validators=[DataRequired()])
+    rating = StringField(_l('rating'), validators=[DataRequired()])
+    pid = StringField(_l('rating'), validators=[DataRequired()])
     review = StringField(_l('rating'), validators=[DataRequired()])
     uid = StringField(_l('rating'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
