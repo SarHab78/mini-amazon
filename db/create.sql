@@ -41,7 +41,7 @@ CREATE TABLE product_review(
     uid INT NOT NULL REFERENCES Users(id),
     pid INT NOT NULL REFERENCES Products(product_id),
     email VARCHAR(256) UNIQUE NOT NULL REFERENCES Users(email),
-    rev_timestamp TIMESTAMP NOT NULL,
+    rev_timestamp TIMESTAMP DEFAULT current_timestamp,
     rating INT NOT NULL,
     review VARCHAR(100) NOT NULL,
     UNIQUE(uid, pid)
