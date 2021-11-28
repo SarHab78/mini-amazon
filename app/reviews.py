@@ -33,3 +33,18 @@ def write_review():
         return redirect(url_for('index.index'))
     return render_template('review_form.html', title='reviews', form=form)
 
+class sellerReviewForm(FlaskForm):
+    # Change strings to int at some point
+    email = StringField(_l('email'), validators=[DataRequired()])
+    rating = StringField(_l('rating'), validators=[DataRequired()])
+    sid = StringField(_l('sid'), validators=[DataRequired()])
+    review = StringField(_l('review'), validators=[DataRequired()])
+    submit = SubmitField(_l('Submit'))
+    # def validate_email(self, email): when we have cart functionality - Jo?
+
+@bp.route('/seller_review_form', methods=['GET', 'POST'])
+def write_review():
+    form = reviewForm()
+    if form.validate_on_submit():
+        return redirect(url_for('index.index'))
+    return render_template('seller_review_form.html', title='reviews', form=form)

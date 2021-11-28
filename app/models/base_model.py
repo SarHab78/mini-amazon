@@ -6,28 +6,27 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
+    def __init__(self, id, email, firstname, lastname, addr, pwd, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        self.address = address
+        self.addr = addr
+        self.pwd = pwd
         self.balance = balance
         self.is_seller = is_seller
 
-
-
     @staticmethod
-    def get_by_auth(email, password):
+    def get_by_auth(email, pwd):
         rows = app.db.execute("""
-SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, addr, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
                               email=email)
         if not rows:  # email not found
             return None
-        elif not check_password_hash(rows[0][0], password):
+        elif not check_password_hash(rows[0][0], pwd):
             # incorrect password
             return None
         else:
@@ -44,18 +43,18 @@ WHERE email = :email
         return len(rows) > 0
 
     @staticmethod
-    def register(email, password, firstname, lastname, address, balance, is_seller):
+    def register(email, pwd, firstname, lastname, addr, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
-VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
+INSERT INTO Users(email, pwd, firstname, lastname, addr, balance, is_seller)
+VALUES(:email, :pwd, :firstname, :lastname, :addr, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
-                                  password=generate_password_hash(password),
+                                  pwd=generate_password_hash(pwd),
                                   firstname=firstname,
                                   lastname=lastname,
-                                  address= address,
+                                  addr= addr,
                                   balance = balance,
                                   is_seller = is_seller)
             id = rows[0][0]
@@ -69,7 +68,7 @@ RETURNING id
     @login.user_loader
     def get(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
+SELECT id, email, firstname, lastname, addr, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
@@ -113,52 +112,82 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, id, name, describe, image_url, price, seller_id, quantity, available):
-        self.id = id
-        self.describe = describe
-        self.name = name
+    def __init__(self, product_id, product_name, product_description, image_url, price, available):
+        self.product_id = product_id
+        self.product_name = product_name
+        self.product_description = product_description
         self.image_url = image_url
         self.price = price
-        self.seller_id = seller_id
-        self.quantity = quantity
         self.available = available
 
-
     @staticmethod
-    def get_seller_products(id):
-        
+    def get(product_id):
         rows = app.db.execute('''
-SELECT Products.id, Products.describe, Products.name, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
-FROM Products, Users
-WHERE Products.seller_id = :id
-AND Users.id = :id
-AND Users.is_seller = 'Y'
-
-''',
-id = id)
-        print(len(rows))
-        return [Product(*row) for row in rows] if rows else []
-
-    @staticmethod
-    def get(id):
-        rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT product_id, product_name, product_description, image_url, price, available
 FROM Products
-WHERE id = :id
+WHERE product_id = :product_id
 ''',
-                              id=id)
+                              product_id=product_id)
         return Product(*(rows[0])) if rows is not None else None
 
     @staticmethod
-    def get_all(available= 'Y'):
+    def get_all(available='Y'):
         rows = app.db.execute('''
-SELECT *
+SELECT product_id, product_name, product_description, image_url, price, available
 FROM Products
 WHERE available = :available
 ''',
                               available=available)
         return [Product(*row) for row in rows]
 
+    @staticmethod
+    def get_search_result(search_str='', available='Y'):
+        rows = app.db.execute('''
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE available = :available 
+AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
+ORDER BY price
+''',
+                              search_str = '%' + search_str.lower() + '%', available=available)
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_search_result_2(search_str='', available='Y', order_by = 'price'):
+        if order_by == 'name':
+            rows = app.db.execute('''
+    SELECT product_id, product_name, product_description, image_url, price, available
+    FROM Products
+    WHERE available = :available 
+    AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
+    ORDER BY product_name
+    ''',
+                                search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
+        else:
+            rows = app.db.execute('''
+    SELECT product_id, product_name, product_description, image_url, price, available
+    FROM Products
+    WHERE available = :available 
+    AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
+    ORDER BY price DESC
+    ''',
+                                search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_product_for_page(product_id='', available='Y'):
+        rows = app.db.execute('''
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
+        return [Product(*row) for row in rows]
+
+
+
+##add to git
 
 class Product_review:
     def __init__(self, rid, pid, uid, email, timestamp, rating, review):
@@ -169,6 +198,8 @@ class Product_review:
         self.timestamp = timestamp
         self.rating = rating
         self.review = review
+#possibly rename review attr because it could fuck stuff up who knows
+
 
     @staticmethod
     def get_prod_reviews(pid):
@@ -181,5 +212,27 @@ WHERE pid = :pid
         return product_review(*(rows[0])) if rows is not None else None
 
 
-        
+ @staticmethod
+    def add_review(rid, pid, uid, email, timestamp, rating, review):
+        try:
+            rows = app.db.execute("""
+INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
+VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
+RETURNING nameS
+""", ##what is nameS
+                                  rid=id,
+                                  pid= pid,
+                                  uid=uid,
+                                  email=email,
+                                  timestamp= timestamp,
+                                  rating = rating,
+                                  review = review,
+            )
+            return Review.get_prod_reviews(pid)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
+
+
    
