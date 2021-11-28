@@ -42,7 +42,4 @@ def carts():
     return render_template('carts.html')
 
 
-@bp.route('/checkout')
-def checkout():
-    products = Product.get_all(True)
-    return render_template('checkout.html')
+
