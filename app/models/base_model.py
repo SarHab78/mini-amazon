@@ -208,7 +208,7 @@ SELECT rid, pid, uid, email, timestamp, rating, review
 FROM product_review
 WHERE pid = :pid
 ''',
-                              rid=rid)
+                              rid=id)
         return product_review(*(rows[0])) if rows is not None else None
 
 
@@ -220,7 +220,7 @@ INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
 VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
 RETURNING nameS
 """, ##what is nameS
-                                  rid=rid,
+                                  rid=id,
                                   pid= pid,
                                   uid=uid,
                                   email=email,
