@@ -7,7 +7,7 @@ from flask import render_template, redirect, url_for, flash, request
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
 
@@ -18,11 +18,13 @@ from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
 class reviews(FlaskForm):
+    rid = IntegerField(_l('rid'), validators=[DataRequired()])
     email = StringField(_l('email'), validators=[DataRequired()])
-    rating = StringField(_l('rating'), validators=[DataRequired()])
-    pid = StringField(_l('rating'), validators=[DataRequired()])
-    review = StringField(_l('rating'), validators=[DataRequired()])
-    uid = StringField(_l('rating'), validators=[DataRequired()])
+    rating = IntegerField(_l('rating'), validators=[DataRequired()])
+    pid = IntegerField(_l('pid'), validators=[DataRequired()])
+    review = StringField(_l('review'), validators=[DataRequired()])
+    uid = IntegerField(_l('uid'), validators=[DataRequired()])
+    timestamp = StringField(_l('timestamp'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality - Jo?
 
@@ -30,14 +32,17 @@ class reviews(FlaskForm):
 def add_review():
     form = reviews()
     if form.validate_on_submit():
-        if review.add_review(
+        if Product_review.add_review(
+            form.rid.data,
             form.uid.data,
             form.pid.data,
             form.rating.data,
-            form.review.data):
+            form.review.data,
+            form.email.data,
+            form.timestamp.data):
             
             flash("thanks for submitting your review!")
-        return redirect(url_for('index.index')) ##product_page.<product> maybe
+            return redirect(url_for('product_page.product_page')) ##product_page.<product> maybe
     return render_template('review_form.html', title='reviews', form=form)
 
 

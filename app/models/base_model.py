@@ -209,7 +209,7 @@ SELECT rid, pid, uid, email, timestamp, rating, review
 FROM product_review
 WHERE pid = :pid
 ''',
-                              rid=rid)
+                              pid=pid)
         return product_review(*(rows[0])) if rows is not None else None
 
 
