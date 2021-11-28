@@ -38,7 +38,7 @@ def add_review():
             
             flash("thanks for submitting your review!")
         return redirect(url_for('index.index')) ##product_page.<product> maybe
-    return render_template('reviews.html', title='reviews', form=form)
+    return render_template('review_form.html', title='reviews', form=form)
 
 
 
