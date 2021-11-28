@@ -16,7 +16,6 @@
 <body>
 
   <td><a class="btn btn-secondary" href="{{ url_for('seller_inventory.inventory') }}" role="button" color="blue">Seller Inventory</a></td>
-    <td><a class="btn btn-secondary" href="{{ url_for('index.carts') }}" role="button" color="red">My Cart</a></td>
 
   <h1><center>Products</center></h1>
   <form class="example" method="post" action="" 
@@ -83,6 +82,8 @@
 
 <br><br>
 {% if current_user.is_authenticated %}
+<td><a class="btn btn-secondary" href="{{ url_for('index.carts') }}" role="button" color="red">My Cart</a></td>
+
 <h2>Your recent purchases:</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
