@@ -212,7 +212,7 @@ WHERE pid = :pid
         return product_review(*(rows[0])) if rows is not None else None
 
 
- @staticmethod
+    @staticmethod
     def add_review(rid, pid, uid, email, timestamp, rating, review):
         try:
             rows = app.db.execute("""
