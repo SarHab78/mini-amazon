@@ -206,7 +206,7 @@ class Product_review:
         rows = app.db.execute('''
 SELECT rid, pid, uid, email, timestamp, rating, review
 FROM product_review
-WHERE pid = :pid
+WHERE pid = :product_id
 ''',
                               rid=id)
         return product_review(*(rows[0])) if rows is not None else None
@@ -221,7 +221,7 @@ VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
 RETURNING nameS
 """, ##what is nameS
                                   rid=id,
-                                  pid= pid,
+                                  pid= product_id,
                                   uid=uid,
                                   email=email,
                                   timestamp= timestamp,
