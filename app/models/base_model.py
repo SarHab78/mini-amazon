@@ -15,6 +15,8 @@ class User(UserMixin):
         self.balance = balance
         self.is_seller = is_seller
 
+
+
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
@@ -30,6 +32,19 @@ WHERE email = :email
             return None
         else:
             return User(*(rows[0][1:]))
+
+
+    @staticmethod
+    def can_sell(id):
+        rows = app.db.execute("""
+SELECT id, email, firstname, lastname, address, balance, is_seller
+FROM Users
+WHERE id = :id
+AND is_seller = 'Y'
+""",
+                              id=id)
+        return ['Y'] if rows else []
+
 
     @staticmethod
     def email_exists(email):
@@ -108,19 +123,77 @@ ORDER BY time_purchased DESC
                               since=since)
         return [Purchase(*row) for row in rows]
 
+        
 
 #Product table information
 class Product:
-    def __init__(self, id, name, price, available):
+    def __init__(self, id, name, describe, image_url, price, seller_id, quantity, available):
         self.id = id
         self.name = name
+        self.describe = describe
+        self.image_url = image_url
         self.price = price
+        self.seller_id = seller_id
+        self.quantity = quantity
         self.available = available
+        
+    @staticmethod
+    def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
+        try:
+            rows = app.db.execute("""
+INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
+VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
+RETURNING nameS
+""",
+                                  id=id,
+                                  describe= describe,
+                                  image_url=image_url,
+                                  price=price,
+                                  seller_id= seller_id,
+                                  quantity = quantity,
+                                  available = available,
+                                  product_name = product_name
+            )
+            return User.get(id)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
+
+
+    @staticmethod
+    def get_seller_products(id):
+        
+        rows = app.db.execute('''
+SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.seller_id = :id
+AND Users.id = :id
+AND Users.is_seller = 'Y'
+''',
+                                id = id)
+
+  
+  
+        return [Product(*row) for row in rows] if rows else []
+
+
+    @staticmethod
+    def product_exists(product_name, id):
+        rows = app.db.execute("""
+SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.name = :name
+AND Users.id = :id
+""",
+                              product_name=product_name
+                              )
+        return len(rows) > 0
 
     @staticmethod
     def get(id):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT product_id, name, product_description, image_url, price, available
 FROM Products
 WHERE id = :id
 ''',
@@ -130,25 +203,12 @@ WHERE id = :id
     @staticmethod
     def get_all(available= 'Y'):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT *
 FROM Products
 WHERE available = :available
 ''',
                               available=available)
         return [Product(*row) for row in rows]
 
-class Sellers:
-    def __init__(self, id, uid, pid, time_purchased):
-        self.id = id
-        self.uid = uid
-        self.pid = pid
-        self.time_purchased = time_purchased
+
         
-    @staticmethod
-    def get_all_sellers():
-        rows = app.db.execute('''
-SELECT id
-FROM Users
-WHERE is_seller = 'Y'
-''')
-        return Sellers(*(rows[0])) if rows else None

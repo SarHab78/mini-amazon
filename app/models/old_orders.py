@@ -18,7 +18,7 @@ FROM Orders
 WHERE UID = :UID
 ''',
                               id=id)
-        return Product(*(rows[0])) if rows is not None else None
+        return Orders(*(rows[0])) if rows is not None else None
 
     @staticmethod
     def get_cart(ordered="N"):
@@ -27,5 +27,6 @@ SELECT product, UID, order_quantity, date, ordered
 FROM Orders
 WHERE ordered = :ordered
 ''',
-                              available=available)
-        return [Product(*row) for row in rows]
+                            #  available=available
+                            )
+        return [Orders(*row) for row in rows]
