@@ -13,7 +13,7 @@ def product_page(name, product_id):
     searched_products = Product.get_search_result_2(search_str='book')     
     purchases = None
     page_product = Product.get_product_for_page(product_id = product_id)
-    prod_review = review.get_prod_reviews(pid)
+    prod_review = review.get_prod_reviews(pid = product_id)
     # Return new template
     #return render_template('index.html',
     #                    avail_products=searched_products,
