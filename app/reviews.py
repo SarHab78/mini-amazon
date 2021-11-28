@@ -31,7 +31,6 @@ def write_review():
     form = reviewForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
-        write_review.__name__ = func.__name__ #debugging from the internet possibly
     return render_template('review_form.html', title='reviews', form=form)
 
 class sellerReviewForm(FlaskForm):
@@ -44,7 +43,7 @@ class sellerReviewForm(FlaskForm):
     # def validate_email(self, email): when we have cart functionality - Jo?
 
 @bp.route('/seller_review_form', methods=['GET', 'POST'])
-def write_review():
+def write_seller_review():
     form = reviewForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
