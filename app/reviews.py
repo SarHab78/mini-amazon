@@ -31,6 +31,7 @@ def write_review():
     form = reviewForm()
     if form.validate_on_submit():
         return redirect(url_for('index.index'))
+        write_review.__name__ = func.__name__ #debugging from the internet possibly
     return render_template('review_form.html', title='reviews', form=form)
 
 class sellerReviewForm(FlaskForm):
