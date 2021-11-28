@@ -220,7 +220,7 @@ INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
 VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
 RETURNING nameS
 """, ##what is nameS
-                                  rid=id,
+                                  rid=rid,
                                   pid= pid,
                                   uid=uid,
                                   email=email,
