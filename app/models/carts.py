@@ -8,7 +8,7 @@ from .models.purchase import Purchase
 from flask import Blueprint
 bp = Blueprint('carts', __name__)
 
-@bp.route('/checkout')
+@bp.route('/carts/checkout')
 def checkout():
     products = Product.get_all(True)
     return render_template('checkout.html')
