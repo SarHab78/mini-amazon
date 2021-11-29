@@ -10,7 +10,10 @@ from flask import Blueprint
 bp = Blueprint('carts', __name__)
 
 
-
+@bp.route('/checkout')
+def checkout():
+    products = Product.get_all('Y')
+    return render_template('checkout.html')
 
 
 
