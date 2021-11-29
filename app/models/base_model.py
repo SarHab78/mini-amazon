@@ -205,12 +205,35 @@ class Product_review:
     @staticmethod
     def get_prod_reviews(pid):
         rows = app.db.execute('''
-SELECT rid, pid, uid, email, timestamp, rating, review
+SELECT rid, pid, uid, email, rev_timestamp, rating, review
 FROM product_review
 WHERE pid = :pid
 ''',
                               pid=pid)
-        return product_review(*(rows[0])) if rows is not None else None
+        return [Product_review(*row) for row in rows] 
+
+
+#average rating for a product
+    @staticmethod
+    def avg_product_rating(pid):
+        avg = app.db.execute('''
+SELECT AVG(rating)
+FROM product_review
+WHERE pid = :pid
+''',
+                            pid=pid)
+        return avg #change
+
+#number of reviews for a product
+    @staticmethod
+    def count_prod_reviews(pid):
+        count = app.db.execute('''
+SELECT COUNT(rating)
+FROM product_review
+WHERE pid = :pid
+''',
+                            pid=pid)
+        return count
 
 
 #add a review 
@@ -221,7 +244,7 @@ WHERE pid = :pid
 INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
 VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
 RETURNING nameS
-""", ##what is nameS
+""", ##what is nameS?
                                   rid=rid,
                                   pid= pid,
                                   uid=uid,

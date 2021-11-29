@@ -15,13 +15,17 @@ def product_page(name, product_id):
     purchases = None
     page_product = Product.get_product_for_page(product_id = product_id)
     prod_review = Product_review.get_prod_reviews(pid = product_id)
+    avg_product_rating = Product_review.avg_product_rating(pid = product_id)
+    num_reviews = Product_review.count_prod_reviews(pid = product_id)
     # Return new template
     #return render_template('index.html',
     #                    avail_products=searched_products,
     #                    purchase_history=purchases)
     return render_template('product_page.html', 
                             product_row = page_product, 
-                            product_reviews=prod_review)
+                            product_reviews=prod_review,
+                            avg_product_rating=avg_product_rating,
+                            num_reviews=num_reviews)
 
 
 

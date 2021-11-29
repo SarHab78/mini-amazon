@@ -23,7 +23,7 @@ CREATE TABLE Products (
     image_url VARCHAR(255) NOT NULL,
     --link VARCHAR(255) NOT NULL,
     price DECIMAL(12,2) NOT NULL,
-    seller_id INT NOT NULL REFERENCES Users(id),
+    seller_id INT NOT NULL, --REFERENCES Users(id),
     quantity INT NOT NULL,
     available VARCHAR(10) NOT NULL
 );

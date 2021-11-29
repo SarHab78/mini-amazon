@@ -107,10 +107,20 @@ html, body {
 
 </main>
 
-<br><br>
+<!--review button-->
 
-<a class="btn btn-secondary" href="{{ url_for('review_form.write_review') }}" role="button" color="blue">Write a Review</a>
- <!-- <table class='table table-hover table-bordered container'>
+<br><br>
+<!-- add review button -->
+<a class="btn btn-secondary" href="{{ url_for('reviews.add_review') }}" role="button" color="blue">Write a Review</a>
+ 
+
+<br><br>
+<!--review table-->
+
+<h2>Reviews:</h2>
+<h3>Average Rating out of 5 Stars: {{avg_product_rating}}</h3> <!--make prettier-->
+<h3>Number of Reviews: {{num_reviews}}</h3>
+<table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
       <th scope="col">User</th>
@@ -122,13 +132,14 @@ html, body {
   <tbody>
     {% for review in product_reviews%} 
       <tr>
-        <th scope="row">{{review.uid}}</th>
+        <th scope = "row">{{review.uid}}</td>
         <td>{{review.rating}}</td>
         <td>{{review.prod_review}}</td>
       </tr>
     {% endfor %}
+    <!-- add if user matches uid they can edit or delete-->
   </tbody>
-</table> -->
+</table>
 
 {% endblock %}
 
