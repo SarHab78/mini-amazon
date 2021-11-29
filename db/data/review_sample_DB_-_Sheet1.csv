@@ -1,4 +1,3 @@
-rid,uid,pid,email,rev_timestamp,rating,review
 1,7,1,amelia@gmail.com,1/1/2000 0:00:00,1,very bad
 2,6,2,ava@gmail.com,1/1/2000 0:00:00,2,would not buy again
 3,5,3,ella@gmail.com,1/1/2000 0:00:00,3,so good!
