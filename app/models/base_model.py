@@ -143,8 +143,9 @@ class Product:
             rows = app.db.execute("""
 INSERT INTO Products(product_name, product_id, product_description, image_url, price, seller_id, quantity, available)
 VALUES(:id, :product_name, :product_description, :image_url, :price, :seller_id, :quantity, :available)
-RETURNING nameS
+RETURNING id 
 """,
+#changed line 146 from RETURNING nameS to RETURNING id
                                   product_id=product_id,
                                   describe= product_description,
                                   image_url=image_url,
@@ -163,17 +164,26 @@ RETURNING nameS
     @staticmethod
     def get(product_id):
         rows = app.db.execute('''
-SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
-FROM Products, Users
-WHERE Products.seller_id = :seller_id
-AND Users.id = :seller_id
-AND Users.is_seller = 'Y'
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE product_id = :product_id
 ''',
-                                id = id)
+                                product_id = product_id)
 
   
   
         return [Product(*row) for row in rows] if rows else []
+
+
+    @staticmethod
+    def get_all(available = 'Y'):
+        rows = app.db.execute('''
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE available = :available
+        ''',
+                                available = available)
+        return [Product(*row) for row in rows]
 
 
     @staticmethod
