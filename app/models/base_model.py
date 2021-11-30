@@ -359,11 +359,11 @@ class Orders:
 def get_cart(uid):
     rows = app.db.execute('''
     SELECT prod_id, uid, order_quantity, date, ordered
-    FROM Orders
+    FROM Orders, Products AS joined
     WHERE ordered = "N" AND uid = :uid
     ''',
                                 uid = uid)
-            return [Orders(*row) for row in rows] 
+            return [joined(*row) for row in rows] 
 
 
 @staticmethod
