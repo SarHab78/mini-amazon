@@ -50,5 +50,6 @@ CREATE TABLE Orders(
     uid INT NOT NULL REFERENCES Users(id),
     order_quantity INT NOT NULL,
     date timestamp without time zone NOT NULL DEFAULT  (current_timestamp AT TIME ZONE 'UTC'),
+    ordered VARCHAR(256) UNIQUE NOT NULL,
     PRIMARY KEY(uid, prod_id)
 );
