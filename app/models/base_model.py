@@ -353,4 +353,34 @@ class Orders:
         self.order_quantity = order_quantity
         self.date = date
         self.ordered = ordered
+
+
+@staticmethod
+def get_cart(prod_id, uid):
+    rows = app.db.execute('''
+    SELECT prod_id, uid, order_quantity, date, ordered
+    FROM Orders
+    WHERE prod_id = :prod_id AND uid = :uid
+    ''',
+                                prod_id = prod_id,
+                                uid = uid)
+            return [Orders(*row) for row in rows] 
+
+
+@staticmethod
+def add_to_cart(product_id, quantity, uid):
+        if ordered = 'Y' and quantity > 0:
+            rows = app.db.execute("""
+INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
+VALUES(:product_id, :uid, 1, Date, 'N')
+RETURNING prod_id
+""", 
+                                  product_id= product_id,
+                                  uid = uid
+            )
+            return Orders.get_cart(prod_id, uid)
+        else:
+            # add error message that is not available or quanitiy < 1
+            return None
+
    
