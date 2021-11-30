@@ -7,18 +7,17 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, addr, pwd, balance, is_seller):
+    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        self.addr = addr
-        self.pwd = pwd
+        self.address = addr
         self.balance = balance
         self.is_seller = is_seller
 
     @staticmethod
-    def get_by_auth(email, pwd):
+    def get_by_auth(email, password):
         rows = app.db.execute("""
 SELECT pwd, id, email, firstname, lastname, addr, balance, is_seller
 FROM Users
@@ -57,18 +56,18 @@ WHERE email = :email
         return len(rows) > 0
 
     @staticmethod
-    def register(email, pwd, firstname, lastname, addr, balance, is_seller):
+    def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, addr, balance, is_seller)
-VALUES(:email, :pwd, :firstname, :lastname, :addr, :balance, :is_seller)
+INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
+VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
-                                  pwd=generate_password_hash(pwd),
+                                  password=generate_password_hash(password),
                                   firstname=firstname,
                                   lastname=lastname,
-                                  addr= addr,
+                                  address= address,
                                   balance = balance,
                                   is_seller = is_seller)
             id = rows[0][0]
@@ -82,7 +81,7 @@ RETURNING id
     @login.user_loader
     def get(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, addr, balance, is_seller
+SELECT id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
@@ -127,9 +126,9 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, product_id, product_name, product_description, image_url, price, seller_id, quantity, available):
-        self.product_id = product_id
+    def __init__(self, product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
         self.product_name = product_name
+        self.product_id = product_id
         self.product_description = product_description
         self.image_url = image_url
         self.price = price
@@ -138,11 +137,11 @@ class Product:
         self.available = available
         
     @staticmethod
-    def add_product(product_id, product_name, product_description, image_url, price, seller_id, quantity, available):
+    def add_product(product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
 INSERT INTO Products(product_name, product_id, product_description, image_url, price, seller_id, quantity, available)
-VALUES(:id, :product_name, :product_description, :image_url, :price, :seller_id, :quantity, :available)
+VALUES(:product_name, :id, :product_description, :image_url, :price, :seller_id, :quantity, :available)
 RETURNING id 
 """,
 #changed line 146 from RETURNING nameS to RETURNING id
