@@ -346,5 +346,11 @@ RETURNING nameS
             # reporting needed
             return None
 
-
+class Orders:
+    def __init__(self, prod_id, uid, order_quantity, date, ordered):
+        self.prod_id = prod_id
+        self.uid = uid
+        self.order_quantity = order_quantity
+        self.date = date
+        self.ordered = ordered
    
