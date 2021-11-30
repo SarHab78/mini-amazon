@@ -21,6 +21,9 @@
         <td>{{review.rating}}</td>
         <td>{{review.prod_review}}</td>
       </tr>
+              <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Add to Cart</a></td>
+
+
     {% endfor %}
   </tbody>
 </table>
