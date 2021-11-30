@@ -12,14 +12,14 @@ class User(UserMixin):
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        self.address = addr
+        self.address = address
         self.balance = balance
         self.is_seller = is_seller
 
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT pwd, id, email, firstname, lastname, addr, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
