@@ -32,11 +32,10 @@ class reviews(FlaskForm):
 @bp.route('/review_form', methods=['GET', 'POST'])
 def add_review():
     form = reviews()
-    #if current_user.is_authenticated: #import addtl things?
-    my_user = User.get(id) #fix these lines - but attempting to autopopulate uid
+    if current_user.is_authenticated: #import addtl things?
+        my_user = current_user.uid #fix these lines - but attempting to autopopulate uid
     #i still don't know how to access uid - may not work until login working
-    if request.method == 'GET':
-        form.uid.data = my_user.id
+        form.uid.data = my_user
     if form.validate_on_submit():
         if Product_review.add_review(
             form.rid.data,
