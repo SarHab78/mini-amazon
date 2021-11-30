@@ -14,8 +14,8 @@ bp = Blueprint('carts', __name__)
 
 @bp.route('/')
 def carts():
-    products = Product.get_all('Y')
-    return render_template('carts.html')
+    my_cart = Product.get_all('Y')
+    return render_template('carts.html', )
 
 
 @bp.route('/checkout')
