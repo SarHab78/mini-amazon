@@ -102,7 +102,7 @@
       <th scope="col">Description</th>
       <th scope="col">Image</th>
       <th scope="col">Price</th>
-      <th scope = "col">Add to Cart</th>
+      <th scope = "col">Product Page</th>
     </tr>
   </thead>
   <tbody> 
@@ -110,9 +110,10 @@
       <tr>
         <td>{{product.product_name}}</td>
         <td>{{product.product_description}}</td>
-        <td><img src="{{product.image_url}}" alt="" border=3 height=100 width=100></img></td>
+        <td><img src="{{product.image_url}}" alt="" height=100></img></td>
         <td>{{product.price}}</td>
-        <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Add to Cart</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name='product', product_id = product.product_id)}}" role="button"
+          style = "background: #57edf6; color: black">{{product.product_name}} Page</a></td>
       </tr>
     {% endfor %}
   </tbody>
@@ -166,7 +167,7 @@
         <th scope="row">{{purchase.id}}</th>
         <td>{{purchase.pid}}</td>
         <td>{{purchase.time_purchased}}</td>
-        <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('reviews.add_review') }}" role="button">Write a Review</a></td>
       </tr>
     {% endfor %}
   </tbody>
