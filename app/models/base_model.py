@@ -138,7 +138,7 @@ class Product:
         self.available = available
         
     @staticmethod
-    def add_product(product_id, product_name, describe, image_url, price, seller_id, quantity, available):
+    def add_product(product_id, product_name, product_description, image_url, price, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
 INSERT INTO Products(product_name, product_id, product_description, image_url, price, seller_id, quantity, available)
