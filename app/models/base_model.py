@@ -175,9 +175,9 @@ AND Users.is_seller = 'Y'
 
 
     @staticmethod
-    def product_exists(product_name, id):
+    def product_exists(product_name, product_id):
         rows = app.db.execute("""
-SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+SELECT Products.product_id, Products.product_name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
 WHERE Products.name = :name
 AND Users.id = :id
