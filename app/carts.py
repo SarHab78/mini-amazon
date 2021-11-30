@@ -7,7 +7,9 @@ from .models.base_model import Purchase
 
 
 from flask import Blueprint
-bp = Blueprint('index', __name__)
+bp = Blueprint('carts', __name__)
+
+
 
 
 @bp.route('/')
