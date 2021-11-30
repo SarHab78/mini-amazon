@@ -12,38 +12,25 @@ class User(UserMixin):
         self.email = email
         self.firstname = firstname
         self.lastname = lastname
-        self.address = addr
+        self.address = address
         self.balance = balance
         self.is_seller = is_seller
 
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT pwd, id, email, firstname, lastname, addr, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
                               email=email)
         if not rows:  # email not found
             return None
-        elif not check_password_hash(rows[0][0], pwd):
+        elif not check_password_hash(rows[0][0], password):
             # incorrect password
             return None
         else:
             return User(*(rows[0][1:]))
-
-
-    @staticmethod
-    def can_sell(id):
-        rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
-FROM Users
-WHERE id = :id
-AND is_seller = 'Y'
-""",
-                              id=id)
-        return ['Y'] if rows else []
-
 
     @staticmethod
     def email_exists(email):
@@ -87,7 +74,6 @@ WHERE id = :id
 """,
                               id=id)
         return User(*(rows[0])) if rows else None
-
 
 
 #Purchase table information
