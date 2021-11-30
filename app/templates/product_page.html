@@ -85,8 +85,7 @@ html, body {
         <img data-image="black" src="{{product.image_url}}" height=500 alt="">
         {% endfor %}
     </div>
-
-      <!-- Right Column -->
+<!-- Right Column -->
     <div class="right-column">
  
         <!-- Product Description -->
@@ -101,9 +100,11 @@ html, body {
         <span>$ {{product.price}}</span>
         <!-- <a href="#" class="cart-btn">Add to cart</a> -->
         </div>
+
+        <td><a class="cart-btn" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
+
         {% endfor %}
-    </div>
-</main>
+    </div></main>
 
 </main>
 
@@ -136,7 +137,6 @@ html, body {
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
       </tr>
-              <td><a class="btn btn-secondary" href="{{ url_for('users.logout') }}" role="button" color="blue">Add to Cart</a></td>
 
 
     {% endfor %}
