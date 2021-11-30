@@ -356,13 +356,12 @@ class Orders:
 
 
 @staticmethod
-def get_cart(prod_id, uid):
+def get_cart(uid):
     rows = app.db.execute('''
     SELECT prod_id, uid, order_quantity, date, ordered
     FROM Orders
-    WHERE prod_id = :prod_id AND uid = :uid
+    WHERE ordered = "N" AND uid = :uid
     ''',
-                                prod_id = prod_id,
                                 uid = uid)
             return [Orders(*row) for row in rows] 
 
