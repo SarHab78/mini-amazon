@@ -4,17 +4,24 @@
 
 <br><br>
 
-<h2>Your Products</h2>
+
+
+<td><a class="btn btn-secondary" href="{{ url_for('add_items.add_items') }}" role="button" color=#FF5733>Add to Your Inventory</a></td>
 
 {% if avail_products|length == 0 %}
-<h3> NO PRODUCTS, NOT SELLER</h3>
+<h3> No Products to show - make sure you're a seller! If you are, add inventory to show here!</h3>
 {% else %}
+<h2>Your Products</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
       <th scope="col">Product ID</th>
       <th scope="col">Product Name</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Product Image</th>
       <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Available?</th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +29,11 @@
       <tr>
         <th scope="row">{{product.id}}</th>
         <td>{{product.name}}</td>
+        <td>{{product.describe}}</td>
+        <td>{{product.image_url}}</td>
         <td>{{product.price}}</td>
+        <td>{{product.quantity}}</td>
+        <td>{{product.available}}</td>
       </tr>
     {% endfor %}
   </tbody>

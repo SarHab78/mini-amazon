@@ -32,6 +32,19 @@ WHERE email = :email
         else:
             return User(*(rows[0][1:]))
 
+
+    @staticmethod
+    def can_sell(id):
+        rows = app.db.execute("""
+SELECT id, email, firstname, lastname, address, balance, is_seller
+FROM Users
+WHERE id = :id
+AND is_seller = 'Y'
+""",
+                              id=id)
+        return ['Y'] if rows else []
+
+
     @staticmethod
     def email_exists(email):
         rows = app.db.execute("""
@@ -109,41 +122,73 @@ ORDER BY time_purchased DESC
                               since=since)
         return [Purchase(*row) for row in rows]
 
+        
 
 #Product table information
 class Product:
-    def __init__(self, product_id, product_name, product_description, image_url, price, available):
-        self.product_id = product_id
-        self.product_name = product_name
-        self.product_description = product_description
+    def __init__(self, id, name, describe, image_url, price, seller_id, quantity, available):
+        self.id = id
+        self.name = name
+        self.describe = describe
         self.image_url = image_url
         self.price = price
         self.available = available
+        
+    @staticmethod
+    def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
+        try:
+            rows = app.db.execute("""
+INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
+VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
+RETURNING nameS
+""",
+                                  id=id,
+                                  describe= describe,
+                                  image_url=image_url,
+                                  price=price,
+                                  seller_id= seller_id,
+                                  quantity = quantity,
+                                  available = available,
+                                  product_name = product_name
+            )
+            return User.get(id)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
     @staticmethod
     def get(product_id):
         rows = app.db.execute('''
-SELECT product_id, product_name, product_description, image_url, price, available
-FROM Products
-WHERE product_id = :product_id
+SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.seller_id = :id
+AND Users.id = :id
+AND Users.is_seller = 'Y'
 ''',
-                              product_id=product_id)
-        return Product(*(rows[0])) if rows is not None else None
+                                id = id)
+
+  
+  
+        return [Product(*row) for row in rows] if rows else []
+
 
     @staticmethod
-    def get_all(available='Y'):
-        rows = app.db.execute('''
-SELECT product_id, product_name, product_description, image_url, price, available
-FROM Products
-WHERE available = :available
-''',
-                              available=available)
-        return [Product(*row) for row in rows]
+    def product_exists(product_name, id):
+        rows = app.db.execute("""
+SELECT Products.id, Products.name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.name = :name
+AND Users.id = :id
+""",
+                              product_name=product_name
+                              )
+        return len(rows) > 0
 
     @staticmethod
     def get_search_result(search_str='', available='Y'):
         rows = app.db.execute('''
-SELECT product_id, product_name, product_description, image_url, price, available
+SELECT product_id, name, product_description, image_url, price, available
 FROM Products
 WHERE available = :available 
 AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str

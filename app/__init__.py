@@ -36,6 +36,9 @@ def create_app():
     from .users_review_page import bp as users_reviews_bp
     app.register_blueprint(users_reviews_bp)
 
+    from .add_items import bp as add_bp
+    app.register_blueprint(add_bp)
+
     return app
 
 
