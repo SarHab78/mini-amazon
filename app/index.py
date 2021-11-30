@@ -75,7 +75,7 @@ def index():
 #    print('hi')
 @bp.route('/carts')
 def carts():
-    products = Product.get_all('Y')
+    products = Product.get_cart(uid=current_user.id)
     return render_template('carts.html')
 
 @bp.route('/checkout')
