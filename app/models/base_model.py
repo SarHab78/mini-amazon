@@ -164,7 +164,7 @@ RETURNING id
     @staticmethod
     def get(product_id):
         rows = app.db.execute('''
-SELECT product_id, product_name, product_description, image_url, price, available
+SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
 FROM Products
 WHERE product_id = :product_id
 ''',
@@ -178,12 +178,12 @@ WHERE product_id = :product_id
     @staticmethod
     def get_all(available = 'Y'):
         rows = app.db.execute('''
-SELECT product_id, product_name, product_description, image_url, price, available
+SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
 FROM Products
 WHERE available = :available
         ''',
                                 available = available)
-        return [Product(*row) for row in rows]
+        return [Product(*row) for row in rows] if rows else []
 
 
     @staticmethod
