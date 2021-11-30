@@ -187,7 +187,7 @@ AND product_id = :product_id
 
 
 
-##add to git
+##add to git - all functions for reviews
 
 class Product_review:
     def __init__(self, rid, pid, uid, email, timestamp, rating, review):
@@ -208,8 +208,22 @@ class Product_review:
 SELECT rid, pid, uid, email, rev_timestamp, rating, review
 FROM product_review
 WHERE pid = :pid
+ORDER BY rev_timestamp
 ''',
                               pid=pid)
+        return [Product_review(*row) for row in rows] 
+
+
+#to get reviews written by a specific user
+    @staticmethod
+    def get_users_reviews(uid):
+        rows = app.db.execute('''
+SELECT rid, pid, uid, email, rev_timestamp, rating, review
+FROM product_review
+WHERE uid = :uid
+ORDER BY rev_timestamp
+''',
+                              uid=uid)
         return [Product_review(*row) for row in rows] 
 
 

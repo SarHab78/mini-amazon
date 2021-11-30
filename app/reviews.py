@@ -12,6 +12,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import Product_review
+from .models.base_model import User
 
 
 from flask import Blueprint
@@ -26,11 +27,16 @@ class reviews(FlaskForm):
     uid = IntegerField(_l('uid'), validators=[DataRequired()])
     timestamp = StringField(_l('timestamp'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
-    # def validate_email(self, email): when we have cart functionality - Jo?
+    # def validate_email(self, email): when we have cart functionality?
 
 @bp.route('/review_form', methods=['GET', 'POST'])
 def add_review():
     form = reviews()
+    #if current_user.is_authenticated: #import addtl things?
+    my_user = User.get(id) #fix these lines - but attempting to autopopulate uid
+    #i still don't know how to access uid - may not work until login working
+    if request.method == 'GET':
+        form.uid.data = my_user.id
     if form.validate_on_submit():
         if Product_review.add_review(
             form.rid.data,

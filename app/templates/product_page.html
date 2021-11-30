@@ -118,29 +118,29 @@ html, body {
 <!--review table-->
 
 <h2>Reviews:</h2>
-<h3>Average Rating out of 5 Stars: {{avg_product_rating}}</h3> <!--make prettier-->
+<h3>Average Rating out of 5 Stars: {{avg_product_rating}}</h3> 
 <h3>Number of Reviews: {{num_reviews}}</h3>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
       <th scope="col">User</th>
       <th scope="col">Rating</th>
-      <th scope="col">Review</th>
+      <th scope="col">Reviews</th>
 
     </tr>
   </thead>
   <tbody>
-    {% for review in product_reviews%} 
+    {% for review in product_reviews %} 
       <tr>
-        <th scope = "row">{{review.uid}}</td>
+        <th scope = "row">{{review.uid}}</th>
         <td>{{review.rating}}</td>
-        <td>{{review.prod_review}}</td>
+        <td>{{review.review}}</td>
       </tr>
     {% endfor %}
-    <!-- add if user matches uid they can edit or delete-->
   </tbody>
 </table>
-
+    <!-- add if user matches uid they can edit or delete-->
+  
 {% endblock %}
 
 

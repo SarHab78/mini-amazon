@@ -42,7 +42,7 @@
     {% endfor %}
   </p>
   <p>
-    {{ form.uid.label }} what is your uid? <br/>
+    {{ form.uid.label }} <br/>
     {{ form.uid(size=32) }}<br/>
     {% for error in form.uid.errors %}
     <span style="color: red;">[{{ error }}]</span>
@@ -50,7 +50,7 @@
   </p>
 
   <p>
-    {{ form.timestamp.label }} what is your uid? <br/>
+    {{ form.timestamp.label }}<br/>
     {{ form.timestamp(size=32) }}<br/>
     {% for error in form.timestamp.errors %}
     <span style="color: red;">[{{ error }}]</span>
