@@ -371,6 +371,7 @@ def get_cart(prod_id, uid):
 def add_to_cart(product_id, quantity, uid):
         if ordered = 'Y' and quantity > 0:
             rows = app.db.execute("""
+SELECT CAST( GETDATE() AS Date ) ;
 INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
 VALUES(:product_id, :uid, 1, Date, 'N')
 RETURNING prod_id
