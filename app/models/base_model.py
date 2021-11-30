@@ -184,3 +184,14 @@ AND product_id = :product_id
 ''',
                               product_id = product_id, available=available)
         return [Product(*row) for row in rows]
+    
+    @staticmethod
+    def get_products_from_other_sellers(product_id='', available='Y'):
+        rows = app.db.execute('''
+SELECT product_id, product_name, product_description, image_url, price, available
+FROM Products
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
+        return [Product(*row) for row in rows]

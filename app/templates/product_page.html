@@ -16,6 +16,13 @@ html, body {
   display: flex;
 }
 
+/* Sections */
+.bottom_section {
+  position: relative;
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
 /* Columns */
 .left-column {
   width: 65%;
@@ -74,11 +81,24 @@ html, body {
   color: #43474D;
   margin-right: 20px;
 }
+
+.cart-btn {
+  display: inline-block;
+  background-color: #7DC855;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 30px;
+  transition: all .5s;
+}
+.cart-btn:hover {
+  background-color: #64af3d;
+}
  
 </style>
 
-<main class="container">
- 
+<article class="container">
     <!-- Left Column / mage -->
     <div class="left-column">
         {% for product in product_row %}
@@ -101,10 +121,40 @@ html, body {
         <span>$ {{product.price}}</span>
         <!-- <a href="#" class="cart-btn">Add to cart</a> -->
         </div>
+
+        <td><a class="cart-btn" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
+
         {% endfor %}
     </div>
-</main>
+</article>
 
-</main>
+<br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br>
+
+<article class="bottom_section">
+<h2>Offerings from Other Sellers:</h2>
+  <table class='table table-hover'>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">Product Page</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in product_row%}
+        <tr>
+          <td>{{product.product_name}}</td>
+          <td>{{product.product_description}}</td>
+          <td><img src="{{product.image_url}}" alt="" height=100></img></td>
+          <td>{{product.price}}</td>
+          <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
+            style = "background: #57edf6; color: black">{{product.product_name}} Page</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</article>
 
 {% endblock %}
