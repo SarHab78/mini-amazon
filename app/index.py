@@ -73,3 +73,13 @@ def index():
 #@bp.route('/', methods=['GET', 'POST'])
 #def search_sort():
 #    print('hi')
+@bp.route('/carts')
+def carts():
+    products = Product.get_all('Y')
+    return render_template('carts.html')
+
+@bp.route('/checkout')
+def checkout():
+    products = Product.get_all('Y')
+    return render_template('checkout.html')
+
