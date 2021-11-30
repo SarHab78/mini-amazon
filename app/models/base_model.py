@@ -127,24 +127,26 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, id, name, describe, image_url, price, seller_id, quantity, available):
-        self.id = id
-        self.name = name
-        self.describe = describe
+    def __init__(self, product_id, product_name, product_description, image_url, price, seller_id, quantity, available):
+        self.product_id = product_id
+        self.product_name = product_name
+        self.product_description = product_description
         self.image_url = image_url
         self.price = price
+        self.seller_id = seller_id
+        self.quantity = quantity
         self.available = available
         
     @staticmethod
-    def add_product(id, product_name, describe, image_url, price, seller_id, quantity, available):
+    def add_product(product_id, product_name, describe, image_url, price, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
-INSERT INTO Products(name, id, describe, image_url, price, seller_id, quantity, available)
-VALUES(:id, :name, :describe, :image_url, :price, :seller_id, :quantity, :available)
+INSERT INTO Products(product_name, product_id, product_description, image_url, price, seller_id, quantity, available)
+VALUES(:id, :product_name, :product_description, :image_url, :price, :seller_id, :quantity, :available)
 RETURNING nameS
 """,
-                                  id=id,
-                                  describe= describe,
+                                  product_id=product_id,
+                                  describe= product_description,
                                   image_url=image_url,
                                   price=price,
                                   seller_id= seller_id,
@@ -163,8 +165,8 @@ RETURNING nameS
         rows = app.db.execute('''
 SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
-WHERE Products.seller_id = :id
-AND Users.id = :id
+WHERE Products.seller_id = :seller_id
+AND Users.id = :seller_id
 AND Users.is_seller = 'Y'
 ''',
                                 id = id)
@@ -177,7 +179,7 @@ AND Users.is_seller = 'Y'
     @staticmethod
     def product_exists(product_name, product_id):
         rows = app.db.execute("""
-SELECT Products.product_id, Products.product_name, Products.describe, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
 WHERE Products.product_name = :product_name
 AND Users.id = :id
@@ -189,7 +191,7 @@ AND Users.id = :id
     @staticmethod
     def get_search_result(search_str='', available='Y'):
         rows = app.db.execute('''
-SELECT product_id, name, product_description, image_url, price, available
+SELECT product_id, product_name, product_description, image_url, price, available
 FROM Products
 WHERE available = :available 
 AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
