@@ -3,13 +3,13 @@ from flask_login import current_user
 import datetime
 
 from .models.base_model import Product
+from .models.base_model import Purchase
 
 from flask import Blueprint
-bp = Blueprint('seller_inventory', __name__)
+bp = Blueprint('profile', __name__)
 
-@bp.route('/inventory')
-def inventory():
-   
+@bp.route('/profile')
+def profile():
     # print(Sellers.get_all_sellers())
     # get all available products for sale:
 
@@ -20,18 +20,13 @@ def inventory():
 
     # find the products current user has bought:
     
-    if current_user.is_authenticated:
-        sell_id = current_user.id
-    else:
-        sell_id = -1
+    
+    profile = User.get_user_info(2)
+    
+
+    
         
-    products = Product.get_seller_products(sell_id)
-
-   
-
     # render the page by adding information to the index.html file
-    return render_template('seller_inventory.html',
-                           avail_products=products
+    return render_template('profile.html',
+                           user_info=profile
                            #avail products is parameter name that will be passed to html, product has the actual data
-)
-
