@@ -95,7 +95,7 @@ class EditAccountForm(FlaskForm):
 
 @bp.route('/editaccount', methods=['GET', 'POST'])
 
-@login_required
+
 def editaccount():
     form = EditAccountForm()
     if request.method == 'POST':
