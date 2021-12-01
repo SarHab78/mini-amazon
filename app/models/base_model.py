@@ -98,7 +98,7 @@ WHERE id = :id
         return User(*(rows[0])) if rows else None
 
     @staticmethod
-    def editprofile(email, password, firstname, lastname, address, balance, is_seller, id):
+    def editprofile(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
 "UPDATE Users
@@ -111,8 +111,7 @@ WHERE id = :id
                                   lastname=lastname,
                                   address= address,
                                   balance = balance,
-                                  is_seller = is_seller,
-                                  id= id)
+                                  is_seller = is_seller)
             id = rows[0][0]
             return User.get(id)
         except Exception:
