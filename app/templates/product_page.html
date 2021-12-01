@@ -164,8 +164,9 @@ html, body {
 
 <br><br>
 <!-- add review button -->
-<a class="btn btn-secondary" href="{{ url_for('reviews.add_review') }}" role="button" color="blue">Write a Review</a>
- 
+{% for product in product_row %}
+<a class="btn btn-secondary" href="{{ url_for('reviews.add_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review</a>
+{% endfor %}
 
 <br><br>
 <!--review table-->
