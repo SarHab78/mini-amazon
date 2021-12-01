@@ -80,7 +80,7 @@ def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
-class EditAccountForm(FlaskForm):
+class EditProfileForm(FlaskForm):
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
@@ -93,17 +93,17 @@ class EditAccountForm(FlaskForm):
                                            EqualTo('password')])
     submit = SubmitField('Update Profile')
 
-@bp.route('/editaccount', methods=['GET', 'POST'])
+@bp.route('/editprofile', methods=['GET', 'POST'])
 
 
-def editaccount():
-    form = EditAccountForm()
+def editprofile():
+    form = EditProfileForm()
     if request.method == 'POST':
         print('check data and submit')
     else:
         print('get data from db and add to form')
     if form.validate_on_submit():
-        if User.editaccount(form.email.data,
+        if User.editprofile(form.email.data,
                          form.password.data,
                          form.firstname.data,
                          form.lastname.data,
