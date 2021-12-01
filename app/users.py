@@ -79,3 +79,30 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
+
+class EditAccountForm(FlaskForm):
+    username = HiddenField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[Email()])
+    DOB = DateField('DOB', format='%Y-%m-%d')
+    MF = SelectField('Gender', choices=[('M','Male'), ('F','Female')])
+    submit = SubmitField('Sign In')
+
+@bp.route('/editaccount', methods=['GET', 'POST'])
+@login_required
+def editaccount():
+    form = EditAccountForm()
+    if request.method == 'POST':
+        print('check data and submit')
+    else:
+        print('get data from db and add to form')
+    if form.validate_on_submit():
+        if User.editaccount(form.email.data,
+                         form.password.data,
+                         form.firstname.data,
+                         form.lastname.data,
+                         form.address.data,
+                         form.balance.data,
+                         form.is_seller.data):
+            flash('Information has been updated')
+            return redirect(url_for('index.index'))
+    return render_template('edit.html', title='Edit Profile', form=form)
