@@ -57,21 +57,21 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(_('Already a user with this email.'))
 
 
-    @bp.route('/register', methods=['GET', 'POST'])
-    def register():
-        if current_user.is_authenticated:
-            return redirect(url_for('index.index'))
-        form = RegistrationForm()
-        if form.validate_on_submit():
-            if User.register(form.email.data,
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index.index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        if User.register(form.email.data,
                          form.password.data,
                          form.firstname.data,
                          form.lastname.data,
                          form.address.data,
                          form.balance.data,
                          form.is_seller.data):
-                flash('Congratulations, you are now a registered user!')
-                return redirect(url_for('users.login'))
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -94,6 +94,7 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Update Profile')
 
 @bp.route('/editprofile', methods=['GET', 'POST'])
+
 
 def editprofile():
     form = EditProfileForm()
