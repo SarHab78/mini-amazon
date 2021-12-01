@@ -319,7 +319,7 @@ WHERE pid = :pid
         try:
             avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
         except:
-            avg = 'N/A: No reviews yet'
+            avg = 'N/A (no reviews yet)'
         return avg #change
 
 #number of reviews for a product
