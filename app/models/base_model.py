@@ -32,19 +32,6 @@ WHERE email = :email
         else:
             return User(*(rows[0][1:]))
 
-
-    @staticmethod
-    def can_sell(id):
-        rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
-FROM Users
-WHERE id = :id
-AND is_seller = 'Y'
-""",
-                              id=id)
-        return ['Y'] if rows else []
-
-
     @staticmethod
     def email_exists(email):
         rows = app.db.execute("""
