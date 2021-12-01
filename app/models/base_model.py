@@ -316,7 +316,10 @@ FROM product_review
 WHERE pid = :pid
 ''',
                             pid=pid)
-        avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        try:
+            avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        except:
+            avg = 'N/A: No reviews yet'
         return avg #change
 
 #number of reviews for a product
@@ -328,7 +331,13 @@ FROM product_review
 WHERE pid = :pid
 ''',
                             pid=pid)
-        count = ("").join([str(c) for (c,) in count])
+        try:
+            count = ("").join([str(c) for (c,) in count])
+        except:
+            count = 'N/A (no reviews yet)'
+        
+        if count == '0':
+            count = 'N/A (no reviews yet)'
         return count
 
 
