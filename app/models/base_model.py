@@ -360,7 +360,7 @@ def get_cart(uid):
     rows = app.db.execute('''
     SELECT prod_id, uid, order_quantity, date, ordered
     FROM Orders, Products AS joined
-    WHERE ordered = "N" AND uid = :uid
+    WHERE Orders.prod_id = Products.product_id AND ordered = "N" AND uid = :uid
     ''',
                                 uid = uid)
             return [joined(*row) for row in rows] 
@@ -370,7 +370,7 @@ def get_cart(uid):
 def add_to_cart(product_id, quantity, uid):
         if ordered = 'Y' and quantity > 0:
             rows = app.db.execute("""
-SELECT CAST( GETDATE() AS Date ) ;
+SELECT CAST( GETDATE() AS Date )
 INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
 VALUES(:product_id, :uid, 1, Date, 'N')
 RETURNING prod_id
@@ -383,4 +383,3 @@ RETURNING prod_id
             # add error message that is not available or quanitiy < 1
             return None
 
-   
