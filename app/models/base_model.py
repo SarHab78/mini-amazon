@@ -2,7 +2,6 @@ from flask_login import UserMixin
 from flask import current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 from .. import login
 
 
@@ -31,19 +30,6 @@ WHERE email = :email
             return None
         else:
             return User(*(rows[0][1:]))
-
-
-    @staticmethod
-    def can_sell(id):
-        rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
-FROM Users
-WHERE id = :id
-AND is_seller = 'Y'
-""",
-                              id=id)
-        return ['Y'] if rows else []
-
 
     @staticmethod
     def email_exists(email):
