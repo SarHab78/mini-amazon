@@ -52,7 +52,9 @@
         {% if current_user.is_authenticated %}
           Hello {{current_user.firstname}}! 
            <a href="{{ url_for('index.carts') }}" type="button" class="btn btn-dark">My Cart</a>
+           <a href="{{ url_for('users.editprofile') }}" type="button" class="btn btn-light">Edit Profile</a>
           <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
+          
         
         {% else %}
           <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light">Log in</a>
