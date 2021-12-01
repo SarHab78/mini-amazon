@@ -74,7 +74,7 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
-@staticmethod
+    @staticmethod
     def get_info(id, email, firstname, lastname, address, balance, is_seller):
         rows = app.db.execute("""
         SELECT * 
