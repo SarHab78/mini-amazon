@@ -98,10 +98,10 @@ WHERE id = :id
         return User(*(rows[0])) if rows else None
 
     @staticmethod
-    def editprofile(email, password, firstname, lastname, address, balance, is_seller):
+    def editprofile(id, email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-"update users set email='%s' , pwd='%s', firstname='%s', lastname='%s' , address='%s', balance='%s', is_seller='%s' where UserID='%s'" % (email,password,firstname,lastname, address, balance, is_seller, id) 
+"update users set email='%s' , pwd='%s', firstname='%s', lastname='%s' , address='%s', balance='%s', is_seller='%s' where id='%s'" % (email,password,firstname,lastname, address, balance, is_seller, id) 
 """,
                                   email=email,
                                   password=generate_password_hash(password),
