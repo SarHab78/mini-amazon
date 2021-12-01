@@ -101,7 +101,9 @@ WHERE id = :id
     def editprofile(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-"update users set email='%s' , pwd='%s', firstname='%s', lastname='%s' , address='%s', balance='%s', is_seller='%s' where id='%s'" % (email,password,firstname,lastname, address, balance, is_seller, id) 
+"UPDATE Users
+ SET email= :email , pwd= :password, firstname= :firstname, lastname= :lastname , address= :address, balance=:balance, is_seller=:is_seller
+ WHERE id= :id 
 """,
                                   email=email,
                                   password=generate_password_hash(password),
