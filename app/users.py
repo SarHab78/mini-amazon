@@ -70,8 +70,8 @@ class RegistrationForm(FlaskForm):
                          form.address.data,
                          form.balance.data,
                          form.is_seller.data):
-            flash('Congratulations, you are now a registered user!')
-            return redirect(url_for('users.login'))
+                flash('Congratulations, you are now a registered user!')
+                return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
 
