@@ -57,7 +57,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(_('Already a user with this email.'))
 
 
-@bp.route('/register', methods=['GET', 'POST'])
+    @bp.route('/register', methods=['GET', 'POST'])
     def register():
         if current_user.is_authenticated:
             return redirect(url_for('index.index'))
