@@ -26,6 +26,7 @@ def create_app():
     
     from .users import bp as user_bp
     app.register_blueprint(user_bp)
+    app.editprofile(user_bp)
 
     from .product_page import bp as product_page_bp
     app.register_blueprint(product_page_bp)
