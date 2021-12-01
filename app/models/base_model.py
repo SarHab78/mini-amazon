@@ -2,6 +2,7 @@ from flask_login import UserMixin
 from flask import current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 from .. import login
 
 
@@ -45,14 +46,14 @@ WHERE email = :email
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
+INSERT INTO Users(firstname, lastname, email, pwd, address, balance, is_seller)
 VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
 RETURNING id
 """,
-                                  email=email,
-                                  password=generate_password_hash(password),
                                   firstname=firstname,
                                   lastname=lastname,
+                                  email=email,
+                                  password=generate_password_hash(password),
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
@@ -104,7 +105,6 @@ WHERE id = :id
             # likely email already in use; better error checking and
             # reporting needed
             return None
-
 
 
 #Purchase table information
