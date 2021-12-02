@@ -363,7 +363,7 @@ def get_cart(uid):
     WHERE Orders.prod_id = Products.product_id AND ordered = "N" AND uid = :uid
     ''',
                                 uid = uid)
-            return [Orders(*row) for row in rows] 
+            return [Products(*row) for row in rows] 
 
 
 @staticmethod
