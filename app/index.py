@@ -5,6 +5,7 @@ import datetime
 from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Orders
+from .models.base_model import Users
 
 
 from flask import Blueprint
@@ -16,10 +17,12 @@ def index():
     products = Product.get_all('Y')
     # find the products current user has bought:
     if current_user.is_authenticated:
+        uid = current_user.id
         purchases = Purchase.get_all_by_uid_since(
             current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
     else:
         purchases = None
+        uid = None
     # render the page by adding information to the index.html file
 
     # form = create some form
@@ -47,7 +50,8 @@ def index():
 
             return render_template('index.html',
                             avail_products=searched_products,
-                            purchase_history=purchases)
+                            purchase_history=purchases
+                            uid = uid)
 
         if request.form.get("sort_query"):
             search_str = ''
@@ -66,11 +70,13 @@ def index():
             # Return new template
             return render_template('index.html',
                                 avail_products=searched_products,
-                                purchase_history=purchases)
+                                purchase_history=purchases
+                                uid = uid)
 
     return render_template('index.html',
                            avail_products=products,
-                           purchase_history=purchases)
+                           purchase_history=purchases
+                           uid = uid)
 
 #@bp.route('/', methods=['GET', 'POST'])
 #def search_sort():
