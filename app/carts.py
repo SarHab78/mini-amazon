@@ -12,15 +12,13 @@ bp = Blueprint('carts', __name__)
 
 
 
-
-# @bp.route('/')
-# def carts():
-#     if current_user.is_authenticated:
-#         my_cart = Orders.get_cart(uid)
-#     else:
-#         my_cart = NULL
-#     return render_template('carts.html', user_cart = my_cart)
-
+@bp.route('/carts')
+def carts(prod_id, uid):
+    if current_user.is_authenticated:
+        my_cart = Orders.get_cart()
+    else:
+        my_cart = NULL
+    return render_template('carts.html', user_cart = my_cart)
 
 @bp.route('/checkout')
 def checkout():
