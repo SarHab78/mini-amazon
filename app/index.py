@@ -91,7 +91,7 @@ def index():
 #    print('hi')
 
 @bp.route('item_successfully_added')
-def interim:
+def interim():
      return render_template('interim_added_cart_page.html')
 
 
