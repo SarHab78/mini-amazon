@@ -355,27 +355,27 @@ class Orders:
         self.ordered = ordered
 
 
-@staticmethod
-def get_cart(uid):
-    rows = app.db.execute('''
-    SELECT prod_id, uid, order_quantity, date, ordered
-    FROM Orders, Products
-    WHERE Orders.prod_id = Products.product_id AND ordered = "N" AND uid = :uid
-    ''',
+    @staticmethod
+    def get_cart(uid):
+        rows = app.db.execute('''
+        SELECT prod_id, uid, order_quantity, date, ordered
+        FROM Orders, Products
+        WHERE Orders.prod_id = Products.product_id AND ordered = "N" AND uid = :uid
+        ''',
                                 uid = uid)
             return [Products(*row) for row in rows] 
 
 
-@staticmethod
-def add_to_cart(product_id, quantity, uid):
-        if ordered = 'Y' and quantity > 0:
-            rows = app.db.execute("""
-SELECT CAST( GETDATE() AS Date )
-INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-VALUES(:product_id, :uid, 1, Date, 'N')
-RETURNING prod_id
-""", 
-                                  product_id= product_id,
+    @staticmethod
+    def add_to_cart(product_id, quantity, uid):
+            if ordered = 'Y' and quantity > 0:
+                rows = app.db.execute("""
+    SELECT CAST( GETDATE() AS Date )
+    INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
+    VALUES(:product_id, :uid, 1, Date, 'N')
+    RETURNING prod_id
+    """, 
+                                product_id= product_id,
                                   uid = uid
             )
             return Orders.get_cart(prod_id, uid)
