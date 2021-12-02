@@ -40,6 +40,7 @@ def index():
 
         # Try adding this request.form.get line to differentiate between the two buttons
         if request.form.get("product_query"):
+            user = current_user.id
             product_query = request.form['product_query']
             session['current_query'] = product_query
             searched_products = Product.get_search_result_2(search_str=product_query)
@@ -50,7 +51,6 @@ def index():
                     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
             else:
                 user = None
-
                 purchases = None
 
             return render_template('index.html',
