@@ -5,7 +5,7 @@ import datetime
 from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Orders
-from .models.base_model import Users
+from .models.base_model import User
 
 
 from flask import Blueprint
