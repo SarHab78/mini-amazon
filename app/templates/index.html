@@ -95,7 +95,7 @@
 
 
 {% if current_user.is_authenticated %}
-  <td><a class="btn btn-secondary" href="{{ url_for('carts.carts', uid = current_user.id)}}" role="button" color="blue">My Cart</a></td>
+  <td><a class="btn btn-secondary" href="{{ url_for('carts.carts', curr_uid = current_user.id)}}" role="button" color="blue">My Cart</a></td>
 
 <h2>Products for sale:</h2>
 <table class='table table-hover table-bordered container'>
