@@ -55,7 +55,7 @@ def index():
 
             return render_template('index.html',
                             avail_products=searched_products,
-                            purchase_history=purchases
+                            purchase_history=purchases,
                             curr_uid = user)
 
         if request.form.get("sort_query"):
@@ -78,12 +78,12 @@ def index():
             # Return new template
             return render_template('index.html',
                                 avail_products=searched_products,
-                                purchase_history=purchases
+                                purchase_history=purchases,
                                 curr_uid = user)
 
     return render_template('index.html',
                            avail_products=products,
-                           purchase_history=purchases
+                           purchase_history=purchases,
                            curr_uid = user)
 
 #@bp.route('/', methods=['GET', 'POST'])
