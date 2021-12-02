@@ -73,5 +73,9 @@ def index():
 #@bp.route('/', methods=['GET', 'POST'])
 #def search_sort():
 #    print('hi')
-
-
+@bp.route(/carts)
+if current_user.is_authenticated:
+        my_cart = Orders.get_cart(uid)
+    else:
+        my_cart = NULL
+    return render_template('carts.html', user_cart = my_cart)
