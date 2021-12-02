@@ -29,10 +29,10 @@ def product_page(name, product_id):
                             num_reviews=num_reviews)
 
 
-@bp.route('/<name>/<product_id>_added_to_cart')
-def added_to_cart():
-    my_cart = add_to_cart(product_id, quantity, uid)
-    return render_template('interim_added_cart_page.html')
+# @bp.route('/<name>/<product_id>_added_to_cart')
+# def added_to_cart():
+#     my_cart = add_to_cart(product_id, quantity, uid)
+#     return render_template('interim_added_cart_page.html')
 # , user_cart = my_cart, new = new_item
 
 
