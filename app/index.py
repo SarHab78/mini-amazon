@@ -4,6 +4,8 @@ import datetime
 
 from .models.base_model import Product
 from .models.base_model import Purchase
+from .models.base_model import Orders
+
 
 from flask import Blueprint
 bp = Blueprint('index', __name__)
