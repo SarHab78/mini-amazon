@@ -259,6 +259,29 @@ AND product_id = :product_id
         return [Product(*row) for row in rows]
 
 
+    @staticmethod
+    def get_products_by_other_sellers(product_id='', available='Y'):
+        target_name = app.db.execute('''
+SELECT product_name
+FROM Products
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
+        target_name = ("").join([r for (r,) in target_name])
+        rows = app.db.execute('''
+SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
+FROM Products
+WHERE available = :available 
+AND product_name = :target_name
+AND product_id <> :product_id
+ORDER BY price, quantity
+''',
+                              product_id = product_id, available=available, target_name = target_name)
+        return [Product(*row) for row in rows]
+
+
+
 
 ##add to git - all functions for reviews
 
