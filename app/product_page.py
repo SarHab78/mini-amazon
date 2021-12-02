@@ -5,6 +5,7 @@ import datetime
 from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
+from .models.base_model import Orders
 
 from flask import Blueprint
 bp = Blueprint('product_page', __name__)
@@ -26,6 +27,8 @@ def product_page(name, product_id):
                             product_reviews=prod_review,
                             avg_product_rating=avg_product_rating,
                             num_reviews=num_reviews)
+
+
 @bp.route('/<name>/<product_id>_added_to_cart')
 def added_to_cart():
     my_cart = add_to_cart(product_id, quantity, uid)
