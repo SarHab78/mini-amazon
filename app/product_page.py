@@ -26,6 +26,10 @@ def product_page(name, product_id):
                             product_reviews=prod_review,
                             avg_product_rating=avg_product_rating,
                             num_reviews=num_reviews)
+@bp.route('/<name>/<product_id_added_to_cart')
+def added_to_cart():
+    my_cart = add_to_cart(product_id, quantity, uid)
+    return render_template('interim_added_cart_page', user_cart = my_cart, new = new_item)
 
 
 
