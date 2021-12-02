@@ -90,7 +90,7 @@ def index():
 #def search_sort():
 #    print('hi')
 
-@bp.route('item_successfully_added')
+@bp.route('/item_successfully_added')
 def interim():
      return render_template('interim_added_cart_page.html')
 
