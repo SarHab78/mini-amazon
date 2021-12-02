@@ -36,6 +36,8 @@ def index():
     #    return render_template('index.html', avail_products=res)  
 
     if request.method == "POST":
+        user = current_user.id
+
         # Try adding this request.form.get line to differentiate between the two buttons
         if request.form.get("product_query"):
             product_query = request.form['product_query']
@@ -43,9 +45,12 @@ def index():
             searched_products = Product.get_search_result_2(search_str=product_query)
             
             if current_user.is_authenticated:
+                user = current_user.id
                 purchases = Purchase.get_all_by_uid_since(
                     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
             else:
+                user = None
+
                 purchases = None
 
             return render_template('index.html',
@@ -62,10 +67,13 @@ def index():
             
             # If user is signed in, get all their purchases
             if current_user.is_authenticated:
+                user = current_user.id
+
                 purchases = Purchase.get_all_by_uid_since(
                     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
             else:
                 purchases = None
+                user = None
 
             # Return new template
             return render_template('index.html',
