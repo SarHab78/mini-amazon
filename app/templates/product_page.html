@@ -16,6 +16,13 @@ html, body {
   display: flex;
 }
 
+/* Sections */
+.bottom_section {
+  position: relative;
+  max-width: 1000px;
+  max-height: 1000px;
+}
+
 /* Columns */
 .left-column {
   width: 65%;
@@ -74,18 +81,32 @@ html, body {
   color: #43474D;
   margin-right: 20px;
 }
+
+.cart-btn {
+  display: inline-block;
+  background-color: #7DC855;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 12px 30px;
+  transition: all .5s;
+}
+.cart-btn:hover {
+  background-color: #64af3d;
+}
  
 </style>
 
-<main class="container">
- 
+<article class="container">
     <!-- Left Column / mage -->
     <div class="left-column">
         {% for product in product_row %}
         <img data-image="black" src="{{product.image_url}}" height=500 alt="">
         {% endfor %}
     </div>
-<!-- Right Column -->
+
+      <!-- Right Column -->
     <div class="right-column">
  
         <!-- Product Description -->
@@ -101,18 +122,51 @@ html, body {
         <!-- <a href="#" class="cart-btn">Add to cart</a> -->
         </div>
 
+        <td><a class="cart-btn" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
 
         {% endfor %}
-    </div></main>
+    </div>
+</article>
 
-</main>
+<br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br>
+
+<article class="bottom_section">
+<h2>Offerings from Other Sellers:</h2>
+  <table class='table table-hover'>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Image</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity Available</th>
+        <th scope="col">Seller</th>
+        <th scope="col">Product Page</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products_by_other_sellers%}
+        <tr>
+          <td>{{product.product_name}}</td>
+          <td>{{product.product_description}}</td>
+          <td><img src="{{product.image_url}}" alt="" height=100></img></td>
+          <td>{{product.price}}</td>
+          <td>{{product.quantity}}</td>
+          <td>{{product.seller_id}}</td>
+          <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
+            style = "background: #57edf6; color: black">{{product.product_name}} Page</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
 <!--review button-->
 
 <br><br>
 <!-- add review button -->
-<a class="btn btn-secondary" href="{{ url_for('reviews.add_review') }}" role="button" color="blue">Write a Review</a>
- 
+{% for product in product_row %}
+<a class="btn btn-secondary" href="{{ url_for('reviews.add_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review</a>
+{% endfor %}
 
 <br><br>
 <!--review table-->
@@ -120,13 +174,12 @@ html, body {
 <h2>Reviews:</h2>
 <h3>Average Rating out of 5 Stars: {{avg_product_rating}}</h3> 
 <h3>Number of Reviews: {{num_reviews}}</h3>
-<table class='table table-hover table-bordered container'>
+<table class='table table-hover'>
   <thead class="thead-dark">
     <tr>
       <th scope="col">User</th>
       <th scope="col">Rating</th>
       <th scope="col">Reviews</th>
-
     </tr>
   </thead>
   <tbody>
@@ -136,13 +189,11 @@ html, body {
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
       </tr>
-
-
     {% endfor %}
   </tbody>
 </table>
     <!-- add if user matches uid they can edit or delete-->
-  
+  </article>
 {% endblock %}
 
 
