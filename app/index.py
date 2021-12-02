@@ -78,7 +78,7 @@ def index():
 @bp.route('/carts')
 def carts(uid):
     if current_user.is_authenticated:
-        my_cart = Orders.get_cart(uid)
+        my_cart = Orders.get_cart()
     else:
         my_cart = NULL
     return render_template('carts.html', user_cart = my_cart)
