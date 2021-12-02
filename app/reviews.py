@@ -39,6 +39,7 @@ def add_review(product_id):
     if current_user.is_authenticated: 
         my_user = current_user.id
         form.uid.data = my_user
+    else: return redirect(url_for('users.login'))
     
     #autopopulate timestamp
     ct = datetime.datetime.now()
