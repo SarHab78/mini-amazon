@@ -365,20 +365,20 @@ WHERE Orders.prod_id = Products.product_id AND ordered = "N" AND uid = :uid
         return [Products(*row) for row in rows] 
 
 
-    @staticmethod
-    def add_to_cart(product_id, quantity, uid):
-            if ordered = 'Y' and quantity > 0:
-                rows = app.db.execute("""
-    SELECT CAST( GETDATE() AS Date )
-    INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-    VALUES(:product_id, :uid, 1, Date, 'N')
-    RETURNING prod_id
-    """, 
-                                product_id= product_id,
-                                  uid = uid
-            )
-            return Orders.get_cart(prod_id, uid)
-        else:
-            # add error message that is not available or quanitiy < 1
-            return None
+    # @staticmethod
+    # def add_to_cart(product_id, quantity, uid):
+    #         if ordered = 'Y' and quantity > 0:
+    #             rows = app.db.execute("""
+    # SELECT CAST( GETDATE() AS Date )
+    # INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
+    # VALUES(:product_id, :uid, 1, Date, 'N')
+    # RETURNING prod_id
+    # """, 
+    #                             product_id= product_id,
+    #                               uid = uid
+    #         )
+        #     return Orders.get_cart(prod_id, uid)
+        # else:
+        #     # add error message that is not available or quanitiy < 1
+        #     return None
 
