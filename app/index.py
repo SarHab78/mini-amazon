@@ -17,12 +17,12 @@ def index():
     products = Product.get_all('Y')
     # find the products current user has bought:
     if current_user.is_authenticated:
-        uid = current_user.id
+        user = current_user.id
         purchases = Purchase.get_all_by_uid_since(
             current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
     else:
         purchases = None
-        uid = None
+        user = None
     # render the page by adding information to the index.html file
 
     # form = create some form
@@ -51,7 +51,7 @@ def index():
             return render_template('index.html',
                             avail_products=searched_products,
                             purchase_history=purchases
-                            uid = current_user.id)
+                            uid = user)
 
         if request.form.get("sort_query"):
             search_str = ''
@@ -71,12 +71,12 @@ def index():
             return render_template('index.html',
                                 avail_products=searched_products,
                                 purchase_history=purchases
-                                uid = current_user.id)
+                                uid = user)
 
     return render_template('index.html',
                            avail_products=products,
                            purchase_history=purchases
-                           uid = current_user.id)
+                           uid = user)
 
 #@bp.route('/', methods=['GET', 'POST'])
 #def search_sort():
