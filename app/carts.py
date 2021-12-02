@@ -13,7 +13,7 @@ bp = Blueprint('carts', __name__)
 
 
 @bp.route('/carts')
-def carts(prod_id, uid):
+def carts(uid):
     if current_user.is_authenticated:
         my_cart = Orders.get_cart()
     else:
