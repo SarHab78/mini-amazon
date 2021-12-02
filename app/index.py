@@ -51,7 +51,7 @@ def index():
             return render_template('index.html',
                             avail_products=searched_products,
                             purchase_history=purchases
-                            uid = uid)
+                            uid = current_user.id)
 
         if request.form.get("sort_query"):
             search_str = ''
@@ -71,12 +71,12 @@ def index():
             return render_template('index.html',
                                 avail_products=searched_products,
                                 purchase_history=purchases
-                                uid = uid)
+                                uid = current_user.id)
 
     return render_template('index.html',
                            avail_products=products,
                            purchase_history=purchases
-                           uid = uid)
+                           uid = current_user.id)
 
 #@bp.route('/', methods=['GET', 'POST'])
 #def search_sort():
