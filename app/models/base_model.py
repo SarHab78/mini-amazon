@@ -2,12 +2,11 @@ from flask_login import UserMixin
 from flask import current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
 from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
+    def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
@@ -32,6 +31,15 @@ WHERE email = :email
         else:
             return User(*(rows[0][1:]))
 
+    @staticmethod
+    def email_exists(email):
+        rows = app.db.execute("""
+SELECT email
+FROM Users
+WHERE email = :email
+""",
+                              email=email)
+        return len(rows) > 0
 
     @staticmethod
     def can_sell(id):
@@ -43,17 +51,6 @@ AND is_seller = 'Y'
 """,
                               id=id)
         return ['Y'] if rows else []
-
-
-    @staticmethod
-    def email_exists(email):
-        rows = app.db.execute("""
-SELECT email
-FROM Users
-WHERE email = :email
-""",
-                              email=email)
-        return len(rows) > 0
 
     @staticmethod
     def register(email, password, firstname, lastname, address, balance, is_seller):
@@ -258,6 +255,27 @@ AND product_id = :product_id
                               product_id = product_id, available=available)
         return [Product(*row) for row in rows]
 
+    @staticmethod
+    def get_products_by_other_sellers(product_id='', available='Y'):
+        target_name = app.db.execute('''
+SELECT product_name
+FROM Products
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
+        target_name = ("").join([r for (r,) in target_name])
+        rows = app.db.execute('''
+SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
+FROM Products
+WHERE available = :available 
+AND product_name = :target_name
+AND product_id <> :product_id
+ORDER BY price, quantity
+''',
+                              product_id = product_id, available=available, target_name = target_name)
+        return [Product(*row) for row in rows]
+
 
     @staticmethod
     def get_products_by_other_sellers(product_id='', available='Y'):
@@ -332,6 +350,10 @@ FROM product_review
 WHERE pid = :pid
 ''',
                             pid=pid)
+        try:
+            avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        except:
+            avg = 'N/A (no reviews yet)'
         return avg #change
 
 #number of reviews for a product
@@ -343,6 +365,13 @@ FROM product_review
 WHERE pid = :pid
 ''',
                             pid=pid)
+        try:
+            count = ("").join([str(c) for (c,) in count])
+        except:
+            count = 'N/A (no reviews yet)'
+        
+        if count == '0':
+            count = 'N/A (no reviews yet)'
         return count
 
 
