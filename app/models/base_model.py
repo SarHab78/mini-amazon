@@ -162,7 +162,7 @@ RETURNING id
     def get_seller_products(id):
         
         rows = app.db.execute('''
-SELECT Prod.product_id, Prod.product_name, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
 FROM (Products AS Prod
 LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
         FROM product_review
