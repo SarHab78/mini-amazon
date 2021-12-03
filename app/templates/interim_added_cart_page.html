@@ -42,7 +42,7 @@ html, body {
 }
  
 .right-column {
-  width: 50%;
+  width: 35%;
   margin-top: 60px;
 }
 
@@ -53,7 +53,7 @@ html, body {
   left: 0;
   top: 0;
   opacity: 1;
-  transition: all 1.0s ease;
+  transition: all 0.3s ease;
 }
 
 
@@ -76,41 +76,33 @@ html, body {
 
 
 
-<article class="container">
-    <!-- TITLE -->
-    <div class="title">
-        {% for product in product_row %}
-        <h1>{{product.product_name}} Successfully Added to Cart!</h1>
-        {% endfor %}
-    </div>
-<br><br><br><br>
-
-    <div class="subtitle">
-        {% for product in product_row %}
-        <h1> Thank you for viewing {{product.seller_id}}'s item! They hope you enjoy your item: {{product.product_name}}</h1>
-        {% endfor %}
-    </div>
-
+<main class="container">
     <!-- Left Column / mage -->
-    <div class="left-column">
+  <div class="left-column">
         {% for product in product_row %}
         <img data-image="black" src="{{product.image_url}}" height=500 alt="">
         {% endfor %}
-    </div>
-
+  </div>
+  <div class="right-column">
       <!-- Right Column -->
-    <div class="right-column">
- 
-        {% for product in product_row %}
 
+      <!-- TITLE -->
+    <div class="product-description">
+      {% for product in product_row %}
+      <h1>{{product.product_name}} successfully added to cart!</h1>
+      <p> Thank you for viewing {{product.seller_id}}'s item! They hope you enjoy your item.</p>
+      {% endfor %}
+    </div>
+    
+        {% for product in product_row %}
         <!-- Product Pricing -->
         <div class="product-price">
-        <span>$ {{product.price}}</span>
+        <p>Price: ${{product.price}}</p>
         </div>
 
         {% endfor %}
-    </div>
-</article>
+  </div>
+</main>
 
 
 {% endblock %}

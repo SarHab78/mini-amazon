@@ -11,7 +11,7 @@ from .models.base_model import Orders
 from flask import Blueprint
 bp = Blueprint('interim', __name__)
 
-@bp.route('/<name>/<product_id>successfully_added')
+@bp.route('/<name>/<product_id>/successfully_added')
 def interim(name, product_id):
     searched_products = Product.get_search_result_2(search_str='book')     
     purchases = None
