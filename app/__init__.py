@@ -48,6 +48,8 @@ def create_app():
     from .interim_added_cart_page import bp as interim_bp
     app.register_blueprint(interim_bp)
 
+    from .seller_order_history import bp as soh_bp
+    app.register_blueprint(soh_bp)
 
 
 
