@@ -5,12 +5,23 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
+from flask_login import UserMixin
 
 from .models.base_model import User
 
 
 from flask import Blueprint
 bp = Blueprint('users', __name__)
+
+class User(UserMixin):
+    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
+        self.id = id
+        self.email = email
+        self.firstname = firstname
+        self.lastname = lastname
+        self.address = address
+        self.balance = balance
+        self.is_seller = is_seller
 
 
 class LoginForm(FlaskForm):
@@ -100,7 +111,7 @@ class EditProfileForm(FlaskForm):
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
 def editprofile(id):
             form = EditProfileForm()
-            name_to_update=User.user.query.get_or_404(id) #WHAT SHOULD THIS LINE BE???
+            name_to_update=User.query.get_or_404(id) #WHAT SHOULD THIS LINE BE???
             if request.method == 'POST':
                 name_to_update.email = request.form['email']
                 name_to_update.firstname = request.form['firstname']
