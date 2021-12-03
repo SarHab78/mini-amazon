@@ -56,8 +56,8 @@ AND is_seller = 'Y'
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
-VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
+INSERT INTO Users(firstname, lastname, email, pwd, address, balance, is_seller)
+VALUES(:firstname, :lastname, :email, :password, :address, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
