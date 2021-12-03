@@ -22,7 +22,7 @@
   </p>
   <p>
     {{ form.email.label }} (Could be fake email address)<br/>
-    {{ form.email(size=32, , value=current_user.email) }}<br/>
+    {{ form.email(size=32, value=current_user.email) }}<br/>
     {% for error in form.email.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
@@ -36,7 +36,7 @@
   </p>
    <p>
     {{ form.balance.label }} (Must be a number greater than 0)<br/>
-    {{ form.balance(size=32, , value=current_user.balance) }}<br/>
+    {{ form.balance(size=32, value=current_user.balance) }}<br/>
     {% for error in form.balance.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
