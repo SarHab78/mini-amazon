@@ -18,7 +18,7 @@ class User(UserMixin):
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, pwd, address, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
@@ -42,7 +42,18 @@ WHERE email = :email
         return len(rows) > 0
 
     @staticmethod
-    def register(email, password, firstname, lastname, address, balance, is_seller):
+    def can_sell(id):
+        rows = app.db.execute("""
+SELECT id, email, firstname, lastname, address, balance, is_seller
+FROM Users
+WHERE id = :id
+AND is_seller = 'Y'
+""",
+                              id=id)
+        return ['Y'] if rows else []
+
+    @staticmethod
+    def register(email, firstname, lastname, password, address, balance, is_seller):
         try:
             rows = app.db.execute("""
 INSERT INTO Users(email, firstname, lastname, pwd, address, balance, is_seller)
