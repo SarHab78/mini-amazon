@@ -100,7 +100,7 @@ class EditProfileForm(FlaskForm):
 @bp.route('/editprofile', methods=['GET', 'POST'])
 
 
-def editprofile():
+def editprofile(id):
     form = EditProfileForm()
     if request.method == 'POST':
         print('check data and submit')
