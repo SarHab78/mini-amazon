@@ -131,28 +131,25 @@ class Add_Product:
         
         
     @staticmethod
-    def add_product(product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
+    def add_product(product_name, product_description, image_url, price, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
-INSERT INTO Products(product_name, product_id, product_description, image_url, price, user, quantity, available)
-VALUES(:product_name, :id, :product_description, :image_url, :price, :seller_id, :quantity, :available)
-RETURNING id 
+INSERT INTO Products(product_name, product_description, image_url, price, seller_id, quantity, available)
+VALUES(:product_name, :product_description, :image_url, :price, :seller_id, :quantity, :available)
+RETURNING user
 """,
 #changed line 146 from RETURNING nameS to RETURNING id
                                   product_name = product_name,  
-                                  product_id=product_id,
-                                  describe= product_description,
+                                  product_description= product_description,
                                   image_url=image_url,
                                   price=price,
-                                  seller_id= seller_id,
+                                  seller_id = seller_id,
                                   quantity = quantity,
                                   available = available
                                   
             )
-            return User.get(id)
+            
         except Exception:
-            # likely email already in use; better error checking and
-            # reporting needed
             return None
 
 #Product table information
