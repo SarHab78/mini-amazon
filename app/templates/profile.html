@@ -4,12 +4,12 @@
 
 <br><br>
 
-
+{% if current_user.is_seller == 'Y' %}
 <h2>{{ current_user.firstname}} {{current_user.lastname}}'s Profile</h2>
 <br>
 <div class="card">
   <div class="card-header">
-    Profile Information
+    Seller Profile Information
   </div>
 <div class="card-body">
 <p class="card-text">
@@ -24,5 +24,28 @@
   </div>
 </div>
 
+{% endif %}
+
+{% if current_user.is_seller == 'N' %}
+<h2>{{ current_user.firstname}} {{current_user.lastname}}'s Profile</h2>
+<br>
+<div class="card">
+  <div class="card-header">
+    Shopper Profile Information
+  </div>
+<div class="card-body">
+<p class="card-text">
+<strong>User ID: </strong>{{ current_user.id }}<br/>
+<strong>Email: </strong>{{ current_user.email }}<br/>
+<strong>First Name: </strong>{{ current_user.firstname }}<br/>
+<strong>Last Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+<strong>Balance: </strong>${{ current_user.balance }}<br/>
+<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
+    <a <a class="btn btn-warning" href="{{ url_for('users.register') }}" role="button">Edit Profile</a>
+  </div>
+</div>
+
+{% endif %}
 
 {% endblock %}
