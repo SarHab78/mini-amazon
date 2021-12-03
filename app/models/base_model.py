@@ -90,7 +90,7 @@ WHERE id = :id
     @login.user_loader
     def get_all(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, pwd, address, balance, is_seller
+SELECT id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
