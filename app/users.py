@@ -100,22 +100,35 @@ class EditProfileForm(FlaskForm):
 
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
 def editprofile(id):
-            form = EditProfileForm()
-            name_to_update=User.get_all(id) #WHAT SHOULD THIS LINE BE???
-            if request.method == 'POST':
-                name_to_update.email = request.form['email']
-                name_to_update.firstname = request.form['firstname']
-                name_to_update.lastname = request.form['lastname']
-                name_to_update.address = request.form['address']
-                name_to_update.balance = request.form['balance']
-                name_to_update.is_seller = request.form['is_seller']
-                name_to_update.password = request.form['password']
-                try:
-                    db.session.commit()
-                    flash("User Updated Successfully!")
-                    return render_template("profile.html", form=form, name_to_update = name_to_update, id=id) 
-                except:
-                    flash("Error! Looks like there was a problem...try again!")
-                    return render_template("edit.html", form=form, name_to_update = name_to_update, id=id)
-            else:
-                return render_template("edit.html", form=form, name_to_update = name_to_update, id=id)
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        if User.edit(form.email.data,
+                         form.password.data,
+                         form.firstname.data,
+                         form.lastname.data,
+                         form.address.data,
+                         form.balance.data,
+                         form.is_seller.data):
+            flash('Profile has been updated!')
+            return render_template("profile.html") 
+    return return render_template("edit.html", form=form, id=id)
+            
+            # form = EditProfileForm()
+            # name_to_update=User.get_all(id) #WHAT SHOULD THIS LINE BE???
+            # if request.method == 'POST':
+            #     name_to_update.email = request.form['email']
+            #     name_to_update.firstname = request.form['firstname']
+            #     name_to_update.lastname = request.form['lastname']
+            #     name_to_update.address = request.form['address']
+            #     name_to_update.balance = request.form['balance']
+            #     name_to_update.is_seller = request.form['is_seller']
+            #     name_to_update.password = request.form['password']
+            #     try:
+            #         db.session.commit()
+            #         flash("User Updated Successfully!")
+            #         return render_template("profile.html", form=form, name_to_update = name_to_update, id=id) 
+            #     except:
+            #         flash("Error! Looks like there was a problem...try again!")
+            #         return render_template("edit.html", form=form, name_to_update = name_to_update, id=id)
+            # else:
+            #     return render_template("edit.html", form=form, name_to_update = name_to_update, id=id)
