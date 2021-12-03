@@ -59,7 +59,7 @@ CREATE TABLE Orders(
 
 CREATE VIEW Prod_Sell_Rev AS(
     SELECT PU.product_name, PU.product_id, PU.product_description, PU.image_url, PU.price, PU.quantity,
-    PU.firstname, PU.lastname, PU.available, R.avg_rating
+    PU.firstname, PU.lastname, PU.available, ROUND(R.avg_rating, 1) AS avg_rating
     FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.quantity, P.available,
         U.firstname, U.lastname
         FROM Products AS P, Users AS U

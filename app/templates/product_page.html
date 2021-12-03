@@ -123,9 +123,29 @@ html, body {
         <!-- <a href="#" class="cart-btn">Add to cart</a> -->
         </div>
 
-        <td><a class="cart-btn" href="{{ url_for('interim.interim', name = name,
-                            product_id = product_id) }}" role="button">Add to Cart</a></td>
+        <br>
+        <p>There are {{product.quantity}} items currently available.</p>
+        <label for="quantity_for_cart">Select Quantity:</label>
 
+        <form>
+        <select name="quantity_for_cart" id="quantity_for_cart">
+          {% for q in quant_options %}
+          <option value=q>{{q}}</option>
+          {% endfor %}
+        </select>
+      </form>
+
+      <script type="text/javascript">
+      function update() {
+        var select = document.getElementById('quantity_for_cart');
+        var choice = select.options[select.selectedIndex].value;
+      }
+      update();
+      </script>
+      
+        <p>{{choice}}</p>
+        <td><a class="cart-btn" role="button" href="{{ url_for('interim.interim', name = name,
+          product_id = product_id, quant=0 ) }}" >Add to Cart</a></td>
         {% endfor %}
     </div>
 </article>
@@ -143,7 +163,7 @@ html, body {
         <th scope="col">Price</th>
         <th scope="col">Quantity Available</th>
         <th scope="col">Seller</th>
-        <th scope="col">Rating</th>
+        <th scope="col">Rating (max: 5)</th>
         <th scope="col">Product Page</th>
       </tr>
     </thead>

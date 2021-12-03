@@ -208,7 +208,7 @@ WHERE product_id = :product_id
     @staticmethod
     def get_all(available = 'Y'):
         rows = app.db.execute('''
-SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, ROUND(Rev.avg_rating,1) AS avg_rating
 FROM Products AS Prod
 LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
     FROM product_review
@@ -508,6 +508,20 @@ FROM Prod_Sell_Rev
 WHERE Prod_Sell_Rev.product_id = :product_id
         ''',product_id= product_id)
         return [Prod_Sell_Rev(*row) for row in rows]
+
+    def get_quant_list(product_id):
+        quant = app.db.execute('''
+SELECT quantity
+FROM Prod_Sell_Rev
+WHERE Prod_Sell_Rev.product_id = :product_id
+        ''',product_id= product_id)
+
+        quant = int(('').join([str(q) for (q,) in quant]))
+        quant_list = [0]*quant
+        for i in range(0,quant):
+            quant_list[i] = i+1
+
+        return quant_list
 
     @staticmethod
     def get_products_by_other_sellers(product_id='', available='Y'):
