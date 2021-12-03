@@ -161,11 +161,16 @@ RETURNING id
     def get_seller_products(id):
         
         rows = app.db.execute('''
-SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
-FROM Products, Users
-WHERE Products.seller_id = :id
-AND Users.id = :id
-AND Users.is_seller = 'Y'
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+FROM (Products AS Prod
+LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+        FROM product_review
+        GROUP BY pid)
+        AS Rev
+ON Prod.product_id = Rev.pid), Users AS U
+WHERE Prod.seller_id = :id
+AND U.id = :id
+AND U.is_seller = 'Y'
 ''',
                                 id = id)
 
