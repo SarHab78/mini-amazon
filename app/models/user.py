@@ -45,8 +45,8 @@ WHERE email = :email
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
-VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
+INSERT INTO Users(email, firstname, lastname, pwd, address, balance, is_seller)
+VALUES(:email, :firstname, :lastname, :password, :address, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
