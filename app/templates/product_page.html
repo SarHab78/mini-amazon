@@ -141,6 +141,7 @@ html, body {
         <th scope="col">Price</th>
         <th scope="col">Quantity Available</th>
         <th scope="col">Seller</th>
+        <th scope="col">Rating</th>
         <th scope="col">Product Page</th>
       </tr>
     </thead>
@@ -153,6 +154,7 @@ html, body {
           <td>{{product.price}}</td>
           <td>{{product.quantity}}</td>
           <td>{{product.seller_id}}</td>
+          <td>{{product.avg_rating}}</td>
           <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
             style = "background: #57edf6; color: black">{{product.product_name}} Page</a></td>
         </tr>

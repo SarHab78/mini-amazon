@@ -112,7 +112,7 @@ ORDER BY time_purchased DESC
 
 #Product table information
 class Product:
-    def __init__(self, product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
+    def __init__(self, product_name, product_id, product_description, image_url, price, seller_id, quantity, available, avg_rating):
         self.product_name = product_name
         self.product_id = product_id
         self.product_description = product_description
@@ -121,6 +121,7 @@ class Product:
         self.seller_id = seller_id
         self.quantity = quantity
         self.available = available
+        self.avg_rating = avg_rating
         
     @staticmethod
     def add_product(product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
@@ -179,9 +180,14 @@ WHERE product_id = :product_id
     @staticmethod
     def get_all(available = 'Y'):
         rows = app.db.execute('''
-SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
-FROM Products
-WHERE available = :available
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+FROM Products AS Prod
+LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+    FROM product_review
+    GROUP BY pid)
+    AS Rev
+ON Prod.product_id = Rev.pid
+WHERE Prod.available = :available
         ''',
                                 available = available)
         return [Product(*row) for row in rows] if rows else []
@@ -200,35 +206,47 @@ AND Users.id = :id
         return len(rows) > 0
 
     @staticmethod
-    def get_search_result(search_str='', available='Y'):
-        rows = app.db.execute('''
-SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
-FROM Products
-WHERE available = :available 
-AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
-ORDER BY price
-''',
-                              search_str = '%' + search_str.lower() + '%', available=available)
-        return [Product(*row) for row in rows]
-
-    @staticmethod
     def get_search_result_2(search_str='', available='Y', order_by = 'price'):
         if order_by == 'name':
             rows = app.db.execute('''
-SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
-FROM Products
-WHERE available = :available 
-AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
-ORDER BY product_name
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+FROM Products AS Prod
+LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+    FROM product_review
+    GROUP BY pid)
+    AS Rev
+ON Prod.product_id = Rev.pid
+WHERE Prod.available = :available
+AND LOWER(Prod.product_name) LIKE :search_str OR LOWER(Prod.product_description) LIKE :search_str
+ORDER BY Prod.product_name
+    ''',
+                                search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
+        if order_by == 'rating':
+            rows = app.db.execute('''
+    SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+    FROM Products AS Prod
+    LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+        FROM product_review
+        GROUP BY pid)
+        AS Rev
+    ON Prod.product_id = Rev.pid
+    WHERE Prod.available = :available
+    AND LOWER(Prod.product_name) LIKE :search_str OR LOWER(Prod.product_description) LIKE :search_str
+    ORDER BY Rev.avg_rating DESC
     ''',
                                 search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
         else:
             rows = app.db.execute('''
-    SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
-    FROM Products
-    WHERE available = :available 
-    AND LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str
-    ORDER BY price DESC
+    SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+    FROM Products AS Prod
+    LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+        FROM product_review
+        GROUP BY pid)
+        AS Rev
+    ON Prod.product_id = Rev.pid
+    WHERE Prod.available = :available
+    AND LOWER(Prod.product_name) LIKE :search_str OR LOWER(Prod.product_description) LIKE :search_str
+    ORDER BY Prod.price DESC
     ''',
                                 search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
         return [Product(*row) for row in rows]
@@ -236,10 +254,15 @@ ORDER BY product_name
     @staticmethod
     def get_product_for_page(product_id='', available='Y'):
         rows = app.db.execute('''
-SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
-FROM Products
-WHERE available = :available 
-AND product_id = :product_id
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+FROM Products AS Prod
+LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+    FROM product_review
+    GROUP BY pid)
+    AS Rev
+ON Prod.product_id = Rev.pid
+WHERE Prod.available = :available
+AND Prod.product_id = :product_id
 ''',
                               product_id = product_id, available=available)
         return [Product(*row) for row in rows]
@@ -255,8 +278,13 @@ AND product_id = :product_id
                               product_id = product_id, available=available)
         target_name = ("").join([r for (r,) in target_name])
         rows = app.db.execute('''
-SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
-FROM Products
+SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available, avg_rating
+FROM Products AS Prod
+LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+        FROM product_review
+        GROUP BY pid)
+        AS Rev
+ON Prod.product_id = Rev.pid
 WHERE available = :available 
 AND product_name = :target_name
 AND product_id <> :product_id
