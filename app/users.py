@@ -97,7 +97,7 @@ class EditProfileForm(FlaskForm):
                                            EqualTo('password')])
     submit = SubmitField('Update Profile')
 
-@bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
+@bp.route('/editprofile', methods=['GET', 'POST'])
 def editprofile(id):
             form = EditProfileForm()
             name_to_update=Users.query.get_or_404(id)
@@ -112,9 +112,9 @@ def editprofile(id):
                 try:
                     db.session.commit()
                     flash("User Updated Successfully!")
-                    return render_template("profile.html", form=form, name_to_update = name_to_update, id=id) 
+                    return render_template("profile.html", form=form, name_to_update = name_to_update) 
                 except:
                     flash("Error! Looks like there was a problem...try again!")
-                    return render_template("editprofile.html", form=form, name_to_update = name_to_update, id=id)
+                    return render_template("editprofile.html", form=form, name_to_update = name_to_update)
             else:
-                return render_template("editprofile.html", form=form, name_to_update = name_to_update, id = id)
+                return render_template("editprofile.html", form=form, name_to_update = name_to_update)
