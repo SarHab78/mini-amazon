@@ -117,8 +117,8 @@ def editprofile(id):
 			    form=form,
 			    name_to_update = name_to_update, id=id)
 		except:
-		    flash("Error!  Looks like there was a problem...try again!")
-		    return render_template("editprole.html", 
+		    flash("Error! Looks like there was a problem...try again!")
+		    return render_template("editprofile.html", 
 			    form=form,
 			    name_to_update = name_to_update,
 			    id=id)
