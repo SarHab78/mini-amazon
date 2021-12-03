@@ -161,7 +161,7 @@ RETURNING id
     def get_seller_products(id):
         
         rows = app.db.execute('''
-SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+SELECT Products.product_name, Products.product_id, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
 WHERE Products.seller_id = :id
 AND Users.id = :id
