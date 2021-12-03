@@ -111,7 +111,7 @@ def editprofile(id):
                          form.is_seller.data):
             flash('Profile has been updated!')
             return render_template("profile.html") 
-    return return render_template("edit.html", form=form, id=id)
+    return render_template("edit.html", form=form, id=id)
             
             # form = EditProfileForm()
             # name_to_update=User.get_all(id) #WHAT SHOULD THIS LINE BE???
