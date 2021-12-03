@@ -27,10 +27,10 @@
   <tbody>
     {% for product in avail_products%}
       <tr>
-        <th scope="row">{{product.id}}</th>
-        <td>{{product.name}}</td>
-        <td>{{product.describe}}</td>
-        <td>{{product.image_url}}</td>
+        <th scope="row">{{product.product_id}}</th>
+        <td>{{product.product_name}}</td>
+        <td>{{product.product_description}}</td>
+        <td><img src="{{product.image_url}}" alt="" height=100></img></td>
         <td>{{product.price}}</td>
         <td>{{product.quantity}}</td>
         <td>{{product.available}}</td>

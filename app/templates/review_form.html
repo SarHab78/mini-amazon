@@ -7,9 +7,23 @@
 <form action="" method="post">
   {{ form.hidden_tag() }}
   <p>
-    {{ form.rid.label }} <br/>
+    {{ form.rid.label }} (auto-generated) <br/>
     {{ form.rid(size=32) }}<br/>
     {% for error in form.rid.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.uid.label }} : your user id<br/>
+    {{ form.uid(size=32) }}<br/>
+    {% for error in form.uid.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.pid.label }} : product you are reviewing<br/>
+    {{ form.pid(size=32) }}<br/>
+    {% for error in form.pid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
@@ -21,19 +35,20 @@
     {% endfor %}
   </p>
   <p>
+    {{ form.timestamp.label }} (auto-generated) <br/>
+    {{ form.timestamp(size=32) }}<br/>
+    {% for error in form.timestamp.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
     {{ form.rating.label }} from 1-5 stars <br/>
     {{ form.rating(size=32) }}<br/>
     {% for error in form.rating.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
-  <p>
-    {{ form.pid.label }} <br/>
-    {{ form.pid(size=32) }}<br/>
-    {% for error in form.pid.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
+ 
   <p>
     {{ form.review.label }} <br/>
     {{ form.review(size=32) }}<br/>
@@ -41,21 +56,9 @@
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
-  <p>
-    {{ form.uid.label }} <br/>
-    {{ form.uid(size=32) }}<br/>
-    {% for error in form.uid.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
+  
 
-  <p>
-    {{ form.timestamp.label }}<br/>
-    {{ form.timestamp(size=32) }}<br/>
-    {% for error in form.timestamp.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
+  
 
   <p>{{ form.submit() }}</p>
 </form>

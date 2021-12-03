@@ -4,6 +4,9 @@ import datetime
 
 from .models.base_model import Product
 from .models.base_model import Purchase
+from .models.base_model import Orders
+from .models.base_model import User
+
 
 from flask import Blueprint
 bp = Blueprint('index', __name__)
@@ -14,10 +17,12 @@ def index():
     products = Product.get_all('Y')
     # find the products current user has bought:
     if current_user.is_authenticated:
+        user = current_user.id
         purchases = Purchase.get_all_by_uid_since(
             current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
     else:
         purchases = None
+        user = None
     # render the page by adding information to the index.html file
 
     # form = create some form
@@ -31,21 +36,27 @@ def index():
     #    return render_template('index.html', avail_products=res)  
 
     if request.method == "POST":
+        user = current_user.id
+
         # Try adding this request.form.get line to differentiate between the two buttons
         if request.form.get("product_query"):
+            user = current_user.id
             product_query = request.form['product_query']
             session['current_query'] = product_query
             searched_products = Product.get_search_result_2(search_str=product_query)
             
             if current_user.is_authenticated:
+                user = current_user.id
                 purchases = Purchase.get_all_by_uid_since(
                     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
             else:
+                user = None
                 purchases = None
 
             return render_template('index.html',
                             avail_products=searched_products,
-                            purchase_history=purchases)
+                            purchase_history=purchases,
+                            curr_uid = user)
 
         if request.form.get("sort_query"):
             search_str = ''
@@ -56,30 +67,31 @@ def index():
             
             # If user is signed in, get all their purchases
             if current_user.is_authenticated:
+                user = current_user.id
+
                 purchases = Purchase.get_all_by_uid_since(
                     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
             else:
                 purchases = None
+                user = None
 
             # Return new template
             return render_template('index.html',
                                 avail_products=searched_products,
-                                purchase_history=purchases)
+                                purchase_history=purchases,
+                                curr_uid = user)
 
     return render_template('index.html',
                            avail_products=products,
-                           purchase_history=purchases)
+                           purchase_history=purchases,
+                           curr_uid = user)
 
 #@bp.route('/', methods=['GET', 'POST'])
 #def search_sort():
 #    print('hi')
-@bp.route('/carts')
-def carts():
-    products = Product.get_all('Y')
-    return render_template('carts.html')
 
-@bp.route('/checkout')
-def checkout():
-    products = Product.get_all('Y')
-    return render_template('checkout.html')
+@bp.route('/item_successfully_added')
+def interim():
+     return render_template('interim_added_cart_page.html')
+
 

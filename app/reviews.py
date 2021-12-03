@@ -10,16 +10,19 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_babel import _, lazy_gettext as _l
+import datetime 
+import uuid
 
 from .models.base_model import Product_review
 from .models.base_model import User
+from .models.base_model import Product
 
 
 from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
 class reviews(FlaskForm):
-    rid = IntegerField(_l('rid'), validators=[DataRequired()])
+    rid = StringField(_l('rid'), validators=[DataRequired()])
     email = StringField(_l('email'), validators=[DataRequired()])
     rating = IntegerField(_l('rating'), validators=[DataRequired()])
     pid = IntegerField(_l('pid'), validators=[DataRequired()])
@@ -29,25 +32,40 @@ class reviews(FlaskForm):
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality?
 
-@bp.route('/review_form', methods=['GET', 'POST'])
-def add_review():
+@bp.route('/<product_id>/review_form', methods=['GET', 'POST'])
+def add_review(product_id):
     form = reviews()
-    if current_user.is_authenticated: #import addtl things?
-        my_user = current_user.uid #fix these lines - but attempting to autopopulate uid
-    #i still don't know how to access uid - may not work until login working
+    #autopopulate with user id:
+    if current_user.is_authenticated: 
+        my_user = current_user.id
         form.uid.data = my_user
+    else: return redirect(url_for('users.login'))
+    
+    #autopopulate timestamp
+    ct = datetime.datetime.now()
+    form.timestamp.data = ct
+
+    #autogenerate review id here? -- needs to be unique?, don't know if this is actually a valid way of doing it but o well
+    gen_rid = uuid.uuid4()
+    form.rid.data = gen_rid
+    
+    #autopopulate product id:
+    page_product = Product.get_product_for_page(product_id = product_id)
+    if request.method == 'GET':
+        form.pid.data = page_product[0].product_id
+
     if form.validate_on_submit():
         if Product_review.add_review(
             form.rid.data,
             form.uid.data,
             form.pid.data,
-            form.rating.data,
-            form.review.data,
             form.email.data,
-            form.timestamp.data):
+            form.timestamp.data,
+            form.rating.data,
+            form.review.data):
             
-            flash("thanks for submitting your review!")
-            return redirect(url_for('product_page.product_page')) ##product_page.<product> maybe
+            flash('thanks for submitting your review!')
+            return redirect(url_for('index.index')) ##product_page.<product> maybe
     return render_template('review_form.html', title='reviews', form=form)
 
 

@@ -42,6 +42,17 @@ def create_app():
     from .seller_inventory import bp as si_bp
     app.register_blueprint(si_bp)
 
+    from .carts import bp as carts_bp
+    app.register_blueprint(carts_bp)
+
+    from .interim_added_cart_page import bp as interim_bp
+    app.register_blueprint(interim_bp)
+
+    from .seller_order_history import bp as soh_bp
+    app.register_blueprint(soh_bp)
+
+
+
     return app
 
 
