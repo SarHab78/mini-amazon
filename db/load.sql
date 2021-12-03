@@ -1,4 +1,4 @@
-\COPY Users FROM 'data/order_users.csv' WITH DELIMITER ',' NULL '' CSV
+\COPY Users FROM 'data/users_stress_test_db.csv' WITH DELIMITER ',' NULL '' CSV
 --\COPY Users FROM 'data/temp_users_stress_test.csv' WITH DELIMITER ',' NULL '' CSV
 \COPY Products FROM 'data/products_stress_test.csv' WITH DELIMITER ',' NULL '' CSV
 --\COPY Products FROM 'data/temp_products_stress_test.csv' WITH DELIMITER ',' NULL '' CSV
