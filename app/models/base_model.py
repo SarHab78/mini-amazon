@@ -252,7 +252,7 @@ AND LOWER(Prod.product_name) LIKE :search_str OR LOWER(Prod.product_description)
 ORDER BY Prod.product_name
     ''',
                                 search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
-        if order_by == 'rating':
+        elif order_by == 'rating':
             rows = app.db.execute('''
     SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
     FROM Products AS Prod
