@@ -8,21 +8,21 @@
 <br>
 <div class="card">
   <div class="card-header">
-    {{ current_user.firstname}} {{current_user.lastname}}'s Profile
+    {{ current_user.firstname}} {{current_user.lastname}}'s Information
   </div>
   <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a <a class="btn btn-warning" href="{{ url_for('users.register') }}" role="button">Edit Profile</a>
-  </div>
-</div>
-
+    <h5 class="card-title">Welcome to Your Profile!</h5>
+    <p class="card-text">
 <strong>User ID: </strong>{{ current_user.id }}<br/>
 <strong>Email: </strong>{{ current_user.email }}<br/>
 <strong>First Name: </strong>{{ current_user.firstname }}<br/>
 <strong>Last Name: </strong>{{ current_user.lastname }}<br/>
 <strong>Address: </strong>{{ current_user.address }}<br/>
 <strong>Balance: </strong>${{ current_user.balance }}<br/>
-<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/>
+<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
+    <a <a class="btn btn-warning" href="{{ url_for('users.register') }}" role="button">Edit Profile</a>
+  </div>
+</div>
+
 
 {% endblock %}
