@@ -66,11 +66,17 @@ html, body {
 
 {% for product in product_row %}
 
-<h2><product.product_name> Successfully Added to Cart!</h2>
 
 <article class="container">
-    <!-- Left Column / mage -->
+    <!-- TITLE -->
     <div class="right-column">
+        {% for product in product_row %}
+        <img data-image="black" src="{{product.product_name} Successfully Added to Cart!}" height=500 alt="">
+        {% endfor %}
+    </div>
+
+    <!-- Left Column / mage -->
+    <div class="left-column">
         {% for product in product_row %}
         <img data-image="black" src="{{product.image_url}}" height=500 alt="">
         {% endfor %}
