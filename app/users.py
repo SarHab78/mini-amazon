@@ -99,7 +99,7 @@ class EditProfileForm(FlaskForm):
 
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
 def editprofile(id):
-            form = EditProfileForm():
+            form = EditProfileForm()
             name_to_update=Users.query.get_or_404(id)
             if request.method == 'POST':
                 name_to_update.email = request.form['email']
