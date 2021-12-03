@@ -6,11 +6,11 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
+    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
         self.id = id
-        self.email = email
         self.firstname = firstname
         self.lastname = lastname
+        self.email = email
         self.address = address
         self.balance = balance
         self.is_seller = is_seller
@@ -18,7 +18,7 @@ class User(UserMixin):
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
+SELECT id, firstname, lastname, email, pwd, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
@@ -44,7 +44,7 @@ WHERE email = :email
     @staticmethod
     def can_sell(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
+SELECT id, firstname, lastname, email, pwd, address, balance, is_seller
 FROM Users
 WHERE id = :id
 AND is_seller = 'Y'
@@ -60,10 +60,10 @@ INSERT INTO Users(firstname, lastname, email, pwd, address, balance, is_seller)
 VALUES(:firstname, :lastname, :email, :password, :address, :balance, :is_seller)
 RETURNING id
 """,
-                                  email=email,
-                                  password=generate_password_hash(password),
                                   firstname=firstname,
                                   lastname=lastname,
+                                  email=email,
+                                  password=generate_password_hash(password),
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
@@ -78,7 +78,7 @@ RETURNING id
     @login.user_loader
     def get(id):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
+SELECT id, firstname, lastname, email, address, balance, is_seller
 FROM Users
 WHERE id = :id
 """,
