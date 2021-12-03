@@ -1,8 +1,10 @@
-from flask import session, render_template, request, redirect
+from flask import session, render_template, request, redirect, flash, url_for
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, IntegerField
-from wtforms.validators import InputRequired, Length, Regexp, NumberRange
+from werkzeug.urls import url_parse
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, InputRequired, NumberRange
+from flask_babel import _, lazy_gettext as _l
 
 import datetime
 
@@ -16,7 +18,15 @@ from .models.base_model import Orders
 from flask import Blueprint
 bp = Blueprint('product_page', __name__)
 
-@bp.route('/<name>/<product_id>')
+class QuantityForm(FlaskForm):
+    #quantity = IntegerField(_l('Quantity to Purchase'), validators=[DataRequired()])
+    #quantity = SelectField(_l('Quantity to Purchase'), validators=[DataRequired()], choices=choices)
+    quantity = IntegerField('Quantity to Purchase', [ InputRequired(),
+        NumberRange(min=1, max=99, message="Invalid range")
+        ])
+    submit = SubmitField('Submit Quantity')
+
+@bp.route('/<name>/<product_id>', methods=['GET','POST'])
 def product_page(name, product_id):
     name = name
     product_id = product_id
@@ -30,7 +40,16 @@ def product_page(name, product_id):
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev.get_quant_list(product_id = product_id)
 
-    session['quant'] = quant_options[-1]
+    form = QuantityForm()
+    if form.validate_on_submit():
+        quant_selected = form.quantity.data
+        if quant_selected > quant_options[-1]:
+            flash('Invalid - cannot purchase more than the currently available quantity')
+            #return redirect(url_for('index.index'))
+            return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
+        else:
+            return redirect(url_for('interim.interim', name=name, product_id=product_id, quant=quant_selected))
+
     # Return new template
     #return render_template('index.html',
     #                    avail_products=searched_products,
@@ -43,15 +62,5 @@ def product_page(name, product_id):
                             num_reviews=num_reviews,
                             name = name,
                             product_id = product_id,
-                            quant_options = quant_options)
-
-class QuantityForm(FlaskForm):
-    if False:
-        quantity = IntegerField('Quantity in stock', [ InputRequired(),
-            NumberRange(min=1, max=session['quant'], message="Must be less than or equal to available quantity")
-            ])
-    else:
-        quantity = IntegerField('Quantity in stock', [ InputRequired(),
-            NumberRange(min=1, max=0, message="Must be less than or equal to available quantity")
-            ])
-    submit = SubmitField('Submit Quantity')
+                            quant_options = quant_options,
+                            form=form)

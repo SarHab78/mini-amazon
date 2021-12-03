@@ -125,32 +125,27 @@ html, body {
 
         <br>
         <p>There are {{product.quantity}} items currently available.</p>
-        <label for="quantity_for_cart">Select Quantity:</label>
-
-        <form>
-        <select name="quantity_for_cart" id="quantity_for_cart">
-          {% for q in quant_options %}
-          <option value=q>{{q}}</option>
-          {% endfor %}
-        </select>
-      </form>
-
-      <script type="text/javascript">
-      function update() {
-        var select = document.getElementById('quantity_for_cart');
-        var choice = select.options[select.selectedIndex].value;
-      }
-      update();
-      </script>
-      
-        <p>{{choice}}</p>
+ 
         <td><a class="cart-btn" role="button" href="{{ url_for('interim.interim', name = name,
-          product_id = product_id, quant=0 ) }}" >Add to Cart</a></td>
+          product_id = product_id, quant=quant_options[-1])}}" >Add to Cart</a></td>
         {% endfor %}
+
+        <form action="" method="post">
+          {{ form.hidden_tag() }}
+          <p>
+            {{ form.quantity.label }}<br/>
+            {{ form.quantity(size=32) }}<br/>
+            {% for error in get_flashed_messages() %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>{{ form.submit() }}</p>
+        </form>
     </div>
+
 </article>
 
-<br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br><br<></br>
+<br<></br><br<></br><br<></br><br<></br>
 
 <article class="bottom_section">
 <h2>Offerings from Other Sellers:</h2>
