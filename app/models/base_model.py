@@ -62,12 +62,12 @@ RETURNING id
 """,
                                   email=email,
                                   firstname=firstname,
-                                  #lastname=lastname,
+                                  lastname=lastname,
                                   password=generate_password_hash(password),
-                                  #address= address,
-                                  #balance = balance,
-                                  #is_seller = is_seller)
-            )
+                                  address= address,
+                                  balance = balance,
+                                  is_seller = is_seller)
+            
             id = rows[0][0]
             return User.get(id)
         except Exception:
