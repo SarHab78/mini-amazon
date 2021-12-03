@@ -50,7 +50,7 @@
       <h1 style="color:black; text-align: center">Welcome to Rhea's Test Branch!</h1>
       <div style="color: black; text-align: right; margin-bottom: 25px">
         {% if current_user.is_authenticated %}
-          Hello {{current_user.lastname}}! 
+          Hello {{current_user.email}}! 
           <a href="{{ url_for('users.logout') }}" role="button" class="btn btn-secondary" color=#FF5733>Log out</a>
         
         {% else %}
