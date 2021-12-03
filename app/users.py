@@ -79,3 +79,7 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
+
+@bp.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template('profile.html')
