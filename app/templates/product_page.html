@@ -122,7 +122,8 @@ html, body {
         <!-- <a href="#" class="cart-btn">Add to cart</a> -->
         </div>
 
-        <td><a class="cart-btn" href="{{ url_for('users.logout') }}" role="button">Add to Cart</a></td>
+        <td><a class="cart-btn" href="{{ url_for('interim.interim', name = name,
+                            product_id = product_id) }}" role="button">Add to Cart</a></td>
 
         {% endfor %}
     </div>

@@ -1,0 +1,116 @@
+{% extends "product_page.html" %}
+
+{% block content %}
+
+<br><br>
+<style>
+/* Basic Styling */
+html, body {
+  width: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+ 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+  display: flex;
+}
+
+/* Sections */
+.bottom_section {
+  position: relative;
+  max-width: 1000px;
+  max-height: 1000px;
+}
+.title {
+  font-size: 75px;
+  width: 80%;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 40px;
+  width: 80%;
+  text-align: center;
+}
+/* Columns */
+.left-column {
+  width: 65%;
+  position: relative;
+}
+ 
+.right-column {
+  width: 50%;
+  margin-top: 60px;
+}
+
+/* Left Column */
+.left-column img {
+  /*width: 100%;*/
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 1;
+  transition: all 1.0s ease;
+}
+
+
+/* Product Price */
+.product-price {
+  display: flex;
+  align-items: center;
+}
+ 
+.product-price span {
+  font-size: 35px;
+  font-weight: 300;
+  color: #43474D;
+  margin-right: 30px;
+}
+
+
+ 
+</style>
+
+
+
+<article class="container">
+    <!-- TITLE -->
+    <div class="title">
+        {% for product in product_row %}
+        <h1>{{product.product_name}} Successfully Added to Cart!</h1>
+        {% endfor %}
+    </div>
+<br><br><br><br>
+
+    <div class="subtitle">
+        {% for product in product_row %}
+        <h1> Thank you for viewing {{product.seller_id}}'s item! They hope you enjoy your item: {{product.product_name}}</h1>
+        {% endfor %}
+    </div>
+
+    <!-- Left Column / mage -->
+    <div class="left-column">
+        {% for product in product_row %}
+        <img data-image="black" src="{{product.image_url}}" height=500 alt="">
+        {% endfor %}
+    </div>
+
+      <!-- Right Column -->
+    <div class="right-column">
+ 
+        {% for product in product_row %}
+
+        <!-- Product Pricing -->
+        <div class="product-price">
+        <span>$ {{product.price}}</span>
+        </div>
+
+        {% endfor %}
+    </div>
+</article>
+
+
+{% endblock %}

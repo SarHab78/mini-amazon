@@ -277,6 +277,29 @@ ORDER BY price, quantity
         return [Product(*row) for row in rows]
 
 
+    @staticmethod
+    def get_products_by_other_sellers(product_id='', available='Y'):
+        target_name = app.db.execute('''
+SELECT product_name
+FROM Products
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
+        target_name = ("").join([r for (r,) in target_name])
+        rows = app.db.execute('''
+SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
+FROM Products
+WHERE available = :available 
+AND product_name = :target_name
+AND product_id <> :product_id
+ORDER BY price, quantity
+''',
+                              product_id = product_id, available=available, target_name = target_name)
+        return [Product(*row) for row in rows]
+
+
+
 
 ##add to git - all functions for reviews
 
@@ -375,5 +398,39 @@ RETURNING nameS
             # reporting needed
             return None
 
+class Orders:
+    def __init__(self, prod_id, uid, order_quantity, date, ordered):
+        self.prod_id = prod_id
+        self.uid = uid
+        self.order_quantity = order_quantity
+        self.date = date
+        self.ordered = ordered
 
-   
+
+    @staticmethod
+    def get_cart(curr_uid):
+        rows = app.db.execute('''
+SELECT prod_id, uid, order_quantity, date, ordered
+FROM Orders, Products
+WHERE Orders.prod_id = Products.product_id AND ordered = "N" AND uid = :uid
+        ''',curr_uid = uid)
+        return [Products(*row) for row in rows] 
+
+
+    # @staticmethod
+    # def add_to_cart(product_id, quantity, uid):
+    #         if ordered = 'Y' and quantity > 0:
+    #             rows = app.db.execute("""
+    # SELECT CAST( GETDATE() AS Date )
+    # INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
+    # VALUES(:product_id, :uid, 1, Date, 'N')
+    # RETURNING prod_id
+    # """, 
+    #                             product_id= product_id,
+    #                               uid = uid
+    #         )
+        #     return Orders.get_cart(prod_id, uid)
+        # else:
+        #     # add error message that is not available or quanitiy < 1
+        #     return None
+
