@@ -86,7 +86,16 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
-
+    @staticmethod
+    @login.user_loader
+    def get_all(id):
+        rows = app.db.execute("""
+SELECT id, email, firstname, lastname, pwd, address, balance, is_seller
+FROM Users
+WHERE id = :id
+""",
+                              id=id)
+        return User(*(rows[0])) if rows else None
 
 #Purchase table information
         
