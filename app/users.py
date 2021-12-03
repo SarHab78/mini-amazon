@@ -13,16 +13,6 @@ from .models.base_model import User
 from flask import Blueprint
 bp = Blueprint('users', __name__)
 
-class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
-        self.id = id
-        self.email = email
-        self.firstname = firstname
-        self.lastname = lastname
-        self.address = address
-        self.balance = balance
-        self.is_seller = is_seller
-
 
 class LoginForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
