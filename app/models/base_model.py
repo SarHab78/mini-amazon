@@ -42,6 +42,17 @@ WHERE email = :email
         return len(rows) > 0
 
     @staticmethod
+    def can_sell(id):
+        rows = app.db.execute("""
+SELECT id, email, firstname, lastname, address, balance, is_seller
+FROM Users
+WHERE id = :id
+AND is_seller = 'Y'
+""",
+                              id=id)
+        return ['Y'] if rows else []
+
+    @staticmethod
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
