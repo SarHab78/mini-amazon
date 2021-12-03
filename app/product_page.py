@@ -29,4 +29,6 @@ def product_page(name, product_id):
                             product_row = page_product, 
                             product_reviews=prod_review,
                             avg_product_rating=avg_product_rating,
-                            num_reviews=num_reviews)
+                            num_reviews=num_reviews
+                            name = name
+                            prod_id = prod_id)
