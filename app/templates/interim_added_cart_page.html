@@ -25,13 +25,13 @@ html, body {
   max-height: 1000px;
 }
 .title {
-  max-height: 75px;
+  font-size: 75px;
   width: 80%;
   text-align: center;
 }
 
 .subtitle {
-  max-height: 75px;
+  font-size: 40px;
   width: 80%;
   text-align: center;
 }
@@ -83,10 +83,11 @@ html, body {
         <h1>{{product.product_name}} Successfully Added to Cart!</h1>
         {% endfor %}
     </div>
+<br><br><br><br>
 
     <div class="subtitle">
         {% for product in product_row %}
-        <h1>{ Thank you for viewing {product.seller_id}}'s item! They hope you enjoy your item: {{product.product_name}}</h1>
+        <h1> Thank you for viewing {{product.seller_id}}'s item! They hope you enjoy your item: {{product.product_name}}</h1>
         {% endfor %}
     </div>
 
