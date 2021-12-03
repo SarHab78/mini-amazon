@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, SubmitField, IntegerField, SelectField
+from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired, NumberRange
 from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import User
@@ -17,16 +17,22 @@ class AddProductForm(FlaskForm):
     product_name = StringField(_l('Product Name'), validators=[DataRequired()])
     describe = StringField(_l('Product Description'), validators=[DataRequired()])
     image_url = StringField(_l('Image URL'), validators=[DataRequired()])
-    price = IntegerField(_l('Price'), validators=[DataRequired()])
-    quantity = IntegerField(_l('Quantity'), validators=[DataRequired()])
+    price = IntegerField(_l('Price'), validators=[DataRequired(), NumberRange(min=0.01, message="Invalid range")])
+    quantity = IntegerField(_l('Quantity'), validators=[DataRequired(), NumberRange(min=1, message="Invalid range")])
     available = StringField(_l('Available'), validators=[DataRequired()])
+    #available = SelectField('Is this product available?', [ InputRequired()],
+    #    choices=[ (''), ('Y'),
+    #    ('N') ])
     submit = SubmitField(_l('Submit Product'))
 
 
     #write a function to see if the product already exists
     def validate_product(self, product_name):
         if Product.product_exists(product_name, current_user.id):
-            raise ValidationError(_('Already a product with this name. Update its quantity instead'))
+            #raise ValidationError(_('Already a product with this name. Update its quantity instead'))
+            return True
+        else: 
+            return False
 
 
 @bp.route('/addItems', methods =['GET', 'POST'])
@@ -40,17 +46,32 @@ def add_items():
     can_sell = User.can_sell(sell_id)
 
     form = AddProductForm()
-    if(current_user.is_authenticated):
-        if form.validate_product(form.product_name.data):
-            if Add_Product.add_product(form.product_name.data,
-                            form.describe.data,
-                            form.image_url.data,
-                            form.price.data,
+    #if(current_user.is_authenticated):
+    if form.validate_on_submit():
+       # print(form.validate_product(form.product_name.data))
+        if form.validate_product(form.product_name.data) is False:
+           
+            name = request.form['product_name']
+            print(name)
+            description = request.form['describe']
+            print(description)
+            image_url = request.form['image_url']
+            print(image_url)
+            price = request.form['price']
+            print(price)
+            quantity = request.form['quantity']
+            print(quantity)
+            available = request.form['available']
+            print(available)
+            Add_Product.add_product(name,
+                            description,
+                            image_url,
+                            price,
                             sell_id,
-                            form.quantity.data,
-                            form.available.data):
-                flash('Thank you for adding this product')
-                return redirect(url_for('seller_inventory.inventory'))
+                            quantity,
+                            available)
+            flash('Thank you for adding this product')
+        return redirect(url_for('seller_inventory.inventory'))
     return render_template('add_items.html', title='Add Items', form=form, poss_seller = can_sell)
     # print(Sellers.get_all_sellers())
     # get all available products for sale:

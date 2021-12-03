@@ -92,17 +92,11 @@ html, body {
     <div class="product-description">
       {% for product in product_row %}
       <h1>{{product.product_name}} successfully added to cart!</h1>
+      <p><i>Quantity added:</i> {{quant}}</p>
+      <p><i>Total spent:</i> ${{product.price * quant}}</p>
       <p> Thank you for viewing {{product.firstname}} {{product.lastname}}'s item! They hope you enjoy your item.</p>
       {% endfor %}
     </div>
-    
-        {% for product in product_row %}
-        <!-- Product Pricing -->
-        <div class="product-price">
-        <p>Price: ${{product.price}}</p>
-        </div>
-
-        {% endfor %}
   </div>
 </main>
 {% endif %}
