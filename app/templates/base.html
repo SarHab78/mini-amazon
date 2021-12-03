@@ -51,12 +51,13 @@
       <div style="color: black; text-align: right; margin-bottom: 25px">
         {% if current_user.is_authenticated %}
           <p><a href="{{ url_for('users.profile') }}"> Hello {{current_user.firstname}}!</a></p>
-          <a href="{{ url_for('users.logout') }}" role="button" class="btn btn-secondary" color=#FF5733>Log out</a>
+          <td><a class="btn btn-primary" href="{{ url_for('carts.carts')}}" role="button" color="blue">My Cart</a></td>
+          <a href="{{ url_for('users.logout') }}" role="button" class="btn btn-danger" color=#FF5733>Log out</a>
         
         {% else %}
-          <a href="{{ url_for('users.login') }}" role="button" class="btn btn-secondary" color=#FF5733>Log in</a>
+          <a href="{{ url_for('users.login') }}" role="button" class="btn btn-success" color=#FF5733>Log in</a>
         {% endif %}
-        <a class="btn btn-secondary" href="{{ url_for('index.index') }}" role="button" color=#FF5733>Home</a>
+        <a class="btn btn-primary" href="{{ url_for('index.index') }}" role="button" color=#FF5733>Home</a>
 
       </div>
     {% endblock %}
