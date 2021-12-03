@@ -24,9 +24,11 @@
     <a <a class="btn btn-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
      <a <a class="btn btn-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">See Your Reviews</a>
   
+  
   </div>
 </div>
 
+<br><br>
 <h2>Your recent purchases:</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
@@ -46,8 +48,7 @@
     {% endfor %}
   </tbody>
 </table>
-{% else %}
-<p><a href="{{ url_for('users.login') }}">Log in</a> to see your purchase history!</p>
+
 
 
 {% endif %}
@@ -72,6 +73,7 @@
   </div>
 </div>
 
+<br><br>
 <h2>Your recent purchases:</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
@@ -91,8 +93,6 @@
     {% endfor %}
   </tbody>
 </table>
-{% else %}
-<p><a href="{{ url_for('users.login') }}">Log in</a> to see your purchase history!</p>
 
 
 {% endif %}
