@@ -6,7 +6,7 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
+    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
@@ -53,7 +53,7 @@ AND is_seller = 'Y'
         return ['Y'] if rows else []
 
     @staticmethod
-    def register(email, password, firstname, lastname, address, balance, is_seller):
+    def register(email, firstname, lastname, password, address, balance, is_seller):
         try:
             rows = app.db.execute("""
 INSERT INTO Users(email, firstname, lastname, pwd, address, balance, is_seller)
