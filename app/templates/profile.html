@@ -22,7 +22,7 @@
   <tbody>
     <!--{% for user in user_info%}-->
       <tr>
-        <th scope="row">{{user.firstname}}</th>
+        <th<a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></th>
         <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></td>
