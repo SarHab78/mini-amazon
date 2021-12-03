@@ -24,7 +24,10 @@ html, body {
   max-width: 1000px;
   max-height: 1000px;
 }
-
+.title {
+  width: 65%;
+  position: relative;
+}
 /* Columns */
 .left-column {
   width: 65%;
@@ -69,9 +72,9 @@ html, body {
 
 <article class="container">
     <!-- TITLE -->
-    <div class="right-column">
+    <div class="title">
         {% for product in product_row %}
-        <img data-image="black" src="{{product.product_name} Successfully Added to Cart!}" height=500 alt="">
+        <span>$ {{product.price} Successfully Added to Cart!}</span>
         {% endfor %}
     </div>
 
