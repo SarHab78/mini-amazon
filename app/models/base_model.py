@@ -67,6 +67,7 @@ RETURNING id
                                   #address= address,
                                   #balance = balance,
                                   #is_seller = is_seller)
+            )
             id = rows[0][0]
             return User.get(id)
         except Exception:
