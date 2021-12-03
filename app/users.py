@@ -82,4 +82,5 @@ def logout():
 
 @bp.route('/profile', methods=['GET', 'POST'])
 def profile():
-    return render_template('profile.html')
+    u = User.query.filter_by(id=user.id).first()
+    return render_template('profile.html', user=u)
