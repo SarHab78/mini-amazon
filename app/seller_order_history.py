@@ -30,7 +30,7 @@ def seller_order_history():
    
 
     # render the page by adding information to the index.html file
-    return render_template('seller_inventory.html',
+    return render_template('seller_order_history.html',
                            avail_products=products
                            #avail products is parameter name that will be passed to html, product has the actual data
 )
