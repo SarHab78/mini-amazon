@@ -6,7 +6,7 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
+    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
@@ -18,7 +18,7 @@ class User(UserMixin):
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
+SELECT id, email, pwd, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
@@ -56,8 +56,8 @@ AND is_seller = 'Y'
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(firstname, lastname, email, pwd, address, balance, is_seller)
-VALUES(:firstname, :lastname, :email, :password, :address, :balance, :is_seller)
+INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
+VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
