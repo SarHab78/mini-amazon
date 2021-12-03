@@ -6,7 +6,7 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
+    def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
