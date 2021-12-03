@@ -5,37 +5,15 @@
 <br><br>
 
 <h2>Your Profile</h2>
+<br><br>
+<br><br>
 
-{% if current_user.is_authenticated %}
-
-<table class='table table-hover table-bordered container'>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Address</th>
-      <th scope="col">Balance</th>
-      <th scope="col">Seller?</th>
-      <th scope="col">Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!--{% for user in user_info%}-->
-      <tr>
-        <td>{{user.firstname}}</td>
-        <td>{{user.lastname}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.address}}</td>
-        <td>{{user.balance}}</td>
-        <td>{{user.is_seller}}</td>
-        <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></td>
-      </tr>
-    <!--{% endfor %}-->
-  </tbody>
-</table>
-{% else %}
-<p><a href="{{ url_for('users.login') }}">Log in</a> to see your information!</p>
-{% endif %}
-
+<strong>ID: </strong>{{ current_user.id }}<br/>
+<strong>Email: </strong>{{ current_user.email }}<br/>
+<strong>First Name: </strong>{{ current_user.firstname }}<br/>
+<strong>Last Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+<strong>Balance: </strong>{{ current_user.balance }}<br/>
+<strong>Are you a seller?</strong>{{ current_user.is_seller }}<br/>
 
 {% endblock %}
