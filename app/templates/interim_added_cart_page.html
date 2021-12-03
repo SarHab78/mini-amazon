@@ -75,7 +75,9 @@ html, body {
 </style>
 
 
-
+{% if sell_id == -1 %}
+<h3> Must log in to add items to cart</h3>
+{% else %}
 <main class="container">
     <!-- Left Column / mage -->
   <div class="left-column">
@@ -90,7 +92,7 @@ html, body {
     <div class="product-description">
       {% for product in product_row %}
       <h1>{{product.product_name}} successfully added to cart!</h1>
-      <p> Thank you for viewing {{product.seller_id}}'s item! They hope you enjoy your item.</p>
+      <p> Thank you for viewing {{product.firstname}} {{product.lastname}}'s item! They hope you enjoy your item.</p>
       {% endfor %}
     </div>
     
@@ -103,6 +105,6 @@ html, body {
         {% endfor %}
   </div>
 </main>
-
+{% endif %}
 
 {% endblock %}

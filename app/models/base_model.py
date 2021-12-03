@@ -487,3 +487,43 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
         #     # add error message that is not available or quanitiy < 1
         #     return None
 
+class Prod_Sell_Rev:
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
+        self.product_id = product_id
+        self.product_name = product_name
+        self.product_description = product_description
+        self.image_url = image_url
+        self.quantity = quantity
+        self.price = price
+        self.firstname = firstname
+        self.lastname = lastname
+        self.avg_rating = avg_rating
+        self.available = available
+
+    @staticmethod
+    def get_sell_rev_info(product_id):
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev
+WHERE Prod_Sell_Rev.product_id = :product_id
+        ''',product_id= product_id)
+        return [Prod_Sell_Rev(*row) for row in rows]
+
+    @staticmethod
+    def get_products_by_other_sellers(product_id='', available='Y'):
+        target_name = app.db.execute('''
+SELECT product_name
+FROM Prod_Sell_Rev
+WHERE available = :available 
+AND product_id = :product_id
+''',
+                              product_id = product_id, available=available)
+        target_name = ("").join([r for (r,) in target_name])
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev
+WHERE available = :available 
+AND product_name = :target_name
+AND product_id <> :product_id
+        ''',target_name=target_name, available=available, product_id=product_id)
+        return [Prod_Sell_Rev(*row) for row in rows]
