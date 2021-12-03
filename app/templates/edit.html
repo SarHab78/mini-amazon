@@ -8,7 +8,7 @@
   {{ form.hidden_tag() }}
   <p>
     {{ form.firstname.label }}<br/>
-    {{ form.firstname(size=32) }}<br/>
+    {{ form.firstname(size=32, value=name_to_update.name) }}<br/>
     {% for error in form.firstname.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
