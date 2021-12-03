@@ -18,7 +18,7 @@ class User(UserMixin):
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
-SELECT id, email, firstname, lastname, pwd, address, balance, is_seller
+SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
