@@ -118,8 +118,42 @@ ORDER BY time_purchased DESC
                               uid=uid,
                               since=since)
         return [Purchase(*row) for row in rows]
-
+class Add_Product:
+    def __init__(self, product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
+        self.product_name = product_name
+        self.product_id = product_id
+        self.product_description = product_description
+        self.image_url = image_url
+        self.price = price
+        self.seller_id = seller_id
+        self.quantity = quantity
+        self.available = available
         
+        
+    @staticmethod
+    def add_product(product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
+        try:
+            rows = app.db.execute("""
+INSERT INTO Products(product_name, product_id, product_description, image_url, price, user, quantity, available)
+VALUES(:product_name, :id, :product_description, :image_url, :price, :seller_id, :quantity, :available)
+RETURNING id 
+""",
+#changed line 146 from RETURNING nameS to RETURNING id
+                                  product_name = product_name,  
+                                  product_id=product_id,
+                                  describe= product_description,
+                                  image_url=image_url,
+                                  price=price,
+                                  seller_id= seller_id,
+                                  quantity = quantity,
+                                  available = available
+                                  
+            )
+            return User.get(id)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
 #Product table information
 class Product:
@@ -134,29 +168,7 @@ class Product:
         self.available = available
         self.avg_rating = avg_rating
         
-    @staticmethod
-    def add_product(product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
-        try:
-            rows = app.db.execute("""
-INSERT INTO Products(product_name, product_id, product_description, image_url, price, seller_id, quantity, available)
-VALUES(:product_name, :id, :product_description, :image_url, :price, :seller_id, :quantity, :available)
-RETURNING id 
-""",
-#changed line 146 from RETURNING nameS to RETURNING id
-                                  product_id=product_id,
-                                  describe= product_description,
-                                  image_url=image_url,
-                                  price=price,
-                                  seller_id= seller_id,
-                                  quantity = quantity,
-                                  available = available,
-                                  product_name = product_name
-            )
-            return User.get(id)
-        except Exception:
-            # likely email already in use; better error checking and
-            # reporting needed
-            return None
+    
 
     @staticmethod
     def get_seller_products(id):
@@ -210,16 +222,19 @@ WHERE Prod.available = :available
 
 
     @staticmethod
-    def product_exists(product_name, product_id):
+    def product_exists(product_name, seller_id ):
         rows = app.db.execute("""
 SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
 WHERE Products.product_name = :product_name
-AND Users.id = :id
+AND Users.id = :seller_id
+AND Products.seller_id = :seller_id
 """,
-                              product_name=product_name
+                              product_name=product_name,
+                              seller_id = seller_id
+                               
                               )
-        return len(rows) > 0
+        return len(rows)>0
 
     @staticmethod
     def get_search_result_2(search_str='', available='Y', order_by = 'price'):
