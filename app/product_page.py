@@ -14,7 +14,7 @@ bp = Blueprint('product_page', __name__)
 @bp.route('/<name>/<product_id>')
 def product_page(name, product_id):
     name = name
-    prod_id = product_id
+    product_id = product_id
     searched_products = Product.get_search_result_2(search_str='book')     
     purchases = None
     products_by_other_sellers = Product.get_products_by_other_sellers(product_id=product_id)
@@ -33,4 +33,4 @@ def product_page(name, product_id):
                             avg_product_rating=avg_product_rating,
                             num_reviews=num_reviews,
                             name = name,
-                            prod_id = prod_id)
+                            product_id = product_id)
