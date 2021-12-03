@@ -4,12 +4,15 @@
 
 <br><br>
 
+
 <h2>{{ current_user.firstname}} {{current_user.lastname}}'s Profile</h2>
 <br>
 <div class="card">
   <div class="card-header">
     Profile Information
   </div>
+<div class="card-body">
+<p class="card-text">
 <strong>User ID: </strong>{{ current_user.id }}<br/>
 <strong>Email: </strong>{{ current_user.email }}<br/>
 <strong>First Name: </strong>{{ current_user.firstname }}<br/>
