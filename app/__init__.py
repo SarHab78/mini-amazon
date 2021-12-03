@@ -45,6 +45,10 @@ def create_app():
     from .carts import bp as carts_bp
     app.register_blueprint(carts_bp)
 
+    from .interim_added_cart_page import bp as interim_bp
+    app.register_blueprint(interim_bp)
+
+
 
 
     return app
