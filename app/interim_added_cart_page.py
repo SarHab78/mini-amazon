@@ -11,7 +11,7 @@ from .models.base_model import Orders
 from flask import Blueprint
 bp = Blueprint('interim', __name__)
 
-@bp.route('/<name>/<product_id>/<quant>successfully_added')
+@bp.route('/<name>/<product_id>/<quantity>successfully_added')
 def interim(name, product_id, quantity=0):
     searched_products = Product.get_search_result_2(search_str='book')     
     quantity = int(quantity)
@@ -36,4 +36,4 @@ def interim(name, product_id, quantity=0):
                             avg_product_rating=avg_product_rating,
                             num_reviews=num_reviews,
                             sell_id = sell_id,
-                            quant=quant)
+                            quantity=quantity)
