@@ -32,7 +32,7 @@ html, body {
 }
  
 .right-column {
-  width: 35%;
+  width: 50%;
   margin-top: 60px;
 }
 
@@ -43,7 +43,7 @@ html, body {
   left: 0;
   top: 0;
   opacity: 1;
-  transition: all 0.3s ease;
+  transition: all 1.0s ease;
 }
 
 
@@ -54,10 +54,10 @@ html, body {
 }
  
 .product-price span {
-  font-size: 26px;
+  font-size: 35px;
   font-weight: 300;
   color: #43474D;
-  margin-right: 20px;
+  margin-right: 30px;
 }
 
 
@@ -78,21 +78,11 @@ html, body {
       <!-- Right Column -->
     <div class="right-column">
  
-        <!-- Product Description -->
-        {% for product in product_row %}
-        <div class="product-description">
-        <h1>{{product.product_name}}</h1>
-        <p>{{product.product_description}}</p>
-        </div>
 
         <!-- Product Pricing -->
         <div class="product-price">
         <span>$ {{product.price}}</span>
-        <!-- <a href="#" class="cart-btn">Add to cart</a> -->
         </div>
-
-        <td><a class="cart-btn" href="{{ url_for('interim.interim', name = name,
-                            product_id = product_id) }}" role="button">Add to Cart</a></td>
 
         {% endfor %}
     </div>
