@@ -126,8 +126,6 @@ html, body {
         <br>
         <p>There are {{product.quantity}} items currently available.</p>
  
-        <td><a class="cart-btn" role="button" href="{{ url_for('interim.interim', name = name,
-          product_id = product_id, quant=quant_options[-1])}}" >Add to Cart</a></td>
         {% endfor %}
 
         <form action="" method="post">

@@ -21,10 +21,10 @@ bp = Blueprint('product_page', __name__)
 class QuantityForm(FlaskForm):
     #quantity = IntegerField(_l('Quantity to Purchase'), validators=[DataRequired()])
     #quantity = SelectField(_l('Quantity to Purchase'), validators=[DataRequired()], choices=choices)
-    quantity = IntegerField('Quantity to Purchase', [ InputRequired(),
+    quantity = IntegerField('Enter the quantity you would like to purchase:', [ InputRequired(),
         NumberRange(min=1, max=99, message="Invalid range")
         ])
-    submit = SubmitField('Submit Quantity')
+    submit = SubmitField('Add to Cart')
 
 @bp.route('/<name>/<product_id>', methods=['GET','POST'])
 def product_page(name, product_id):
