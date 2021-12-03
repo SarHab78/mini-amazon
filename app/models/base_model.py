@@ -74,6 +74,28 @@ RETURNING id
             # likely email already in use; better error checking and
             # reporting needed
             return None
+    @staticmethod
+    def edit(email, password, firstname, lastname, address, balance, is_seller):
+        try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
+WHERE id=:id
+""",
+                                  email=email,
+                                  password=generate_password_hash(password),
+                                  firstname=firstname,
+                                  lastname=lastname,
+                                  address= address,
+                                  balance = balance,
+                                  is_seller = is_seller)
+            
+            id = rows[0][0]
+            return User.get(id)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
     @staticmethod
     @login.user_loader
@@ -164,6 +186,7 @@ RETURNING id
             # likely email already in use; better error checking and
             # reporting needed
             return None
+
 
 #Product table information
 class Product:
