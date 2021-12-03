@@ -23,11 +23,11 @@
     <!--{% for user in user_info%}-->
       <tr>
         <th scope="row">{{user.firstname}}</th>
-        <td>{{current_user.lastname}}</td>
-        <td>{{current_user.email}}</td>
-        <td>{{current_user.address}}</td>
-        <td>{{current_user.balance}}</td>
-        <td>{{current_user.is_seller}}</td>
+        <td>{{user.lastname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.address}}</td>
+        <td>{{user.balance}}</td>
+        <td>{{user.is_seller}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></td>
       </tr>
     <!--{% endfor %}-->
