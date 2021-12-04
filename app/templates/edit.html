@@ -8,21 +8,21 @@
   {{ form.hidden_tag() }}
   <p>
     {{ form.firstname.label }}<br/>
-    {{ form.firstname(size=32, value=current_user.lastname) }}<br/>
+    {{ form.firstname(size=32, value=current_user.firstname) }}<br/>
     {% for error in form.firstname.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.lastname.label }}<br/>
-    {{ form.lastname(size=32, value=current_user.email) }}<br/>
+    {{ form.lastname(size=32, value=current_user.lastname) }}<br/>
     {% for error in form.lastname.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.email.label }} (Could be fake email address)<br/>
-    {{ form.email(size=32, value=current_user.firstname) }}<br/>
+    {{ form.email(size=32, value=current_user.email) }}<br/>
     {% for error in form.email.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
