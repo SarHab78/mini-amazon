@@ -39,23 +39,8 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
-class RegistrationForm(FlaskForm):
-    firstname = StringField(_l('First Name'), validators=[DataRequired()])
-    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
-    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
-    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
-    password = PasswordField(_l('Password'), validators=[DataRequired()])
-    password2 = PasswordField(
-        _l('Repeat Password'), validators=[DataRequired(),
-                                           EqualTo('password')])
-    submit = SubmitField(_l('Register'))
 
-    def validate_email(self, email):
-        if User.email_exists(email.data):
-            raise ValidationError(_('Already a user with this email.'))
-    
+class RegistrationForm(FlaskForm):
     def checkNumber(self, balance):
         if request.method == 'POST':
 
@@ -73,6 +58,24 @@ class RegistrationForm(FlaskForm):
                 pass
 
         return render_template('register.html')
+
+    firstname = StringField(_l('First Name'), validators=[DataRequired()])
+    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    address = StringField(_l('Address'), validators=[DataRequired()])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
+    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
+    password = PasswordField(_l('Password'), validators=[DataRequired()])
+    password2 = PasswordField(
+        _l('Repeat Password'), validators=[DataRequired(),
+                                           EqualTo('password')])
+    submit = SubmitField(_l('Register'))
+
+    def validate_email(self, email):
+        if User.email_exists(email.data):
+            raise ValidationError(_('Already a user with this email.'))
+    
+    
 
 
 @bp.route('/register', methods=['GET', 'POST'])
