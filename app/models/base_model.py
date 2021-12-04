@@ -6,7 +6,7 @@ from .. import login
 
 
 class User(UserMixin):
-    def __init__(self, id, email, firstname, lastname, address, balance, is_seller):
+    def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
         self.id = id
         self.email = email
         self.firstname = firstname
@@ -56,8 +56,8 @@ AND is_seller = 'Y'
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
-INSERT INTO Users(email, pwd, firstname, lastname, address, balance, is_seller)
-VALUES(:email, :password, :firstname, :lastname, :address, :balance, :is_seller)
+INSERT INTO Users(firstname, lastname, email, pwd, address, balance, is_seller)
+VALUES(:firstname, :lastname, :email, :password, :address, :balance, :is_seller)
 RETURNING id
 """,
                                   email=email,
@@ -67,29 +67,6 @@ RETURNING id
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
-            
-            id = rows[0][0]
-            return User.get(id)
-        except Exception:
-            # likely email already in use; better error checking and
-            # reporting needed
-            return None
-    @staticmethod
-    def edit(email, password, firstname, lastname, address, balance, is_seller):
-        try:
-            rows = app.db.execute("""
-UPDATE Users
-SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
-WHERE id=:id
-""",
-                                  email=email,
-                                  password=generate_password_hash(password),
-                                  firstname=firstname,
-                                  lastname=lastname,
-                                  address= address,
-                                  balance = balance,
-                                  is_seller = is_seller)
-            
             id = rows[0][0]
             return User.get(id)
         except Exception:
@@ -108,16 +85,7 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
-    @staticmethod
-    @login.user_loader
-    def get_all(id):
-        rows = app.db.execute("""
-SELECT id, email, firstname, lastname, address, balance, is_seller
-FROM Users
-WHERE id = :id
-""",
-                              id=id)
-        return User(*(rows[0])) if rows else None
+
 
 #Purchase table information
         
@@ -163,30 +131,26 @@ class Add_Product:
         
         
     @staticmethod
-    def add_product(product_name, product_id, product_description, image_url, price, seller_id, quantity, available):
+    def add_product(product_name, product_description, image_url, price, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
-INSERT INTO Products(product_name, product_id, product_description, image_url, price, user, quantity, available)
-VALUES(:product_name, :id, :product_description, :image_url, :price, :seller_id, :quantity, :available)
-RETURNING id 
+INSERT INTO Products(product_name, product_description, image_url, price, seller_id, quantity, available)
+VALUES(:product_name, :product_description, :image_url, :price, :seller_id, :quantity, :available)
+RETURNING user
 """,
 #changed line 146 from RETURNING nameS to RETURNING id
                                   product_name = product_name,  
-                                  product_id=product_id,
-                                  describe= product_description,
+                                  product_description= product_description,
                                   image_url=image_url,
                                   price=price,
-                                  seller_id= seller_id,
+                                  seller_id = seller_id,
                                   quantity = quantity,
                                   available = available
                                   
             )
-            return User.get(id)
+            
         except Exception:
-            # likely email already in use; better error checking and
-            # reporting needed
             return None
-
 
 #Product table information
 class Product:
