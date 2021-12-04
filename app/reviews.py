@@ -16,6 +16,7 @@ import uuid
 from .models.base_model import Product_review
 from .models.base_model import User
 from .models.base_model import Product
+from .models.base_model import Add_review
 
 
 from flask import Blueprint
@@ -54,19 +55,37 @@ def add_review(product_id):
     if request.method == 'GET':
         form.pid.data = page_product[0].product_id
 
+    #validate reviewer
+   # def validate_review(self, pid, uid):
+    #    if Product.product_exists(product_name, current_user.id):
+     #       #raise ValidationError(_('Already a product with this name. Update its quantity instead'))
+      #      return True
+       # else: 
+        #    return False
+    #actually submit form
+    
     if form.validate_on_submit():
-        if Product_review.add_review(
-            form.rid.data,
-            form.uid.data,
-            form.pid.data,
-            form.email.data,
-            form.timestamp.data,
-            form.rating.data,
-            form.review.data):
-            
-            flash('thanks for submitting your review!')
-            return redirect(url_for('index.index')) ##product_page.<product> maybe
+                rid = request.form['rid']
+                print(rid)
+                uid = request.form['uid']
+                print(uid)
+                pid = request.form['pid']
+                print(pid)
+                email = request.form['email']
+                print(email)
+                timestamp = request.form['timestamp']
+                print(timestamp)
+                rating = request.form['rating']
+                print(rating)
+                review = request.form['review']
+                print(review)
+                Add_review.add_review(rid,
+                            uid,
+                            pid,
+                            email,
+                            timestamp,
+                            rating,
+                            review)
+                flash('thanks for submitting your review!')
+                return redirect(url_for('index.index'))
     return render_template('review_form.html', title='reviews', form=form)
-
-
-
