@@ -85,7 +85,7 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
-@staticmethod
+    @staticmethod
     def edit(email, password, firstname, lastname, address, balance, is_seller):
         try:
             rows = app.db.execute("""
