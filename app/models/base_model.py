@@ -506,19 +506,19 @@ WHERE Prod_Sell_Rev.product_id = :product_id
         ''',product_id= product_id)
         return [Prod_Sell_Rev(*row) for row in rows]
 
-    def get_quantity_list(product_id):
-        quantity = app.db.execute('''
+    def get_quant_list(product_id):
+        quant = app.db.execute('''
 SELECT quantity
 FROM Prod_Sell_Rev
 WHERE Prod_Sell_Rev.product_id = :product_id
         ''',product_id= product_id)
 
-        quantity = int(('').join([str(q) for (q,) in quantity]))
-        quantity_list = [0]*quantity
-        for i in range(0,quantity):
-            quantity_list[i] = i+1
+        quant = int(('').join([str(q) for (q,) in quant]))
+        quant_list = [0]*quant
+        for i in range(0,quant):
+            quant_list[i] = i+1
 
-        return quantity_list
+        return quant_list
 
     @staticmethod
     def get_products_by_other_sellers(product_id='', available='Y'):
