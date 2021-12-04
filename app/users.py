@@ -44,7 +44,7 @@ class RegistrationForm(FlaskForm):
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired(), NumberRange(min=0, message="Balance must be greater than or equal to zero.")])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
     is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
@@ -55,6 +55,24 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         if User.email_exists(email.data):
             raise ValidationError(_('Already a user with this email.'))
+    
+    def checkNumber(self, balance):
+    if request.method == 'POST':
+
+        number_str = request.form['Number']
+        try:
+            number = float(number_str)
+        except ValueError:
+            number = None
+
+        if number is None:
+            raise ValueError('Please enter number only')
+        elif number < 0:
+            raise ValueError('Number should be greater than or equal to 0')
+        else:
+            pass
+
+    return render_template('register.html')
 
 
 @bp.route('/register', methods=['GET', 'POST'])
