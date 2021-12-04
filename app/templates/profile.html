@@ -21,9 +21,9 @@
 <strong>Balance: </strong>${{ current_user.balance }}<br/>
 <strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
     <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
-    <a <a class="btn btn-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
-     <a <a class="btn btn-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Reviews</a>
-      <a <a class="btn btn-outline-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
+    <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
+     <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Reviews</a>
+      <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
   
   
   </div>
@@ -71,7 +71,7 @@
 <strong>Balance: </strong>${{ current_user.balance }}<br/>
 <strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
     <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
-    <a <a class="btn btn-outline-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
+    <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
   </div>
 </div>
 
