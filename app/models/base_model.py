@@ -8,9 +8,9 @@ from .. import login
 class User(UserMixin):
     def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
         self.id = id
-        self.email = email
-        self.firstname = firstname
-        self.lastname = lastname
+        self.email = firstname
+        self.firstname = lastname
+        self.lastname = email
         self.address = address
         self.balance = balance
         self.is_seller = is_seller
