@@ -139,7 +139,7 @@ class Add_Product:
             rows = app.db.execute("""
 INSERT INTO Products(product_name, product_description, image_url, price, seller_id, quantity, available)
 VALUES(:product_name, :product_description, :image_url, :price, :seller_id, :quantity, :available)
-RETURNING user
+RETURNING seller_id
 """,
 #changed line 146 from RETURNING nameS to RETURNING id
                                   product_name = product_name,  
