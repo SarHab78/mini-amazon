@@ -13,17 +13,17 @@
   </div>
 <div class="card-body">
 <p class="card-text">
-<strong>User ID: </strong>{{ current_user.id }}<br/><br><br>
-<strong>Email: </strong>{{ current_user.firstname }}<br/><br><br>
-<strong>First Name: </strong>{{ current_user.lastname }}<br/><br><br>
-<strong>Last Name: </strong>{{ current_user.email }}<br/><br><br>
-<strong>Address: </strong>{{ current_user.address }}<br/><br><br>
-<strong>Balance: </strong>${{ current_user.balance }}<br/><br><br>
+<strong>User ID: </strong>{{ current_user.id }}<br/>
+<strong>Email: </strong>{{ current_user.firstname }}<br/>
+<strong>First Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Last Name: </strong>{{ current_user.email }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+<strong>Balance: </strong>${{ current_user.balance }}<br/>
 <strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
     <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
     <a <a class="btn btn-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
      <a <a class="btn btn-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Reviews</a>
-      <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
+      <a <a class="btn btn-outline-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
   
   
   </div>
@@ -63,15 +63,15 @@
   </div>
 <div class="card-body">
 <p class="card-text">
-<strong>User ID: </strong>{{ current_user.id }}<br/><br><br>
-<strong>Email: </strong>{{ current_user.firstname }}<br/><br><br>
-<strong>First Name: </strong>{{ current_user.lastname }}<br/><br><br>
-<strong>Last Name: </strong>{{ current_user.email }}<br/><br><br>
-<strong>Address: </strong>{{ current_user.address }}<br/><br><br>
-<strong>Balance: </strong>${{ current_user.balance }}<br/><br><br>
-<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p><br><br>
+<strong>User ID: </strong>{{ current_user.id }}<br/>
+<strong>Email: </strong>{{ current_user.firstname }}<br/>
+<strong>First Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Last Name: </strong>{{ current_user.email }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+<strong>Balance: </strong>${{ current_user.balance }}<br/>
+<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
     <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
-    <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
+    <a <a class="btn btn-outline-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
   </div>
 </div>
 
