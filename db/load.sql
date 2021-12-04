@@ -1,4 +1,4 @@
-\COPY Users FROM 'data/order_users.csv' WITH DELIMITER ',' NULL '' CSV
+\COPY Users FROM 'data/users_stress_test_db.csv' WITH DELIMITER ',' NULL '' CSV
 SELECT pg_catalog.setval('public.users_id_seq',
                          (SELECT MAX(id)+1 FROM Users),
                          false);
