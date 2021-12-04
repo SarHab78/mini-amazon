@@ -351,8 +351,6 @@ ORDER BY price, quantity
 
 
 
-##add to git - all functions for reviews
-
 class Product_review:
     def __init__(self, rid, pid, uid, email, timestamp, rating, review):
         self.rid = rid
@@ -424,16 +422,48 @@ WHERE pid = :pid
             count = 'N/A (no reviews yet)'
         return count
 
+#get by review id
+    @staticmethod
+    def get(rid):
+        rows = app.db.execute('''
+SELECT rid, pid, uid, email, rev_timestamp, rating, review
+FROM product_review
+WHERE rid = :rid
+''',
+                              rid=rid)
+        return [Product_review(*row) for row in rows]
 
-#add a review 
+    #@staticmethod
+    #def review_exists(uid, pid):
+ #       rows = app.db.execute('''
+#SELECT rid, pid, uid, email, rev_timestamp, rating, review
+#FROM product_review
+#WHERE pid = :pid
+#AND uid = :uid
+     #   ''',
+    #                            pid=pid
+    #                            uid=uid)
+     #   return len(rows)>0
+
+
+class Add_review:
+    def __init__(self, rid, pid, uid, email, timestamp, rating, review):
+        self.rid = rid
+        self.pid = pid
+        self.uid = uid
+        self.email = email
+        self.timestamp = timestamp
+        self.rating = rating
+        self.review = review
+
     @staticmethod
     def add_review(rid, pid, uid, email, timestamp, rating, review):
         try:
             rows = app.db.execute("""
 INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
 VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
-RETURNING nameS
-""", ##what is nameS?
+RETURNING rid
+""", 
                                   rid=rid,
                                   pid= pid,
                                   uid=uid,
@@ -442,11 +472,12 @@ RETURNING nameS
                                   rating = rating,
                                   review = review,
             )
-            return Review.get_prod_reviews(pid)
+            #return Product_review.get(rid)
         except Exception:
             # likely email already in use; better error checking and
             # reporting needed
             return None
+
 
 class Orders:
     def __init__(self, prod_id, uid, order_quantity, date, ordered):
