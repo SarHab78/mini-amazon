@@ -98,7 +98,7 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Update Profile')
 
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
-def editprofile():
+def editprofile(id):
     form = EditProfileForm()
     if form.validate_on_submit():
         if User.edit(form.email.data,
@@ -110,5 +110,5 @@ def editprofile():
                          form.is_seller.data):
             flash('Profile has been updated!')
             return render_template("profile.html") 
-    return render_template("edit.html", form=form)
+    return render_template("edit.html", form=form, id=id)
 
