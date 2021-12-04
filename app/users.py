@@ -58,6 +58,16 @@ class RegistrationForm(FlaskForm):
                 pass
 
         return render_template('register.html')
+    def checkSeller(self, is_seller):
+        if request.method == 'POST':
+
+            sell = request.form['is_seller']
+            if sell != 'Y' or sell !='N':
+                raise ValueError('Input must by Y if you are a seller or N if you are not')
+            else:
+                pass
+
+        return render_template('register.html')
 
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
