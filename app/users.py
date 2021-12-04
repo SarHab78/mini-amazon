@@ -57,22 +57,22 @@ class RegistrationForm(FlaskForm):
             raise ValidationError(_('Already a user with this email.'))
     
     def checkNumber(self, balance):
-    if request.method == 'POST':
+        if request.method == 'POST':
 
-        number_str = request.form['Number']
-        try:
-            number = float(number_str)
-        except ValueError:
-            number = None
+            number_str = request.form['Number']
+            try:
+                number = float(number_str)
+            except ValueError:
+                number = None
 
-        if number is None:
-            raise ValueError('Please enter number only')
-        elif number < 0:
-            raise ValueError('Number should be greater than or equal to 0')
-        else:
-            pass
+            if number is None:
+                raise ValueError('Please enter number only')
+            elif number < 0:
+                raise ValueError('Number should be greater than or equal to 0')
+            else:
+                pass
 
-    return render_template('register.html')
+        return render_template('register.html')
 
 
 @bp.route('/register', methods=['GET', 'POST'])
