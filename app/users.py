@@ -44,7 +44,7 @@ class RegistrationForm(FlaskForm):
     def checkNumber(self, balance):
         if request.method == 'POST':
 
-            number_str = request.form['Number']
+            number_str = request.form['Balance']
             try:
                 number = float(number_str)
             except ValueError:
@@ -53,7 +53,7 @@ class RegistrationForm(FlaskForm):
             if number is None:
                 raise ValueError('Please enter number only')
             elif number < 0:
-                raise ValueError('Number should be greater than or equal to 0')
+                raise ValueError('Balance should be greater than or equal to 0')
             else:
                 pass
 
