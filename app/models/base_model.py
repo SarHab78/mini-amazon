@@ -89,6 +89,7 @@ WHERE id = :id
 
 
 
+
 #Purchase table information
         
 class Purchase:
