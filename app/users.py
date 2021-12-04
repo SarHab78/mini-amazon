@@ -59,23 +59,14 @@ class RegistrationForm(FlaskForm):
 
         return render_template('register.html')
 
-    def checkSeller(self, is_seller):
-        if request.method == 'POST':
-
-            sell = request.form['is_seller']
-            if sell != 'Y' or sell !='N':
-                raise ValueError('Input must by Y if you are a seller or N if you are not')
-            else:
-                pass
-
-        return render_template('register.html')
+    
 
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
     balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
-    is_seller = StringField(_l('Seller?'), validators=[DataRequired(), checkSeller])
+    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
