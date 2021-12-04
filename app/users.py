@@ -79,3 +79,36 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
+
+@bp.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template('profile.html')
+
+class EditProfileForm(FlaskForm):
+    firstname = StringField(_l('First Name'), validators=[DataRequired()])
+    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    address = StringField(_l('Address'), validators=[DataRequired()])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
+    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
+    password = PasswordField(_l('Password'), validators=[DataRequired()])
+    password2 = PasswordField(
+        _l('Repeat Password'), validators=[DataRequired(),
+                                           EqualTo('password')])
+    submit = SubmitField('Update Profile')
+
+@bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
+def editprofile(id):
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        if User.edit(form.email.data,
+                         form.password.data,
+                         form.firstname.data,
+                         form.lastname.data,
+                         form.address.data,
+                         form.balance.data,
+                         form.is_seller.data):
+            flash('Profile has been updated!')
+            return render_template("profile.html") 
+    return render_template("edit.html", form=form, id=id)
+
