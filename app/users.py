@@ -58,6 +58,7 @@ class RegistrationForm(FlaskForm):
                 pass
 
         return render_template('register.html')
+
     def checkSeller(self, is_seller):
         if request.method == 'POST':
 
@@ -74,7 +75,7 @@ class RegistrationForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
     balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
-    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
+    is_seller = StringField(_l('Seller?'), validators=[DataRequired()], checkSeller)
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
