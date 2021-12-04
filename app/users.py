@@ -44,7 +44,7 @@ class RegistrationForm(FlaskForm):
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired(), NumberRange(min=0, message="Balance must be greater than or equal to zero.")])
     is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
