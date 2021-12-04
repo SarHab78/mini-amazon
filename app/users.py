@@ -44,7 +44,7 @@ class RegistrationForm(FlaskForm):
     def checkNumber(self, balance):
         if request.method == 'POST':
 
-            number_str = request.form['Balance']
+            number_str = request.form['balance']
             try:
                 number = float(number_str)
             except ValueError:
