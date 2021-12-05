@@ -1,11 +1,11 @@
 from flask import session, render_template, request, redirect, flash, url_for
-from flask_login import current_user
+from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
 from werkzeug.urls import url_parse
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, InputRequired, NumberRange
 from flask_babel import _, lazy_gettext as _l
-from flask_login import current_user
+
 from .interim_added_cart_page import interim
 
 import datetime
@@ -52,7 +52,7 @@ def product_page(name, product_id):
     time = datetime.datetime.now()
     form.add_date.data = time
     
-    add_date = request.form['add_date']
+    add_date = request.form['add_date', '']
 
 
     if form.validate_on_submit():
