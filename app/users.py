@@ -120,6 +120,7 @@ class EditProfileForm(FlaskForm):
                                            EqualTo('password')])
     submit = SubmitField('Update Profile')
 
+
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
 def editprofile(id):
     form = EditProfileForm()
