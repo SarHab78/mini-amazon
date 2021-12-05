@@ -11,6 +11,11 @@ from .models.base_model import Orders
 from flask import Blueprint
 bp = Blueprint('interim', __name__)
 
+
+class Ordered_date(FlaskForm):
+    add_date = StringField(_l('add_date'), validators=[DataRequired()])
+
+
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
 def interim(uid, name, product_id, quant):
     searched_products = Product.get_search_result_2(search_str='book')     
@@ -20,7 +25,15 @@ def interim(uid, name, product_id, quant):
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
-    cart = Orders.add_to_cart(prod_id = product_id, quantity = quant, uid = uid)
+    
+
+    time = datetime.datetime.now()
+    form.add_date.data = time
+    
+    add_date = request.form['add_date']
+
+
+    cart = Orders.add_to_cart(prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
     print(page_product)
     
     if current_user.is_authenticated:
