@@ -6,6 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, InputRequired, NumberRange
 from flask_babel import _, lazy_gettext as _l
 from flask_login import current_user
+from interim_added_cart_page import interim
 
 import datetime
 
@@ -50,7 +51,7 @@ def product_page(name, product_id):
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
             print("here is the error")
-            return interim(current_user.id, name, product_id, quant_selected)
+            return interim_added_cart_page.interim(current_user.id, name, product_id, quant_selected)
             # return redirect(url_for('interim.interim',  uid = current_user.id, name=name, product_id=product_id, quant=quant_selected))
 
     # Return new template
