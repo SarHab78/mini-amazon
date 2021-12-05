@@ -51,6 +51,8 @@ def create_app():
     from .seller_order_history import bp as soh_bp
     app.register_blueprint(soh_bp)
 
+    from .update_items import bp as upi_bp
+    app.register_blueprint(upi_bp)
 
 
     return app

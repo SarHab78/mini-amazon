@@ -26,6 +26,7 @@ def inventory():
         sell_id = -1
         
     products = Product.get_seller_products(sell_id)
+   
 
    
 

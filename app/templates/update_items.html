@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+<h1>Update Products</h1>
+
+<td><a class="btn btn-secondary" href="{{ url_for('seller_inventory.inventory') }}" role="button" color=#FF5733>Back to Your Inventory</a></td>
+{% if poss_seller|length == 0 %}
+<h3> You are not a seller. Please update your profile</h3>
+{% else %}
+<br><br>
+<h2>Fill out the following to update an item: </h2>
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.product_id.label }}<br/>
+    {{ form.product_id(size=32) }}<br/>
+    {% for error in form.product_id.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.quantity.label }}<br/>
+    {{ form.quantity(size=32) }}<br/>
+    {% for error in form.quantity.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.available.label }}<br/>
+    {{ form.available(size=32) }}<br/>
+    {% for error in form.available.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>{{ form.submit() }}</p>
+</form>
+
+{% endif %}
+
+{% endblock %}

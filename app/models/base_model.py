@@ -152,6 +152,29 @@ RETURNING user
         except Exception:
             return None
 
+    @staticmethod
+    def update_product(product_id, product_name, seller_id, quantity, available):
+        try:
+            rows = app.db.execute("""
+UPDATE Products
+SET quantity = :quantity, available = :available
+WHERE product_id = :product_id
+AND seller_id = :seller_id
+AND NOT EXISTS(product_name =:product_name)
+
+""",
+#changed line 146 from RETURNING nameS to RETURNING id
+                                  product_id = product_id, 
+                                  product_name = product_name, 
+                                  seller_id = seller_id,
+                                  quantity = quantity,
+                                  available = available
+                                  
+            )
+            
+        except Exception:
+            return None
+
 #Product table information
 class Product:
     def __init__(self, product_name, product_id, product_description, image_url, price, seller_id, quantity, available, avg_rating):
@@ -194,6 +217,7 @@ AND U.is_seller = 'Y'
 SELECT product_name, product_id, product_description, image_url, price, seller_id, quantity, available
 FROM Products
 WHERE product_id = :product_id
+AND available = 'Y'
 ''',
                                 product_id = product_id)
 
@@ -201,6 +225,7 @@ WHERE product_id = :product_id
   
         return [Product(*row) for row in rows] if rows else []
 
+   
 
     @staticmethod
     def get_all(available = 'Y'):
@@ -219,19 +244,34 @@ WHERE Prod.available = :available
 
 
     @staticmethod
-    def product_exists(product_name, seller_id ):
+    def product_exists(product_name, seller_id):
         rows = app.db.execute("""
 SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
 FROM Products, Users
 WHERE Products.product_name = :product_name
 AND Users.id = :seller_id
 AND Products.seller_id = :seller_id
+AND Products.available = 'Y'
 """,
                               product_name=product_name,
                               seller_id = seller_id
                                
                               )
         return len(rows)>0
+
+    @staticmethod
+    def product_can_be_updated(product_id):
+        rows = app.db.execute("""
+SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
+FROM Products, Users
+WHERE Products.product_id = :product_id
+""",
+                              product_id=product_id
+                             
+                               
+                              )
+        return len(rows)>0
+
 
     @staticmethod
     def get_search_result_2(search_str='', available='Y', order_by = 'price'):
