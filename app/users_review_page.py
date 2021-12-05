@@ -12,7 +12,7 @@ bp = Blueprint('users_review_page', __name__)
 @bp.route('/myreviews')
 def myreviews():
 
-    myrevs = product_review.get_users_reviews(uid) #accessing their uid? - sarah?
+    myrevs = Product_review.get_users_reviews(current_user.id) #accessing their uid? - sarah?
 
     return render_template('users_reviews.html',
                            user_reviews = myrevs)

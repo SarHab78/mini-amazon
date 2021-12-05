@@ -373,12 +373,12 @@ ORDER BY price, quantity
 
 
 class Product_review:
-    def __init__(self, rid, pid, uid, email, timestamp, rating, review):
+    def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
         self.rid = rid
         self.pid = pid
         self.uid = uid
         self.email = email
-        self.timestamp = timestamp
+        self.rev_timestamp = rev_timestamp
         self.rating = rating
         self.review = review
 #possibly rename review attr because it could fuck stuff up who knows
@@ -395,7 +395,6 @@ ORDER BY rev_timestamp
 ''',
                               pid=pid)
         return [Product_review(*row) for row in rows] 
-
 
 #to get reviews written by a specific user
     @staticmethod
@@ -454,42 +453,42 @@ WHERE rid = :rid
                               rid=rid)
         return [Product_review(*row) for row in rows]
 
-    #@staticmethod
-    #def review_exists(uid, pid):
- #       rows = app.db.execute('''
+#    @staticmethod
+ #   def review_exists(pid, uid):
+  #      rows = app.db.execute('''
 #SELECT rid, pid, uid, email, rev_timestamp, rating, review
 #FROM product_review
 #WHERE pid = :pid
 #AND uid = :uid
-     #   ''',
-    #                            pid=pid
-    #                            uid=uid)
-     #   return len(rows)>0
+ #       ''',
+  #                              pid=pid,
+   #                             uid=uid)
+    #    return len(rows)>0
 
 
 class Add_review:
-    def __init__(self, rid, pid, uid, email, timestamp, rating, review):
+    def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
         self.rid = rid
         self.pid = pid
         self.uid = uid
         self.email = email
-        self.timestamp = timestamp
+        self.rev_timestamp = rev_timestamp
         self.rating = rating
         self.review = review
 
     @staticmethod
-    def add_review(rid, pid, uid, email, timestamp, rating, review):
+    def add_review(rid, pid, uid, email, rev_timestamp, rating, review):
         try:
             rows = app.db.execute("""
-INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
-VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
+INSERT INTO Reviews(rid, pid, uid, email, rev_timestamp, rating, review)
+VALUES(:rid, :pid, :uid, :email, :rev_timestamp, :rating, :review)
 RETURNING rid
 """, 
                                   rid=rid,
                                   pid= pid,
                                   uid=uid,
                                   email=email,
-                                  timestamp= timestamp,
+                                  rev_timestamp= rev_timestamp,
                                   rating = rating,
                                   review = review,
             )
@@ -499,6 +498,16 @@ RETURNING rid
             # reporting needed
             return None
 
+
+class Seller_review:
+    def __init__(self, rid, sid, uid, email, timestamp, rating, review):
+        self.rid = rid
+        self.sid = sid
+        self.uid = uid
+        self.email = email
+        self.timestamp = timestamp
+        self.rating = rating
+        self.review = review
 
 class Orders:
     def __init__(self, prod_id, uid, order_quantity, date, ordered):
