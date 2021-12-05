@@ -551,28 +551,28 @@ WHERE rid = :rid
     
 
 class Orders:
-    def __init__(self, prod_id, uid, order_quantity, date, ordered):
+    def __init__(self, prod_id, uid, order_quantity, add_date, ordered):
         self.prod_id = prod_id
         self.uid = uid
         self.order_quantity = order_quantity
-        self.date = date
+        self.add_date = add_date
         self.ordered = ordered
 
 
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
-SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.date, Orders.ordered
+SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders, Products
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
         ''',uid= uid)
         return [Products(*row) for row in rows] 
     
     @staticmethod
-    def add_to_cart(prod_id, quantity, uid):
+    def add_to_cart(prod_id, quantity, uid, add_date):
         rows = app.db.execute("""
     INSERT INTO Orders
-    VALUES (:prod_id, :uid, :quantity, GETDATE(), 'N')
+    VALUES (:prod_id, :uid, :quantity, :add_date, 'N')
     RETURNING uid
     """, 
                                 uid = uid,
