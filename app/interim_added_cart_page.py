@@ -12,7 +12,7 @@ from flask import Blueprint
 bp = Blueprint('interim', __name__)
 
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
-def interim(name, product_id, quant=0):
+def interim(name, product_id, quant=0, uid):
     searched_products = Product.get_search_result_2(search_str='book')     
     quant = int(quant)
     purchases = None
@@ -20,6 +20,8 @@ def interim(name, product_id, quant=0):
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
+    cart = add_to_cart(pid = product_id, quant = quantity, uid = uid)
+    print(cart)
     
     if current_user.is_authenticated:
         sell_id = current_user.id
