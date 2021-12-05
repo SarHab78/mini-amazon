@@ -500,12 +500,12 @@ RETURNING rid
 
 
 class Seller_review:
-    def __init__(self, rid, uid, sid, email, timestamp, rating, review):
+    def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
         self.rid = rid
         self.uid = uid
         self.sid = sid
         self.email = email
-        self.timestamp = timestamp
+        self.rev_timestamp = rev_timestamp
         self.rating = rating
         self.review = review
 

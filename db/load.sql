@@ -17,4 +17,4 @@ SELECT pg_catalog.setval('public.products_product_id_seq',
 --\COPY Purchases FROM 'data/Purchases.csv' WITH DELIMITER ',' NULL '' CSV
 \COPY product_review FROM 'data/review_sample_DB_-_Sheet1.csv' WITH DELIMITER ',' NULL '' CSV
 --\COPY product_review FROM 'data/temp_reviews_stress_test.csv' WITH DELIMITER ',' NULL '' CSV
-\COPY Seller_review FROM 'data/seller_review_db.csv' WITH DELIMITER ',' NULL '' CSV
+\COPY seller_review FROM 'data/seller_review_db.csv' WITH DELIMITER ',' NULL '' CSV
