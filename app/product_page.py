@@ -49,7 +49,7 @@ def product_page(name, product_id):
             #return redirect(url_for('index.index'))
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
-            print(current_user.id)
+            print("here is the error")
             interim(current_user.id, name, product_id, quant_selected)
             return redirect(url_for('interim.interim',  uid = current_user.id, name=name, product_id=product_id, quant=quant_selected))
 
