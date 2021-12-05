@@ -613,10 +613,10 @@ RETURNING rid
     """, 
                                 uid = uid
             )
-            return Orders.get_cart(uid)
-        else:
+                return Orders.get_cart(uid)
+            else:
             # add error message that is not available or quanitiy < 1
-            return None
+                return None
 
 class Prod_Sell_Rev:
     def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
