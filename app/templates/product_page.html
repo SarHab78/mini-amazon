@@ -115,7 +115,8 @@ html, body {
         <h1>{{product.product_name}}</h1>
         <p>{{product.product_description}}</p>
         <p><b>Seller:</b> {{product.firstname}} {{product.lastname}}</p>
-        </div>
+        <a class="btn btn-secondary" href="{{ url_for('reviews.add_review', product_id = product.seller_id)}}" role="button" color="blue">Write a Review of this Seller</a> 
+      </div>
 
         <!-- Product Pricing -->
         <div class="product-price">
