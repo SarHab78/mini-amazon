@@ -13,7 +13,6 @@ bp = Blueprint('seller_review_page', __name__)
 
 @bp.route('/<sid>/reviews')
 def seller_reviews(sid):
-
     sellrevs = seller_review.get_seller_reviews(sid)
     avg = seller_review.avg_seller_rating(sid)
     ct = seller_review.count_seller_reviews(sid)
