@@ -576,7 +576,9 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     VALUES(:prod_id, :uid, :quantity, Date, 'N')
     RETURNING prod_id
     """, 
-                                uid = uid
+                                uid = uid,
+                                prod_id = prod_id,
+                                quantity = quantity
             )
         return Orders.get_cart(uid)
 
