@@ -54,7 +54,7 @@ def add_review(product_id):
     gen_rid = uuid.uuid4()
     form.rid.data = gen_rid
     
-    #autopopulate product id:
+    #autopopulate seller id:
     page_product = Product.get_product_for_page(product_id = product_id)
     if request.method == 'GET':
         form.pid.data = page_product[0].product_id
