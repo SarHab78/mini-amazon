@@ -90,7 +90,7 @@ WHERE id = :id
         try:
             rows = app.db.execute("""
 UPDATE Users
-SET(email=:firstname, pwd=:password, firstname=:lastname, lastname=:email, address=:address, balance=:balance, is_seller=:is_seller)
+SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
 WHERE id=:id
 """,
                                   email=email,
