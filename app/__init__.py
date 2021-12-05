@@ -54,6 +54,9 @@ def create_app():
     from .this_sellers_reviews import bp as sellers_reviews_bp
     app.register_blueprint(sellers_reviews_bp)
 
+    from .seller_reviews import bp as seller_reviews_bp
+    app.register_blueprint(seller_reviews_bp)
+
 
     return app
 
