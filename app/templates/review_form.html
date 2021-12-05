@@ -35,9 +35,9 @@
     {% endfor %}
   </p>
   <p>
-    {{ form.timestamp.label }} (auto-generated) <br/>
-    {{ form.timestamp(size=32) }}<br/>
-    {% for error in form.timestamp.errors %}
+    {{ form.rev_timestamp.label }} (auto-generated) <br/>
+    {{ form.rev_timestamp(size=32) }}<br/>
+    {% for error in form.rev_timestamp.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
