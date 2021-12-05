@@ -20,7 +20,7 @@ def interim(uid, name, product_id, quant):
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
-    cart = add_to_cart(pid = product_id, quant = quantity, uid = uid)
+    cart = Orders.add_to_cart(pid = product_id, quant = quantity, uid = uid)
     print(page_product)
     
     if current_user.is_authenticated:
