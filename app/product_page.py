@@ -26,8 +26,9 @@ class QuantityForm(FlaskForm):
     quantity = IntegerField('Enter the quantity you would like to purchase:', [ InputRequired(),
         NumberRange(min=1, max=99, message="Invalid range")
         ])
-    submit = SubmitField('Add to Cart')
     add_date = StringField(_l('add_date'), validators=[DataRequired()])
+    submit = SubmitField('Add to Cart')
+
 
 
 
