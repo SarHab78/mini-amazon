@@ -12,7 +12,7 @@ from flask import Blueprint
 bp = Blueprint('interim', __name__)
 
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
-def interim(uid, name, product_id, quant=0):
+def interim(self, uid, name, product_id, quant):
     searched_products = Product.get_search_result_2(search_str='book')     
     quant = int(quant)
     purchases = None
