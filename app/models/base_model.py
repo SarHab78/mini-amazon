@@ -571,9 +571,8 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     @staticmethod
     def add_to_cart(prod_id, quantity, uid):
         rows = app.db.execute("""
-    SELECT CAST( GETDATE() AS Date )
     INSERT INTO Orders
-    VALUES (:prod_id, :uid, :quantity, [Date], 'N')
+    VALUES (:prod_id, :uid, :quantity, GETDATE(), 'N')
     RETURNING uid
     """, 
                                 uid = uid,
