@@ -38,7 +38,7 @@ class reviews(FlaskForm):
         #    return False
 
 @bp.route('/<sid>/seller_review_form', methods=['GET', 'POST'])
-def add_review(sid):
+def add_seller_review(sid):
     form = reviews()
     #autopopulate with user id:
     if current_user.is_authenticated: 
