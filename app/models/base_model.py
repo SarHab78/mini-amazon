@@ -608,11 +608,10 @@ RETURNING rid
                 rows = app.db.execute("""
     SELECT CAST( GETDATE() AS Date )
     INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-    VALUES(:product_id, :uid, 1, Date, 'N')
+    VALUES(:product_id, :uid, :quantity, Date, 'N')
     RETURNING prod_id
     """, 
-                                product_id= product_id,
-                                  uid = uid
+                                uid = uid
             )
             return Orders.get_cart(uid)
         else:
