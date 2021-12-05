@@ -51,6 +51,8 @@ def create_app():
     from .seller_order_history import bp as soh_bp
     app.register_blueprint(soh_bp)
 
+    from .this_sellers_reviews import bp as seller_review_page_bp
+    app.register_blueprint(seller_review_page_bp)
 
 
     return app

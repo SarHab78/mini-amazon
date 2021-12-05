@@ -548,6 +548,21 @@ WHERE rid = :rid
                               rid=rid)
         return [Product_review(*row) for row in rows]
 
+#average rating for a product
+    @staticmethod
+    def avg_seller_rating(sid):
+        avg = app.db.execute('''
+SELECT AVG(rating)
+FROM seller_review
+WHERE sid = :sid
+''',
+                            sid=sid)
+        try:
+            avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        except:
+            avg = 'N/A (no reviews yet)'
+        return avg #change
+
     
 
 class Orders:
