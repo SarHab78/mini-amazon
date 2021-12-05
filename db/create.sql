@@ -63,7 +63,7 @@ CREATE TABLE Orders(
     prod_id INT NOT NULL REFERENCES Products(product_id),
     uid INT NOT NULL REFERENCES Users(id),
     order_quantity INT NOT NULL,
-    date timestamp without time zone NOT NULL DEFAULT  (current_timestamp AT TIME ZONE 'UTC'),
+    add_date TIMESTAMP, --DEFAULT current_timestamp,    
     ordered VARCHAR(256) UNIQUE NOT NULL,
     PRIMARY KEY(uid, prod_id)
 );
