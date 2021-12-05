@@ -90,7 +90,7 @@ WHERE id = :id
         try:
             rows = app.db.execute("""
 UPDATE Users
-SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
+SET(email=:firstname, pwd=:password, firstname=:lastname, lastname=:email, address=:address, balance=:balance, is_seller=:is_seller)
 WHERE id=:id
 """,
                                   email=email,
@@ -107,6 +107,10 @@ WHERE id=:id
             # likely email already in use; better error checking and
             # reporting needed
             return None
+self.email = firstname
+        self.firstname = lastname
+        self.lastname = email
+
 
 #Purchase table information
         
