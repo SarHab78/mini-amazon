@@ -50,7 +50,7 @@ def product_page(name, product_id):
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
             interim(current_user.id, product_name, product_id, quant_selected)
-            return redirect(url_for('interim.interim', name=name, product_id=product_id, quant=quant_selected, uid = current_user.id))
+            return redirect(url_for('interim.interim',  uid = current_user.id, name=name, product_id=product_id, quant=quant_selected))
 
     # Return new template
     #return render_template('index.html',
