@@ -569,7 +569,7 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
         return [Products(*row) for row in rows] 
     
     @staticmethod
-    def add_to_cart(product_id, quantity, uid):
+    def add_to_cart(prod_id, quantity, uid):
         rows = app.db.execute("""
     SELECT CAST( GETDATE() AS Date )
     INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
