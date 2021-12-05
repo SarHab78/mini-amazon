@@ -1,4 +1,4 @@
-<h2>Reviews of {{}}:</h2>
+<h2>Reviews of Seller {{seller_reviews[0].sid}}:</h2>
 <h3>Average Rating out of 5 Stars: {{avg_seller_rating}}</h3> 
 <h3>Number of Reviews: {{num_seller_reviews}}</h3>
 <table class='table table-hover'>
@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for review in product_reviews %} 
+    {% for review in seller_reviews %} 
       <tr>
         <th scope = "row">{{review.uid}}</th>
         <td>{{review.rating}}</td>
