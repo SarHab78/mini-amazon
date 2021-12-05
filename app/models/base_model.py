@@ -573,8 +573,8 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
         rows = app.db.execute("""
     SELECT CAST( GETDATE() AS Date )
     INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-    VALUES(:prod_id, :uid, :quantity, Date, 'N')
-    RETURNING prod_id
+    VALUES(:prod_id, :uid, :quantity, Date, "N")
+    RETURNING uid
     """, 
                                 uid = uid,
                                 prod_id = prod_id,
