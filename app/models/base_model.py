@@ -107,9 +107,7 @@ WHERE id=:id
             # likely email already in use; better error checking and
             # reporting needed
             return None
-self.email = firstname
-        self.firstname = lastname
-        self.lastname = email
+
 
 
 #Purchase table information
