@@ -26,6 +26,7 @@ def seller_reviews(sid):
     ct = Seller_review.count_seller_reviews(sid = sid)
 
     return render_template('reviews_of_this_seller.html',
+                           sid = sid,
                            seller_reviews = sellrevs,
                            avg_seller_rating = avg,
                            num_seller_reviews = ct)
