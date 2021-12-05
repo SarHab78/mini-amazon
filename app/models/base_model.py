@@ -567,6 +567,21 @@ FROM Orders, Products
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
         ''',uid= uid)
         return [Products(*row) for row in rows] 
+    @staticmethod
+    def add_to_cart(product_id, quantity, uid):
+        if ordered == 'N' and quantity > 0:
+            rows = app.db.execute("""
+    SELECT CAST( GETDATE() AS Date )
+    INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
+    VALUES(:product_id, :uid, :quantity, Date, 'N')
+    RETURNING prod_id
+    """, 
+                                uid = uid
+            )
+            return Orders.get_cart(uid)
+        else:
+            # add error message that is not available or quanitiy < 1
+            return None
 
 #add seller reviews
 class Add_seller_review:
@@ -602,22 +617,7 @@ RETURNING rid
             return None
 
 
-    @staticmethod
-    def add_to_cart(product_id, quantity, uid):
-            if ordered == 'N' and quantity > 0:
-                rows = app.db.execute("""
-    SELECT CAST( GETDATE() AS Date )
-    INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-    VALUES(:product_id, :uid, :quantity, Date, 'N')
-    RETURNING prod_id
-    """, 
-                                uid = uid
-            )
-                return Orders.get_cart(uid)
-            else:
-            # add error message that is not available or quanitiy < 1
-                return None
-
+    
 class Prod_Sell_Rev:
     def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
         self.product_id = product_id
