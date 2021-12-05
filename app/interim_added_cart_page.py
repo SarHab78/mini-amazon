@@ -40,5 +40,5 @@ def interim(uid, name, product_id, quant=0):
                             sell_id = sell_id,
                             quant=quant)
 
-interim(Product.product_name, Product.product_id, 0, current_user.id)
+interim(current_user.id, product_name, product_id, 0)
 
