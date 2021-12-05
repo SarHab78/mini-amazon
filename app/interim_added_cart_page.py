@@ -1,5 +1,8 @@
 from flask import session, render_template, request, redirect
 from flask_login import current_user
+from flask_wtf import FlaskForm
+
+
 import datetime
 
 from .models.base_model import Product
