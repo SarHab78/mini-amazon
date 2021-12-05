@@ -51,7 +51,7 @@ def product_page(name, product_id):
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
             print("here is the error")
-            return interim_added_cart_page.interim(current_user.id, name, product_id, quant_selected)
+            return interim(current_user.id, name, product_id, quant_selected)
             # return redirect(url_for('interim.interim',  uid = current_user.id, name=name, product_id=product_id, quant=quant_selected))
 
     # Return new template
