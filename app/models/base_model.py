@@ -500,12 +500,12 @@ RETURNING rid
 
 
 class Seller_review:
-    def __init__(self, rid, uid, sid, email, timestamp, rating, review):
+    def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
         self.rid = rid
         self.uid = uid
         self.sid = sid
         self.email = email
-        self.timestamp = timestamp
+        self.rev_timestamp = rev_timestamp
         self.rating = rating
         self.review = review
 
@@ -547,6 +547,21 @@ WHERE rid = :rid
 ''',
                               rid=rid)
         return [Product_review(*row) for row in rows]
+
+#average rating for a product
+    @staticmethod
+    def avg_seller_rating(sid):
+        avg = app.db.execute('''
+SELECT AVG(rating)
+FROM seller_review
+WHERE sid = :sid
+''',
+                            sid=sid)
+        try:
+            avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        except:
+            avg = 'N/A (no reviews yet)'
+        return avg #change
 
     
 
