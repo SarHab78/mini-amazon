@@ -19,7 +19,7 @@ bp = Blueprint('sellers_reviews', __name__)
 
 #not importing anything here - whyyyy
 
-@bp.route('/<sid>/seller_reviews')
+@bp.route('/<int:sid>/seller_reviews')
 def seller_reviews(sid):
     sellrevs = Seller_review.get_seller_reviews(sid = sid)
     avg = Seller_review.avg_seller_rating(sid = sid)

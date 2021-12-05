@@ -93,3 +93,9 @@ def add_review(product_id):
                 flash('thanks for submitting your review!')
                 return redirect(url_for('index.index'))
     return render_template('review_form.html', title='reviews', form=form)
+
+
+#@bp.route('/editreview/<int:id>', methods=['GET', 'POST'])
+#def editreview(id):
+ #   form = EditReviewForm()
+  #  if form.validate_on_submit():
