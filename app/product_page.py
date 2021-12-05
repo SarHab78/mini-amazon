@@ -6,7 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, InputRequired, NumberRange
 from flask_babel import _, lazy_gettext as _l
 from flask_login import current_user
-from .app.interim_added_cart_page import interim
+from .interim_added_cart_page import interim
 
 import datetime
 
