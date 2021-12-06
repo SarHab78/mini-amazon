@@ -187,7 +187,7 @@ RETURNING id, address
         #try:
             rows = app.db.execute("""
 UPDATE Users
-SET(balance = :balance)
+SET(balance == 100)
 WHERE id = :id
 RETURNING id, balance
 """,
