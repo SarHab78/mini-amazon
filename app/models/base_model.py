@@ -566,22 +566,36 @@ WHERE sid = :sid
     
 
 class Orders:
-    def __init__(self, prod_id, uid, order_quantity, date, ordered):
+    def __init__(self, prod_id, uid, order_quantity, add_date, ordered):
         self.prod_id = prod_id
         self.uid = uid
         self.order_quantity = order_quantity
-        self.date = date
+        self.add_date = add_date
         self.ordered = ordered
 
 
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
-SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.date, Orders.ordered
+SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders, Products
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
         ''',uid= uid)
-        return [Products(*row) for row in rows] 
+        return [Orders(*row) for row in rows] 
+    
+    @staticmethod
+    def add_to_cart(prod_id, quantity, uid, add_date):
+        rows = app.db.execute("""
+    INSERT INTO Orders
+    VALUES (:prod_id, :uid, :quantity, :add_date, 'N')
+    RETURNING uid
+    """, 
+                                uid = uid,
+                                prod_id = prod_id,
+                                quantity = quantity,
+                                add_date = add_date
+            )
+        return Orders.get_cart(uid)
 
 #add seller reviews
 class Add_seller_review:
@@ -617,23 +631,7 @@ RETURNING rid
             return None
 
 
-    # @staticmethod
-    # def add_to_cart(product_id, quantity, uid):
-    #         if ordered = 'Y' and quantity > 0:
-    #             rows = app.db.execute("""
-    # SELECT CAST( GETDATE() AS Date )
-    # INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-    # VALUES(:product_id, :uid, 1, Date, 'N')
-    # RETURNING prod_id
-    # """, 
-    #                             product_id= product_id,
-    #                               uid = uid
-    #         )
-        #     return Orders.get_cart(prod_id, uid)
-        # else:
-        #     # add error message that is not available or quanitiy < 1
-        #     return None
-
+    
 class Prod_Sell_Rev:
     def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
         self.product_id = product_id
