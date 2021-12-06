@@ -6,7 +6,7 @@ import datetime
 from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
-from .models.base_model import Prod_Sell_Rev
+from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Orders
 
 from flask import Blueprint
@@ -17,7 +17,7 @@ def interim(name, product_id, quant=0):
     searched_products = Product.get_search_result_2(search_str='book')     
     quant = int(quant)
     purchases = None
-    page_product = Prod_Sell_Rev.get_sell_rev_info(product_id = product_id)
+    page_product = Prod_Sell_Rev_Cat.get_sell_rev_info(product_id = product_id)
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)

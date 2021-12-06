@@ -19,7 +19,7 @@
   <h1><center>Products</center></h1>
   <form class="example" method="post" action="" 
    style="color:blue; margin: 0 auto;width:600px">
-      <input type="text" placeholder="Search by product name or type" name="product_query">
+      <input type="text" placeholder="Search by product name or type (''all'' to see all products)" name="product_query">
       <button type="submit"><i class="fa fa-search"></i>
       </button>
   </form>
@@ -61,57 +61,6 @@
 
   <br></br><br></br><br></br><br>
 
-    <!-- Create a drop down button to sort the results-->
-  <style>
-    /* Style The Dropdown Button */
-    .dropbtn {
-      background-color: #9cc7f8;
-      color: rgb(3, 3, 3);
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* The container <div> - needed to position the dropdown content */
-    .dropdown {
-      top: 27%;
-      left: 70%;
-      position: absolute;
-      display: inline-block;
-    }
-
-    /* Dropdown Content (Hidden by Default) */
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-    /* Links inside the dropdown */
-    .dropdown-content a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-
-    /* Change color of dropdown links on hover */
-    .dropdown-content a:hover {background-color: #f1f1f1}
-
-    /* Show the dropdown menu on hover */
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    /* Change the background color of the dropdown button when the dropdown content is shown */
-    .dropdown:hover .dropbtn {
-      background-color: #2b8bf8;
-    }
-  </style>
-
 
 {% if current_user.is_authenticated %}
   <td><a class="btn btn-secondary" href="{{ url_for('carts.carts')}}" role="button" color="blue">My Cart</a></td>
@@ -124,6 +73,7 @@
       <th scope="col">Description</th>
       <th scope="col">Image</th>
       <th scope="col">Price</th>
+      <th scope="col">Category</th>
       <th scope="col">Rating (max: 5)</th>
       <th scope = "col">Product Page</th>
     </tr>
@@ -135,6 +85,7 @@
         <td>{{product.product_description}}</td>
         <td><img src="{{product.image_url}}" alt="" height=100></img></td>
         <td>{{product.price}}</td>
+        <td>{{product.cat_name}}</td>
         <td>{{product.avg_rating}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
           style = "background: #57edf6; color: black">Detailed Page</a></td>

@@ -57,19 +57,23 @@ CREATE TABLE Orders(
     PRIMARY KEY(uid, prod_id)
 );
 
-CREATE VIEW Prod_Sell_Rev AS(
-    SELECT PU.product_name, PU.product_id, PU.product_description, PU.image_url, PU.price, PU.quantity,
-    PU.firstname, PU.lastname, PU.available, ROUND(R.avg_rating, 1) AS avg_rating
-    FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.quantity, P.available,
-        U.firstname, U.lastname
-        FROM Products AS P, Users AS U
-        WHERE P.seller_id = U.id) AS PU, 
-        (SELECT product_id, avg_rating
-        FROM Products AS Prod
-        LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
-                FROM product_review
-                GROUP BY pid)
-                AS Rev
-        ON Prod.product_id = Rev.pid) AS R
-        WHERE PU.product_id = R.product_id
+CREATE VIEW Prod_Sell_Rev_Cat AS(
+    SELECT PUR.product_name, PUR.product_id, PUR.product_description, PUR.image_url, PUR.price, PUR.quantity,
+    PUR.firstname, PUR.lastname, PUR.available, PUR.avg_rating, C.cat_name
+    FROM(
+        SELECT PU.product_name, PU.product_id, PU.product_description, PU.image_url, PU.price, PU.quantity,
+        PU.firstname, PU.lastname, PU.available, ROUND(R.avg_rating, 1) AS avg_rating
+        FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.quantity, P.available,
+            U.firstname, U.lastname
+            FROM Products AS P, Users AS U
+            WHERE P.seller_id = U.id) AS PU, 
+            (SELECT product_id, avg_rating
+            FROM Products AS Prod
+            LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+                    FROM product_review
+                    GROUP BY pid)
+                    AS Rev
+            ON Prod.product_id = Rev.pid) AS R
+            WHERE PU.product_id = R.product_id) AS PUR, Category AS C
+            WHERE PUR.product_id = C.pid
 );

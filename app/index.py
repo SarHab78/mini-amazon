@@ -13,6 +13,7 @@ from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Orders
 from .models.base_model import User
+from .models.base_model import Prod_Sell_Rev_Cat
 
 from flask import Blueprint
 bp = Blueprint('index', __name__)
@@ -59,7 +60,7 @@ class FilterForm(FlaskForm):
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     # get all available products for sale:
-    products = Product.get_all('Y')
+    products = Prod_Sell_Rev_Cat.get_top_rated('Y')
     # find the products current user has bought:
     if current_user.is_authenticated:
         user = current_user.id
@@ -78,9 +79,12 @@ def index():
 
     if sortform.validate_on_submit():
         order_by = sortform.sort_attribute.data
+        session['order_by'] = order_by
+        direc = sortform.up_or_down.data
+        session['direc'] = direc
         if 'current_query' in session:
             search_str = session['current_query']
-        searched_products = Product.get_search_result_2(search_str=search_str, order_by=order_by)
+        searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=search_str, order_by=order_by, direc=direc)
 
         # If user is signed in, get all their purchases
         if current_user.is_authenticated:
@@ -99,6 +103,39 @@ def index():
                             sortform = sortform,
                             filterform = filterform)
 
+    elif filterform.validate_on_submit():
+        search_str = ''
+        if 'current_query' in session:
+            search_str = session['current_query']
+        order_by = 'price'
+        if 'order_by' in session:
+            order_by = session['order_by']
+        direc = 'high-to-low'
+        if 'direc' in session:
+            direc = session['direc']
+
+        filter_fields = tuple(filterform.filter_fields.data)
+        print(filter_fields)
+        searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
+
+        # If user is signed in, get all their purchases
+        if current_user.is_authenticated:
+            user = current_user.id
+
+            purchases = Purchase.get_all_by_uid_since(
+                current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
+        else:
+            purchases = None
+            user = None
+
+        return render_template('index.html',
+                            avail_products=searched_products,
+                            purchase_history=purchases,
+                            curr_uid = user,
+                            sortform = sortform,
+                            filterform = filterform)
+
+
     else:
         if request.method == "POST":
             user = current_user.id
@@ -108,7 +145,12 @@ def index():
                 user = current_user.id
                 product_query = request.form['product_query']
                 session['current_query'] = product_query
-                searched_products = Product.get_search_result_2(search_str=product_query)
+
+                if product_query.lower() == "all":
+                     searched_products = Prod_Sell_Rev_Cat.get_all()
+                     session['current_query'] = ''
+                else:
+                    searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=product_query)
                 
                 if current_user.is_authenticated:
                     user = current_user.id

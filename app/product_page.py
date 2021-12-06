@@ -11,7 +11,7 @@ import datetime
 from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
-from .models.base_model import Prod_Sell_Rev
+from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Orders
 
 
@@ -30,15 +30,15 @@ class QuantityForm(FlaskForm):
 def product_page(name, product_id):
     name = name
     product_id = product_id
-    searched_products = Product.get_search_result_2(search_str='book')     
+    searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str='book')     
     purchases = None
-    products_by_other_sellers = Prod_Sell_Rev.get_products_by_other_sellers(product_id=product_id)
+    products_by_other_sellers = Prod_Sell_Rev_Cat.get_products_by_other_sellers(product_id=product_id)
     #page_product = Product.get_product_for_page(product_id = product_id)
-    page_product = Prod_Sell_Rev.get_sell_rev_info(product_id = product_id)
+    page_product = Prod_Sell_Rev_Cat.get_sell_rev_info(product_id = product_id)
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
-    quant_options = Prod_Sell_Rev.get_quant_list(product_id = product_id)
+    quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
 
     form = QuantityForm()
     if form.validate_on_submit():
@@ -52,10 +52,6 @@ def product_page(name, product_id):
     if form.is_submitted() and not form.validate():
         flash('Invalid - must enter a value between 0 and {}'.format(quant_options[-1]))
 
-    # Return new template
-    #return render_template('index.html',
-    #                    avail_products=searched_products,
-    #                    purchase_history=purchases)
     return render_template('product_page.html', 
                             products_by_other_sellers = products_by_other_sellers,
                             product_row = page_product, 
