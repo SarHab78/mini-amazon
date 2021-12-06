@@ -141,6 +141,7 @@ class EditFirstnameForm(FlaskForm):
     submit = SubmitField('Update First Name')
 
 @bp.route('/editfirstname/<int:id>', methods=['GET', 'POST'])
+
 def editfirstname(id):
     print ('start')
     form = EditFirstnameForm()
@@ -152,4 +153,22 @@ def editfirstname(id):
             flash('First name has been updated!')
             return render_template("profile.html") 
     return render_template("editfirstname.html", form=form, id=id)
+
+    class EditBalanceForm(FlaskForm):
+    id = IntegerField(_l('id'), validators=[DataRequired()])
+    balance = IntegerField(_l('balance'), validators=[DataRequired()])
+    submit = SubmitField('Update Balance')
+
+    @bp.route('/editbalance/<int:id>', methods=['GET', 'POST'])
+    def editbalance(id):
+    print ('start')
+    form = EditBalanceForm()
+    if form.validate_on_submit():
+        if User.edit_balance(
+                        form.id.data,
+                         form.balance.data):
+            print ('if two')
+            flash('Balance has been updated!')
+            return render_template("profile.html") 
+    return render_template("editbalance.html", form=form, id=id)
 
