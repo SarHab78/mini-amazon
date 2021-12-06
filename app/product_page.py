@@ -35,6 +35,7 @@ class QuantityForm(FlaskForm):
 
 @bp.route('/<name>/<product_id>', methods=['GET','POST'])
 def product_page(name, product_id):
+    form = QuantityForm()
 
     name = name
     product_id = product_id
@@ -53,7 +54,6 @@ def product_page(name, product_id):
 
 
     if form.validate_on_submit():
-        form = QuantityForm()
         add_date = request.form['add_date']
 
         quant_selected = form.quantity.data
