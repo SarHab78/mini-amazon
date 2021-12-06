@@ -107,7 +107,15 @@ WHERE id=:id
             # likely email already in use; better error checking and
             # reporting needed
             return None
-
+    @staticmethod
+    def decrement_balance(balance, total):
+        rows = app.db.execute("""
+        Update User
+        WHERE balance = balance - total
+        """,
+                              balance = balance
+                              total = totaal)
+        return User(*(rows[0])) if rows else None
 #Purchase table information
         
 class Purchase:
@@ -596,6 +604,34 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
                                 add_date = add_date
             )
         return Orders.get_cart(uid)
+ 
+    @staticmethod
+    def cart_total():
+        rows = app.db.execute("""
+    SELECT COUNT(price) 
+    FROM Product
+    WHERE Product.product_id = Orders.prod_id
+    """, 
+        )
+        return COUNT
+
+
+
+
+    @staticmethod
+    def checkout_cart(balance, uid):
+        balance = decrement_balance(balance, total)
+        rows = app.db.execute("""
+    UPDATE Orders
+    SET ordered = 'Y'
+    RETURNING uid
+    """, 
+                                uid = uid,
+                                balance = balance, 
+
+            )
+        return Orders.get_cart(uid)
+
 
 #add seller reviews
 class Add_seller_review:
