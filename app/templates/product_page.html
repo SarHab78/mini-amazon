@@ -137,6 +137,13 @@ html, body {
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
           </p>
+          <p>
+            {{ form.add_date.label }}<br/>
+            {{ form.add_date(size=32) }}<br/>
+            {% for error in get_flashed_messages() %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </p>
           <p>{{ form.submit() }}</p>
         </form>
     </div>
