@@ -86,7 +86,7 @@ WHERE id = :id
         return User(*(rows[0])) if rows else None
 
     @staticmethod
-    def edit(id, email, password, firstname, lastname, address, balance, is_seller):
+    def edit(email, password, firstname, lastname, address, balance, is_seller, id):
         try:
             rows = app.db.execute("""
 UPDATE Users
