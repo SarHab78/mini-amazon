@@ -128,7 +128,7 @@ def editprofile(id):
     if form.validate_on_submit():
         print ('if one')
         if User.edit(
-                        current_user.id,
+                        form.id.data,
                         form.email.data,
                          form.password.data,
                          form.firstname.data,
