@@ -93,7 +93,7 @@ UPDATE Users
 SET(id=:id, email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
 WHERE id=:id
 """,
-                                  id=id,
+                                  
                                   email=email,
                                   password=generate_password_hash(password),
                                   firstname=firstname,
