@@ -101,7 +101,6 @@ WHERE id=:id
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller,
-                                  id=id,
                                   id=id
                                   )
                        
