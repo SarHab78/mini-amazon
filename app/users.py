@@ -135,6 +135,15 @@ def editprofile(id):
         print(form.address.data)
         print(form.balance.data)
         print(form.is_seller.data)
+        print(User.edit(
+                        form.id.data,
+                        form.email.data,
+                         form.password.data,
+                         form.firstname.data,
+                         form.lastname.data,
+                         form.address.data,
+                         form.balance.data,
+                         form.is_seller.data))
         if User.edit(
                         form.id.data,
                         form.email.data,
