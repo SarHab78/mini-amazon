@@ -114,6 +114,7 @@ html, body {
         <div class="product-description">
         <h1>{{product.product_name}}</h1>
         <p>{{product.product_description}}</p>
+        <p><b>Category:</b> {{product.cat_name}}</p>
         <p><b>Seller:</b> {{product.firstname}} {{product.lastname}}</p>
       </div>
       
@@ -182,7 +183,7 @@ html, body {
           <td>{{product.firstname}} {{product.lastname}}</td>
           <td>{{product.avg_rating}}</td>
           <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
-            style = "background: #57edf6; color: black">{{product.product_name}} Page</a></td>
+            style = "background: #57edf6; color: black">More Details</a></td>
         </tr>
       {% endfor %}
     </tbody>
