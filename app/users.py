@@ -139,5 +139,5 @@ def editprofile(id):
                          form.is_seller.data):
             flash('Profile has been updated!')
             return render_template("profile.html") 
-    return render_template("edit.html", form=form, id=id)
+    return render_template("edit.html", form=form, id=current_user.id)
 
