@@ -23,7 +23,7 @@ class Ordered_date(FlaskForm):
 
 
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
-def interim(uid, name, product_id, quant, add_date):
+def interim(uid, name, product_id, quant):
     searched_products = Product.get_search_result_2(search_str='book')     
     quant = int(quant)
     purchases = None
