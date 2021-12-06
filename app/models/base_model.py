@@ -112,7 +112,7 @@ RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
         except Exception:
             # likely email already in use; better error checking and
             # reporting needed
-            return None
+            return 'test'
 
 #Purchase table information
         
