@@ -58,7 +58,7 @@ def add_items():
                         sell_id,
                         quantity,
                         available)
-        flash('Thank you for adding this product')
+        
         return redirect(url_for('seller_inventory.inventory'))
     return render_template('add_items.html', title='Add Items', form=form, poss_seller = can_sell)
     # print(Sellers.get_all_sellers())
