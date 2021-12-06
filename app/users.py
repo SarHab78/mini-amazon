@@ -107,6 +107,7 @@ def logout():
 def profile():
     return render_template('profile.html')
 
+
 @bp.route('/sellerprofile', methods=['GET', 'POST'])
 def sellerprofile():
     return render_template('seller.html')
