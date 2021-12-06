@@ -1,6 +1,10 @@
 from flask_login import UserMixin
 from flask import current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
+import time
+from wtforms.fields import DateTimeField
+
 
 from .. import login
 
@@ -477,23 +481,27 @@ class Add_review:
         self.review = review
 
     @staticmethod
-    def add_review(rid, pid, uid, email, rev_timestamp, rating, review):
+    def add_review(rid, pid, uid, email, rating, review):
+        #print(rid, pid, review)
+        #print(type(rev_timestamp))
         try:
+            print("are you even trying")
             rows = app.db.execute("""
-INSERT INTO Reviews(rid, pid, uid, email, rev_timestamp, rating, review)
-VALUES(:rid, :pid, :uid, :email, :rev_timestamp, :rating, :review)
+INSERT INTO Product_review(rid, pid, uid, email, rev_timestamp, rating, review) 
+VALUES(:rid, :pid, :uid, :email, NOW()::TIMESTAMP, :rating, :review)
 RETURNING rid
 """, 
-                                  rid=rid,
-                                  pid= pid,
-                                  uid=uid,
-                                  email=email,
-                                  rev_timestamp= rev_timestamp,
-                                  rating = rating,
-                                  review = review,
+                                  rid=str(rid),
+                                  pid= int(pid),
+                                  uid=int(uid),
+                                  email=str(email),
+                                  #rev_timestamp= rev_timestamp,
+                                  rating = int(rating),
+                                  review = str(review)
             )
-            #return Product_review.get(rid)
+           # return Product_review.get(rid)
         except Exception:
+            print('exception. not added to db :( ')
             # likely email already in use; better error checking and
             # reporting needed
             return None
@@ -609,18 +617,18 @@ class Add_seller_review:
         self.review = review
 
     @staticmethod
-    def add_review(rid, uid, sid, email, rev_timestamp, rating, review):
+    def add_review(rid, uid, sid, email, rating, review):
         try:
             rows = app.db.execute("""
-INSERT INTO Reviews(rid, uid, sid, email, rev_timestamp, rating, review)
-VALUES(:rid, :uid, :sid, :email, :rev_timestamp, :rating, :review)
+INSERT INTO Reviews(rid, uid, sid, email, rating, review)
+VALUES(:rid, :uid, :sid, :email, :rating, :review)
 RETURNING rid
 """, 
-                                  rid=rid,
-                                  uid= uid,
+                                  rid= rid,
+                                  uid= int(uid),
                                   sid=sid,
                                   email=email,
-                                  rev_timestamp= rev_timestamp,
+                                 # rev_timestamp= rev_timestamp,
                                   rating = rating,
                                   review = review,
             )
