@@ -23,8 +23,8 @@ class Ordered_date(FlaskForm):
 
 
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
-def interim(uid, name, product_id, quant):
-    form = Ordered_date()
+def interim(uid, name, product_id, quant, add_date):
+    # form = Ordered_date()
     searched_products = Product.get_search_result_2(search_str='book')     
     quant = int(quant)
     purchases = None
@@ -34,10 +34,10 @@ def interim(uid, name, product_id, quant):
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     
 
-    time = datetime.datetime.now()
-    form.add_date.data = time
+    # time = datetime.datetime.now()
+    # form.add_date.data = time
     
-    add_date = request.form['add_date']
+    # add_date = request.form['add_date']
 
 
     cart = Orders.add_to_cart(prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
