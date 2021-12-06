@@ -158,7 +158,7 @@ def editprofile(id):
             return render_template("profile.html") 
     return render_template("edit.html", form=form, id=id)
 
-class EditFirstNameForm(FlaskForm):
+class EditFirstnameForm(FlaskForm):
     id = IntegerField(_l('id'), validators=[DataRequired()])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     submit = SubmitField('Update First Name')
