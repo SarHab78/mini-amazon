@@ -106,8 +106,8 @@ RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
-            
             id = rows[0][0]
+            print(rows)
             return User.get(id)
         except Exception:
             # likely email already in use; better error checking and
