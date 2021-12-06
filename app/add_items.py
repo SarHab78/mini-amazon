@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, SelectField
-from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired, NumberRange
+from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired, NumberRange, Length
 from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import User
@@ -19,7 +19,7 @@ class AddProductForm(FlaskForm):
     image_url = StringField(_l('Image URL'), validators=[DataRequired()])
     price = IntegerField(_l('Price'), validators=[DataRequired(), NumberRange(min=0.01, message="Invalid range")])
     quantity = IntegerField(_l('Quantity'), validators=[DataRequired(), NumberRange(min=1, message="Invalid range")])
-    available = StringField(_l('Available'), validators=[DataRequired()])
+    available = StringField(_l('Available'), validators=[DataRequired(), Length(min = 1, max = 1, message = "Ensure Y or N")])
     #available = SelectField('Is this product available?', [ InputRequired()],
     #    choices=[ (''), ('Y'),
     #    ('N') ])

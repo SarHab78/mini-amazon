@@ -153,7 +153,7 @@ RETURNING seller_id
             return None
 
     @staticmethod
-    def update_product(product_id, product_name, seller_id, quantity, available):
+    def update_product(product_id, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
 UPDATE Products
@@ -164,7 +164,6 @@ RETURNING seller_id
 """,
 #changed line 146 from RETURNING nameS to RETURNING id
                                   product_id = product_id, 
-                                  product_name = product_name, 
                                   seller_id = seller_id,
                                   quantity = quantity,
                                   available = available
@@ -270,6 +269,8 @@ WHERE Products.product_id = :product_id
                                
                               )
         return len(rows)>0
+
+
 
 
     @staticmethod
