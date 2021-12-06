@@ -91,7 +91,7 @@ WHERE id = :id
 
     @staticmethod
     def edit(id, email, password, firstname, lastname, address, balance, is_seller):
-        try:
+        #try:
             rows = app.db.execute("""
 UPDATE Users
 SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
@@ -109,10 +109,10 @@ RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
             id = rows[0][0]
             print(rows)
             return User.get(id)
-        except Exception:
+        #except Exception:
             # likely email already in use; better error checking and
             # reporting needed
-            return 'test'
+          #  return 'test'
 
 #Purchase table information
         
