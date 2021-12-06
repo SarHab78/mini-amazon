@@ -99,8 +99,8 @@ WHERE id=:id
                                   lastname=lastname,
                                   address= address,
                                   balance = balance,
-                                  is_seller = is_seller,
-                                  id=id
+                                  is_seller = is_seller
+                                  
                                   )
             
             id = rows[0][0]
