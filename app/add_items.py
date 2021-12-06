@@ -26,15 +26,6 @@ class AddProductForm(FlaskForm):
     submit = SubmitField(_l('Submit Product'))
 
 
-    #write a function to see if the product already exists
-    def validate_product(self, product_name):
-        if Product.product_exists(product_name, current_user.id):
-            #raise ValidationError(_('Already a product with this name. Update its quantity instead'))
-            return True
-        else: 
-            return False
-
-
 @bp.route('/addItems', methods =['GET', 'POST'])
 def add_items():
     if current_user.is_authenticated:
@@ -46,31 +37,28 @@ def add_items():
     can_sell = User.can_sell(sell_id)
 
     form = AddProductForm()
-    #if(current_user.is_authenticated):
     if form.validate_on_submit():
-       # print(form.validate_product(form.product_name.data))
-        if form.validate_product(form.product_name.data) is False:
            
-            name = request.form['product_name']
-            print(name)
-            description = request.form['describe']
-            print(description)
-            image_url = request.form['image_url']
-            print(image_url)
-            price = request.form['price']
-            print(price)
-            quantity = request.form['quantity']
-            print(quantity)
-            available = request.form['available']
-            print(available)
-            Add_Product.add_product(name,
-                            description,
-                            image_url,
-                            price,
-                            sell_id,
-                            quantity,
-                            available)
-            flash('Thank you for adding this product')
+        name = request.form['product_name']
+        print(name)
+        description = request.form['describe']
+        print(description)
+        image_url = request.form['image_url']
+        print(image_url)
+        price = request.form['price']
+        print(price)
+        quantity = request.form['quantity']
+        print(quantity)
+        available = request.form['available']
+        print(available)
+        Add_Product.add_product(name,
+                        description,
+                        image_url,
+                        price,
+                        sell_id,
+                        quantity,
+                        available)
+        flash('Thank you for adding this product')
         return redirect(url_for('seller_inventory.inventory'))
     return render_template('add_items.html', title='Add Items', form=form, poss_seller = can_sell)
     # print(Sellers.get_all_sellers())

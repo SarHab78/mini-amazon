@@ -241,21 +241,7 @@ WHERE Prod.available = :available
         return [Product(*row) for row in rows] if rows else []
 
 
-    @staticmethod
-    def product_exists(product_name, seller_id):
-        rows = app.db.execute("""
-SELECT Products.product_id, Products.product_name, Products.product_description, Products.image_url, Products.price, Products.seller_id, Products.quantity, Products.available
-FROM Products, Users
-WHERE Products.product_name = :product_name
-AND Users.id = :seller_id
-AND Products.seller_id = :seller_id
-AND Products.available = 'Y'
-""",
-                              product_name=product_name,
-                              seller_id = seller_id
-                               
-                              )
-        return len(rows)>0
+    
 
     @staticmethod
     def product_can_be_updated(product_id):
