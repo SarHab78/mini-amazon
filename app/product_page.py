@@ -29,10 +29,6 @@ class QuantityForm(FlaskForm):
     add_date = StringField(_l('add_date'), validators=[DataRequired()])
     submit = SubmitField('Add to Cart')
 
-
-
-
-
 @bp.route('/<name>/<product_id>', methods=['GET','POST'])
 def product_page(name, product_id):
     form = QuantityForm()
@@ -41,7 +37,6 @@ def product_page(name, product_id):
     product_id = product_id
     searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str='book')     
     purchases = None
-<<<<<<< HEAD
     products_by_other_sellers = Prod_Sell_Rev_Cat.get_products_by_other_sellers(product_id=product_id)
     #page_product = Product.get_product_for_page(product_id = product_id)
     page_product = Prod_Sell_Rev_Cat.get_sell_rev_info(product_id = product_id)
@@ -49,19 +44,6 @@ def product_page(name, product_id):
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
-=======
-    products_by_other_sellers = Prod_Sell_Rev.get_products_by_other_sellers(product_id=product_id)
-    seller = Product.get_product_for_page(product_id = product_id)
-    page_product = Prod_Sell_Rev.get_sell_rev_info(product_id = product_id)
-    prod_review = Product_review.get_prod_reviews(pid = product_id)
-    avg_product_rating = Product_review.avg_product_rating(pid = product_id)
-    num_reviews = Product_review.count_prod_reviews(pid = product_id)
-    quant_options = Prod_Sell_Rev.get_quant_list(product_id = product_id)
-    
-    time = datetime.datetime.now()
-    form.add_date.data = time
-
->>>>>>> origin/main
 
     if form.validate_on_submit():
         add_date = request.form['add_date']
@@ -72,15 +54,9 @@ def product_page(name, product_id):
             #return redirect(url_for('index.index'))
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
-<<<<<<< HEAD
             return redirect(url_for('interim.interim', name=name, product_id=product_id, quant=quant_selected))
     if form.is_submitted() and not form.validate():
         flash('Invalid - must enter a value between 0 and {}'.format(quant_options[-1]))
-=======
-            print("here is the error")
-            return interim(current_user.id, name, product_id, quant_selected, add_date)
-            # return redirect(url_for('interim.interim',  uid = current_user.id, name=name, product_id=product_id, quant=quant_selected))
->>>>>>> origin/main
 
     return render_template('product_page.html', 
                             products_by_other_sellers = products_by_other_sellers,

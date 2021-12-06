@@ -630,15 +630,8 @@ RETURNING rid
             # reporting needed
             return None
 
-<<<<<<< HEAD
 class Prod_Sell_Rev_Cat:
     def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name):
-=======
-
-    
-class Prod_Sell_Rev:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
->>>>>>> origin/main
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
@@ -696,7 +689,6 @@ WHERE available = :available
 AND product_name = :target_name
 AND product_id <> :product_id
         ''',target_name=target_name, available=available, product_id=product_id)
-<<<<<<< HEAD
         return [Prod_Sell_Rev_Cat(*row) for row in rows]
 
     @staticmethod
@@ -748,6 +740,3 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
         ''',
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
-=======
-        return [Prod_Sell_Rev(*row) for row in rows]
->>>>>>> origin/main
