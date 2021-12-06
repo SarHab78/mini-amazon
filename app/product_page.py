@@ -35,7 +35,6 @@ class QuantityForm(FlaskForm):
 
 @bp.route('/<name>/<product_id>', methods=['GET','POST'])
 def product_page(name, product_id):
-    form = QuantityForm()
 
     name = name
     product_id = product_id
@@ -51,11 +50,12 @@ def product_page(name, product_id):
     
     time = datetime.datetime.now()
     form.add_date.data = time
-    
-    add_date = request.form['add_date']
 
 
     if form.validate_on_submit():
+        form = QuantityForm()
+        add_date = request.form['add_date']
+
         quant_selected = form.quantity.data
         if quant_selected > quant_options[-1]:
             flash('Invalid - cannot purchase more than the currently available quantity')
