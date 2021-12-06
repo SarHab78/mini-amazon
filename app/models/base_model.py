@@ -164,7 +164,7 @@ RETURNING id, email
                                   )
             id = rows[0][0]
             print(rows)
-            return User.get(id)`
+            return User.get(id)
 
     @staticmethod
     def edit_address(id, address):
