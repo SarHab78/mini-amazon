@@ -187,8 +187,17 @@ class Product:
         self.quantity = quantity
         self.available = available
         self.avg_rating = avg_rating
-        
-    
+
+    @staticmethod 
+    def get_seller(seller_id):
+        rows = app.db.execute("""
+SELECT seller_id
+FROM Products
+WHERE product_id = :product_id
+""",
+                              product_id=product_id)
+        return Product(*(rows[0])) if rows else None
+
 
     @staticmethod
     def get_seller_products(id):
