@@ -26,7 +26,7 @@ class QuantityForm(FlaskForm):
     quantity = IntegerField('Enter the quantity you would like to purchase:', [ InputRequired(),
         NumberRange(min=1, max=99, message="Invalid range")
         ])
-    # add_date = StringField(_l('add_date'), validators=[DataRequired()])
+    add_date = StringField(_l('add_date'), validators=[DataRequired()])
     submit = SubmitField('Add to Cart')
 
 
@@ -49,10 +49,10 @@ def product_page(name, product_id):
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev.get_quant_list(product_id = product_id)
     
-    # time = datetime.datetime.now()
-    # form.add_date.data = time
+    time = datetime.datetime.now()
+    form.add_date.data = time
     
-    # add_date = request.form['add_date', '']
+    add_date = request.form['add_date']
 
 
     if form.validate_on_submit():
@@ -63,7 +63,7 @@ def product_page(name, product_id):
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
             print("here is the error")
-            return interim(current_user.id, name, product_id, quant_selected)
+            return interim(current_user.id, name, product_id, quant_selected add_date)
             # return redirect(url_for('interim.interim',  uid = current_user.id, name=name, product_id=product_id, quant=quant_selected))
 
     # Return new template
