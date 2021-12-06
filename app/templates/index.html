@@ -22,13 +22,44 @@
       <input type="text" placeholder="Search by product name or type" name="product_query">
       <button type="submit"><i class="fa fa-search"></i>
       </button>
+  </form>
 
-  </form>
-  <form class="example" method="post" action=""
-  style="margin: 0 auto;width:600px">
-      <input type="text" placeholder="Sort by product price or name" name="sort_query">
-      <button type="submit" style="background: green ">Sort</button>
-  </form>
+  <br></br>
+  <style>
+    #sort{
+      position:relative;
+      right: 200%;
+      display: inline-block;
+    }
+    #filt{
+      position:relative;
+      left: 100%;
+      display: inline-block;
+    }
+  </style>
+
+  <div style="float:left;">
+    <form action="" id = "filt" method="post">
+      {{ filterform.hidden_tag() }}
+      <p>
+        {{ filterform.filter_fields(size=4) }}<br/>
+      </p>
+      <p>{{ filterform.submit() }}</p>
+    </form>
+  </div>
+
+  <div style="float:right;">
+    <form action="" id = "sort" method="post">
+      {{ sortform.hidden_tag() }}
+      <p>
+        {{ sortform.sort_attribute(size=1) }}<br/>
+        {{ sortform.up_or_down(size=1) }}<br/>
+      </p>
+      <p>{{ sortform.submit() }}</p>
+    </form>
+  </div>
+
+  <br></br><br></br><br></br><br>
 
     <!-- Create a drop down button to sort the results-->
   <style>
@@ -80,18 +111,6 @@
       background-color: #2b8bf8;
     }
   </style>
-
-  <div class="dropdown">
-    <form method ="post" action="">
-    <button class="dropbtn" type="submit" name="sortbtn">Sort By</button>
-    <div class="dropdown-content">
-      <a href="{{ url_for('index.index') }}">Price</a>
-      <a href="{{ url_for('index.index') }}">Name</a>
-    </div>
-  </form>
-  </div>
-  <p></p>
-</body>
 
 
 {% if current_user.is_authenticated %}
