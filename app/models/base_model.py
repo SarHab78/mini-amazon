@@ -526,7 +526,7 @@ WHERE sid = :sid
 ORDER BY rev_timestamp
 ''',
                               sid=sid)
-        return [Product_review(*row) for row in rows] 
+        return [Seller_review(*row) for row in rows] 
 
     @staticmethod
     def count_seller_reviews(sid):
@@ -572,21 +572,23 @@ WHERE sid = :sid
         return avg #change
 
 
-class Add_seller_review:
-    def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
-        self.rid = rid
-        self.uid = uid
-        self.sid = sid
-        self.email = email
-        self.rev_timestamp = rev_timestamp
-        self.rating = rating
-        self.review = review
-
-
+#class Add_seller_review:
+ #   def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
+  #      self.rid = rid
+   #     self.uid = uid
+    #    self.sid = sid
+     #   self.email = email
+    #    self.rev_timestamp = rev_timestamp
+    #    self.rating = rating
+     #   self.review = review
+    
+    @staticmethod
+    def stest():
+        print('this is a method')
+        return None
+    
     @staticmethod
     def add_seller_review(rid, uid, sid, email, rating, review):
-        #print(rid, pid, review)
-        #print(type(rev_timestamp))
         try:
             print("are you even trying")
             rows = app.db.execute("""
