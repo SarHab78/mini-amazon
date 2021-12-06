@@ -11,7 +11,9 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired, NumberRange
 from flask_babel import _, lazy_gettext as _l
 import datetime 
+import time
 import uuid
+from wtforms.fields import DateTimeField
 
 from .models.base_model import Product_review
 from .models.base_model import User
@@ -27,7 +29,7 @@ class reviews(FlaskForm):
     pid = IntegerField(_l('pid'), validators=[DataRequired()])
     uid = IntegerField(_l('uid'), validators=[DataRequired()])
     email = StringField(_l('email'), validators=[DataRequired()])
-    rev_timestamp = StringField(_l('rev_timestamp'), validators=[DataRequired()])
+    #rev_timestamp = DateTimeField(_l('rev_timestamp'), validators=[DataRequired()])
     rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
     review = StringField(_l('review'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
@@ -41,7 +43,7 @@ class reviews(FlaskForm):
         #    return False
 
 @bp.route('/<product_id>/review_form', methods=['GET', 'POST'])
-def add_review(product_id):
+def add_a_review(product_id):
     form = reviews()
     #autopopulate with user id:
     if current_user.is_authenticated: 
@@ -50,8 +52,9 @@ def add_review(product_id):
     else: return redirect(url_for('users.login'))
     
     #autopopulate timestamp
-    ct = datetime.datetime.now()
-    form.rev_timestamp.data = ct
+    #ct = datetime.datetime.now()
+    #form.rev_timestamp.data = ct
+    #print(type(ct))
 
     #autogenerate review id here? -- needs to be unique?, don't know if this is actually a valid way of doing it but o well
     gen_rid = uuid.uuid4()
@@ -75,10 +78,12 @@ def add_review(product_id):
                 print(pid)
                 uid = request.form['uid']
                 print(uid)
+                print(type(uid))
                 email = request.form['email']
                 print(email)
-                rev_timestamp = request.form['rev_timestamp']
-                print(rev_timestamp)
+                #rev_timestamp = request.form['rev_timestamp']
+                #print(rev_timestamp)
+                #print(type(rev_timestamp))
                 rating = request.form['rating']
                 print(rating)
                 review = request.form['review']
@@ -87,15 +92,41 @@ def add_review(product_id):
                             pid,
                             uid,
                             email,
-                            rev_timestamp,
+                            #rev_timestamp,
                             rating,
                             review)
+                #print('review submitted')
                 flash('thanks for submitting your review!')
-                return redirect(url_for('index.index'))
+                return redirect(url_for('users_review_page.myreviews'))
     return render_template('review_form.html', title='reviews', form=form)
 
 
-#@bp.route('/editreview/<int:id>', methods=['GET', 'POST'])
-#def editreview(id):
- #   form = EditReviewForm()
-  #  if form.validate_on_submit():
+@bp.route('/editreview/<int:id>', methods=['GET', 'POST'])
+def editreview(id):
+    form = EditReviewForm()
+    if form.validate_on_submit():
+                rid = request.form['rid']
+                print(rid)
+                pid = request.form['pid']
+                print(pid)
+                uid = request.form['uid']
+                print(uid)
+                print(type(uid))
+                email = request.form['email']
+                print(email)
+                #rev_timestamp = request.form['rev_timestamp']
+                #print(rev_timestamp)
+                rating = request.form['rating']
+                print(rating)
+                review = request.form['review']
+                print(review)
+                Add_review.edit_review(rid,
+                            pid,
+                            uid,
+                            email,
+                            rev_timestamp,
+                            rating,
+                            review)
+                flash('thanks for editing your review!')
+                return redirect(url_for('users_review_page.myreviews'))
+    return render_template('review_form.html', title='reviews', form=form)

@@ -1,6 +1,10 @@
 from flask_login import UserMixin
 from flask import current_app as app
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
+import time
+from wtforms.fields import DateTimeField
+
 
 from .. import login
 
@@ -503,23 +507,27 @@ class Add_review:
         self.review = review
 
     @staticmethod
-    def add_review(rid, pid, uid, email, rev_timestamp, rating, review):
+    def add_review(rid, pid, uid, email, rating, review):
+        #print(rid, pid, review)
+        #print(type(rev_timestamp))
         try:
+            print("are you even trying")
             rows = app.db.execute("""
-INSERT INTO Reviews(rid, pid, uid, email, rev_timestamp, rating, review)
-VALUES(:rid, :pid, :uid, :email, :rev_timestamp, :rating, :review)
+INSERT INTO Product_review(rid, pid, uid, email, rev_timestamp, rating, review) 
+VALUES(:rid, :pid, :uid, :email, NOW()::TIMESTAMP, :rating, :review)
 RETURNING rid
 """, 
-                                  rid=rid,
-                                  pid= pid,
-                                  uid=uid,
-                                  email=email,
-                                  rev_timestamp= rev_timestamp,
-                                  rating = rating,
-                                  review = review,
+                                  rid=str(rid),
+                                  pid= int(pid),
+                                  uid=int(uid),
+                                  email=str(email),
+                                  #rev_timestamp= rev_timestamp,
+                                  rating = int(rating),
+                                  review = str(review)
             )
-            #return Product_review.get(rid)
+           # return Product_review.get(rid)
         except Exception:
+            print('exception. not added to db :( ')
             # likely email already in use; better error checking and
             # reporting needed
             return None
@@ -544,7 +552,7 @@ WHERE sid = :sid
 ORDER BY rev_timestamp
 ''',
                               sid=sid)
-        return [Product_review(*row) for row in rows] 
+        return [Seller_review(*row) for row in rows] 
 
     @staticmethod
     def count_seller_reviews(sid):
@@ -588,6 +596,46 @@ WHERE sid = :sid
         except:
             avg = 'N/A (no reviews yet)'
         return avg #change
+
+
+#class Add_seller_review:
+ #   def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
+  #      self.rid = rid
+   #     self.uid = uid
+    #    self.sid = sid
+     #   self.email = email
+    #    self.rev_timestamp = rev_timestamp
+    #    self.rating = rating
+     #   self.review = review
+    
+    @staticmethod
+    def stest():
+        print('this is a method')
+        return None
+    
+    @staticmethod
+    def add_seller_review(rid, uid, sid, email, rating, review):
+        try:
+            print("are you even trying")
+            rows = app.db.execute("""
+INSERT INTO Seller_review(rid, uid, sid, email, rev_timestamp, rating, review) 
+VALUES(:rid, :uid, :sid, :email, NOW()::TIMESTAMP, :rating, :review)
+RETURNING rid
+""", 
+                                  rid=str(rid),
+                                  uid= int(uid),
+                                  sid=int(sid),
+                                  email=str(email),
+                                  #rev_timestamp= rev_timestamp,
+                                  rating = int(rating),
+                                  review = str(review)
+            )
+           # return Product_review.get(rid)
+        except Exception:
+            print('exception. not added to db :( ')
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
     
 
@@ -635,18 +683,18 @@ class Add_seller_review:
         self.review = review
 
     @staticmethod
-    def add_review(rid, uid, sid, email, rev_timestamp, rating, review):
+    def add_review(rid, uid, sid, email, rating, review):
         try:
             rows = app.db.execute("""
-INSERT INTO Reviews(rid, uid, sid, email, rev_timestamp, rating, review)
-VALUES(:rid, :uid, :sid, :email, :rev_timestamp, :rating, :review)
+INSERT INTO Reviews(rid, uid, sid, email, rating, review)
+VALUES(:rid, :uid, :sid, :email, :rating, :review)
 RETURNING rid
 """, 
-                                  rid=rid,
-                                  uid= uid,
+                                  rid= rid,
+                                  uid= int(uid),
                                   sid=sid,
                                   email=email,
-                                  rev_timestamp= rev_timestamp,
+                                 # rev_timestamp= rev_timestamp,
                                   rating = rating,
                                   review = review,
             )
@@ -719,6 +767,8 @@ AND product_id <> :product_id
 
     @staticmethod
     def get_search_result(search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
+        if filt_list == 'all':
+            filt_list = all_categories
         base_query = '''
         SELECT * 
         FROM Prod_Sell_Rev_Cat 

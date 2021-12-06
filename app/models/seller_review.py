@@ -14,12 +14,4 @@ class seller_review:
         self.rating = rating
         self.review = review
 
-    @staticmethod
-    def get_prod_reviews(pid):
-        rows = app.db.execute('''
-SELECT rid, uid, sid, email, timestamp, rating, review
-FROM product_review
-WHERE sid = :sid
-''',
-                              rid=rid)
-        return product_review(*(rows[0])) if rows is not None else None
+    

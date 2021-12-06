@@ -15,18 +15,17 @@ from .models.base_model import Seller_review
 from .models.base_model import Add_seller_review
 
 from flask import Blueprint
-bp = Blueprint('sellers_reviews', __name__)
+bp = Blueprint('this_sellers_reviews', __name__)
 
-#not importing anything here - whyyyy
 
-@bp.route('/<int:sid>/seller_reviews')
-def seller_reviews(sid):
+@bp.route('/<sid>/sellers_reviews')
+def sellers_reviews(sid):
     sellrevs = Seller_review.get_seller_reviews(sid = sid)
     avg = Seller_review.avg_seller_rating(sid = sid)
     ct = Seller_review.count_seller_reviews(sid = sid)
 
     return render_template('reviews_of_this_seller.html',
                            sid = sid,
-                           seller_reviews = sellrevs,
+                           sellers_reviews = sellrevs,
                            avg_seller_rating = avg,
                            num_seller_reviews = ct)

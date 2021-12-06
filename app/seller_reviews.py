@@ -8,10 +8,8 @@ from flask_babel import _, lazy_gettext as _l
 import datetime 
 import uuid
 
-from .models.base_model import Product_review
 from .models.base_model import User
 from .models.base_model import Product
-from .models.base_model import Add_review
 from .models.base_model import Add_seller_review
 from .models.base_model import Seller_review
 
@@ -19,12 +17,12 @@ from .models.base_model import Seller_review
 from flask import Blueprint
 bp = Blueprint('seller_reviews', __name__)
 
-class reviews(FlaskForm):
+class seller_reviews(FlaskForm):
     rid = StringField(_l('rid'), validators=[DataRequired()])
     uid = IntegerField(_l('uid'), validators=[DataRequired()])
     sid = IntegerField(_l('sid'), validators=[DataRequired()])
     email = StringField(_l('email'), validators=[DataRequired()])
-    rev_timestamp = StringField(_l('rev_timestamp'), validators=[DataRequired()])
+    #rev_timestamp = StringField(_l('rev_timestamp'), validators=[DataRequired()])
     rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
     review = StringField(_l('review'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
@@ -37,27 +35,23 @@ class reviews(FlaskForm):
        # else: 
         #    return False
 
-@bp.route('/<int:sid>/seller_review_form', methods=['GET', 'POST'])
-def add_seller_review(sid):
-    form = reviews()
+@bp.route('/<sid>/seller_review_form', methods=['GET', 'POST'])
+def add_a_seller_review(sid):
+    form = seller_reviews()
     #autopopulate with user id:
     if current_user.is_authenticated: 
         my_user = current_user.id
         form.uid.data = my_user
     else: return redirect(url_for('users.login'))
-    
-    #autopopulate timestamp
-    ct = datetime.datetime.now()
-    form.rev_timestamp.data = ct
 
     #autogenerate review id here? -- needs to be unique?, don't know if this is actually a valid way of doing it but o well
     gen_rid = uuid.uuid4()
     form.rid.data = gen_rid
     
-    #autopopulate seller id:
+    #autopopulate seller id: -- FIX THIS
     #page_product = Product.get_product_for_page(product_id = product_id)
     #if request.method == 'GET':
-     #   form.pid.data = page_product[0].product_id
+     #   form.sid.data = page_product[0].seller_id
 
 
     #actually submit form
@@ -68,23 +62,24 @@ def add_seller_review(sid):
 
                 rid = request.form['rid']
                 print(rid)
-                pid = request.form['pid']
-                print(pid)
                 uid = request.form['uid']
                 print(uid)
+                sid = request.form['sid']
+                print(sid)
                 email = request.form['email']
                 print(email)
-                rev_timestamp = request.form['rev_timestamp']
-                print(rev_timestamp)
+                #rev_timestamp = request.form['rev_timestamp']
+                #print(rev_timestamp)
                 rating = request.form['rating']
                 print(rating)
                 review = request.form['review']
                 print(review)
-                Add_review.add_review(rid,
-                            pid,
+                #eller_review.stest()
+                Seller_review.add_seller_review(rid,
                             uid,
+                            sid,
                             email,
-                            rev_timestamp,
+                            #rev_timestamp,
                             rating,
                             review)
                 flash('thanks for submitting your review!')

@@ -119,7 +119,7 @@ html, body {
       </div>
       
       {% for thing in seller %}
-      <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_seller_review', sid=thing.seller_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
+      <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_a_seller_review', sid=thing.seller_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
       {% endfor %}
 
         <!-- Product Pricing -->
@@ -194,7 +194,7 @@ html, body {
 <br><br>
 <!-- add review button -->
 {% for product in product_row %}
-<a class="btn btn-secondary" href="{{ url_for('reviews.add_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review</a>
+<a class="btn btn-secondary" href="{{ url_for('reviews.add_a_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review</a>
 {% endfor %}
 
 <br><br>
