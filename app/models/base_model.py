@@ -119,7 +119,7 @@ RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
         #try:
             rows = app.db.execute("""
 UPDATE Users
-SET(firstname = :firstname)
+SET(Users.lastname = :firstname)
 WHERE id = :id
 RETURNING id, firstname
 """,
