@@ -95,6 +95,9 @@ html, body {
       <p><i>Quantity added:</i> {{quant}}</p>
       <p><i>Total spent:</i> ${{product.price * quant}}</p>
       <p> Thank you for viewing {{product.firstname}} {{product.lastname}}'s item! They hope you enjoy your item.</p>
+      <td><a class="btn btn-secondary" href="{{ url_for('carts.carts')}}" role="button" color="blue">View My Cart</a></td>
+
+
       {% endfor %}
     </div>
   </div>
