@@ -59,7 +59,7 @@ def update_items():
                                         sell_id, 
                                         quantity,
                                         available)
-            flash('Thank you for updating this product')
+        flash('Thank you for updating this product')
         return redirect(url_for('seller_inventory.inventory'))
     else: 
         return render_template('update_items.html', title='Update Items', form=form, poss_seller = can_sell)

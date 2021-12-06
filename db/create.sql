@@ -26,7 +26,7 @@ CREATE TABLE Products (
 CREATE TABLE Category(
     cat_name VARCHAR(255) NOT NULL,
     pid INT UNIQUE NOT NULL,
-    PRIMARY KEY(cat_name, pid),
+    PRIMARY KEY(pid),
     FOREIGN KEY (pid) REFERENCES Products(product_id)
 );
 
@@ -73,3 +73,25 @@ CREATE VIEW Prod_Sell_Rev AS(
         ON Prod.product_id = Rev.pid) AS R
         WHERE PU.product_id = R.product_id
 );
+
+
+
+CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$
+BEGIN
+    IF EXISTS (SELECT * 
+    FROM Products
+    WHERE seller_id = NEW.seller_id
+    AND product_name = NEW.product_name
+    AND product_id <> NEW.product_id) 
+    THEN
+    RAISE EXCEPTION 'You already have a product with this name, %. Please update that product instead.', NEW.product_name;
+    END IF;
+  -- YOUR IMPLEMENTATION GOES HERE
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER TF_insertProduct
+  BEFORE INSERT ON Products
+  FOR EACH ROW
+  EXECUTE PROCEDURE TF_insertProduct();
