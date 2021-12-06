@@ -124,7 +124,9 @@ class EditProfileForm(FlaskForm):
 def editprofile(id):
     form = EditProfileForm()
     if form.validate_on_submit():
-        if User.edit(form.email.data,
+        if User.edit(
+                        current_user.id,
+                        form.email.data,
                          form.password.data,
                          form.firstname.data,
                          form.lastname.data,
