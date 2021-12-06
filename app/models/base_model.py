@@ -189,7 +189,7 @@ class Product:
         self.avg_rating = avg_rating
 
     @staticmethod 
-    def get_seller(seller_id):
+    def get_seller(product_id):
         rows = app.db.execute("""
 SELECT seller_id
 FROM Products
