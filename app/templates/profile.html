@@ -22,7 +22,7 @@
 <strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
     <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
     <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
-     <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Reviews About You</a>
+     <a <a class="btn btn-outline-info" href="{{ url_for('this_sellers_reviews.sellers_reviews') }}" role="button">View Reviews About You</a>
      <a <a class="btn btn-outline-info" href="{{ url_for('users_review_page.myreviews') }}" role="button">View Authored Reviews</a>
       <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
   
