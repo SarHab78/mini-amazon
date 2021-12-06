@@ -192,7 +192,7 @@ class Product:
     def get_seller_products(id):
         
         rows = app.db.execute('''
-SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, Rev.avg_rating
+SELECT Prod.product_name, Prod.product_id, Prod.product_description, Prod.image_url, Prod.price, Prod.seller_id, Prod.quantity, Prod.available, ROUND(Rev.avg_rating,1) AS avg_rating
 FROM (Products AS Prod
 LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
         FROM product_review
@@ -281,7 +281,7 @@ ORDER BY Prod.product_name
     ON Prod.product_id = Rev.pid
     WHERE Prod.available = :available
     AND LOWER(Prod.product_name) LIKE :search_str OR LOWER(Prod.product_description) LIKE :search_str
-    ORDER BY Rev.avg_rating DESC
+    ORDER BY Rev.avg_rating DESC NULLS LAST
     ''',
                                 search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by)
         else:
@@ -500,12 +500,12 @@ RETURNING rid
 
 
 class Seller_review:
-    def __init__(self, rid, uid, sid, email, timestamp, rating, review):
+    def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
         self.rid = rid
         self.uid = uid
         self.sid = sid
         self.email = email
-        self.timestamp = timestamp
+        self.rev_timestamp = rev_timestamp
         self.rating = rating
         self.review = review
 
@@ -547,6 +547,21 @@ WHERE rid = :rid
 ''',
                               rid=rid)
         return [Product_review(*row) for row in rows]
+
+#average rating for a product
+    @staticmethod
+    def avg_seller_rating(sid):
+        avg = app.db.execute('''
+SELECT AVG(rating)
+FROM seller_review
+WHERE sid = :sid
+''',
+                            sid=sid)
+        try:
+            avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        except:
+            avg = 'N/A (no reviews yet)'
+        return avg #change
 
     
 
@@ -615,10 +630,8 @@ RETURNING rid
             # reporting needed
             return None
 
-
-    
-class Prod_Sell_Rev:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
+class Prod_Sell_Rev_Cat:
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name):
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
@@ -629,21 +642,27 @@ class Prod_Sell_Rev:
         self.lastname = lastname
         self.avg_rating = avg_rating
         self.available = available
+        self.cat_name = cat_name
+    
+    all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
+    'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
+    'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
+    'Video DVD & Blu-ray','Video Games','Watches'])
 
     @staticmethod
     def get_sell_rev_info(product_id):
         rows = app.db.execute('''
 SELECT *
-FROM Prod_Sell_Rev
-WHERE Prod_Sell_Rev.product_id = :product_id
+FROM Prod_Sell_Rev_cat
+WHERE Prod_Sell_Rev_Cat.product_id = :product_id
         ''',product_id= product_id)
-        return [Prod_Sell_Rev(*row) for row in rows]
+        return [Prod_Sell_Rev_Cat(*row) for row in rows]
 
     def get_quant_list(product_id):
         quant = app.db.execute('''
 SELECT quantity
-FROM Prod_Sell_Rev
-WHERE Prod_Sell_Rev.product_id = :product_id
+FROM Prod_Sell_Rev_Cat
+WHERE Prod_Sell_Rev_Cat.product_id = :product_id
         ''',product_id= product_id)
 
         quant = int(('').join([str(q) for (q,) in quant]))
@@ -657,7 +676,7 @@ WHERE Prod_Sell_Rev.product_id = :product_id
     def get_products_by_other_sellers(product_id='', available='Y'):
         target_name = app.db.execute('''
 SELECT product_name
-FROM Prod_Sell_Rev
+FROM Prod_Sell_Rev_Cat
 WHERE available = :available 
 AND product_id = :product_id
 ''',
@@ -665,9 +684,63 @@ AND product_id = :product_id
         target_name = ("").join([r for (r,) in target_name])
         rows = app.db.execute('''
 SELECT *
-FROM Prod_Sell_Rev
+FROM Prod_Sell_Rev_Cat
 WHERE available = :available 
 AND product_name = :target_name
 AND product_id <> :product_id
         ''',target_name=target_name, available=available, product_id=product_id)
-        return [Prod_Sell_Rev(*row) for row in rows]
+        return [Prod_Sell_Rev_Cat(*row) for row in rows]
+
+    @staticmethod
+    def get_search_result(search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
+        base_query = '''
+        SELECT * 
+        FROM Prod_Sell_Rev_Cat 
+        WHERE available = :available 
+        AND (LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str) 
+        AND cat_name IN :filt_list
+            '''
+        ending = ''
+        if direc == 'high-to-low':
+            if order_by == 'name':
+                ending = ' ORDER BY product_name DESC'
+            elif order_by == 'rating':
+                ending = ' ORDER BY avg_rating DESC NULLS LAST'
+            elif order_by == 'category':
+                ending = ' ORDER BY cat_name DESC'
+            else:
+                ending = ' ORDER BY price DESC'
+        else:
+            if order_by == 'name':
+                ending = ' ORDER BY product_name ASC'
+            elif order_by == 'rating':
+                ending = ' ORDER BY avg_rating ASC NULLS LAST'
+            elif order_by == 'category':
+                ending = ' ORDER BY cat_name ASC'
+            else:
+                 ending = ' ORDER BY price ASC'
+        full_query = base_query + ending
+
+        rows = app.db.execute(full_query,
+                            search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by, direc=direc, filt_list=filt_list)
+
+        return [Prod_Sell_Rev_Cat(*row) for row in rows]
+    
+    @staticmethod
+    def get_top_rated(available = 'Y'):
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev_Cat
+ORDER BY avg_rating DESC NULLS LAST, price DESC
+        ''',
+                                available = available)
+        return [Prod_Sell_Rev_Cat(*row) for row in rows][0:10] if rows else []
+
+    def get_all(available = 'Y'):
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev_Cat
+ORDER BY avg_rating DESC NULLS LAST, price DESC
+        ''',
+                                available = available)
+        return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
