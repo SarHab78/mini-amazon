@@ -38,12 +38,15 @@ def product_page(name, product_id):
     searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str='book')     
     purchases = None
     products_by_other_sellers = Prod_Sell_Rev_Cat.get_products_by_other_sellers(product_id=product_id)
-    #page_product = Product.get_product_for_page(product_id = product_id)
+    seller = Product.get_product_for_page(product_id = product_id)
     page_product = Prod_Sell_Rev_Cat.get_sell_rev_info(product_id = product_id)
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
+
+    time = datetime.datetime.now()
+    form.add_date.data = time
 
     if form.validate_on_submit():
         add_date = request.form['add_date']

@@ -7,7 +7,6 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, In
 from flask_babel import _, lazy_gettext as _l
 
 import datetime
-import pandas as pd
 
 from .models.base_model import Product
 from .models.base_model import Purchase
@@ -25,12 +24,12 @@ class SortForm(FlaskForm):
 
 class FilterForm(FlaskForm):
     # get all amazon categories list by reading the amazon_categories.csv file
-    categories = pd.read_csv('db/data/amazon_categories.csv')
     filter_fields = SelectMultipleField(_l('Filter By Category'), validators=[DataRequired()], choices=[('Automotive & Powersports', 'Automotive & Powersports'),
                             ('Baby Products', 'Baby Products'),
                             ('Books', 'Books'),
                             ('Camera & Photo', 'Camera & Photo'),
                             ('Cell Phones & Accessories', 'Cell Phones & Accessories'),
+                            ('Clothing', 'Clothing'),
                             ('Consumer Electronics', 'Consumer Electronics'),
                             ('Entertainment Collectibles', 'Entertainment Collectibles'),
                             ('Fine Art', 'Fine Art'),
@@ -52,7 +51,7 @@ class FilterForm(FlaskForm):
                             ('Sports Collectibles', 'Sports Collectibles'),
                             ('Tools & Home Improvement', 'Tools & Home Improvement'),
                             ('Toys & Games', 'Toys & Games'),
-                            ('Video, DVD & Blu-ray', 'Video, DVD & Blu-ray'),
+                            ('Video DVD & Blu-ray', 'Video DVD & Blu-ray'),
                             ('Video Games', 'Video Games'),
                             ('Watches', 'Watches')])
     submit = SubmitField('Filter by Category')
@@ -71,9 +70,6 @@ def index():
         user = None
     # render the page by adding information to the index.html file
 
-    # get all amazon categories list by reading the amazon_categories.csv file
-    categories = pd.read_csv('db/data/amazon_categories.csv')
-
     sortform = SortForm()
     filterform = FilterForm()
 
@@ -82,6 +78,8 @@ def index():
         session['order_by'] = order_by
         direc = sortform.up_or_down.data
         session['direc'] = direc
+
+        search_str = ''
         if 'current_query' in session:
             search_str = session['current_query']
         searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=search_str, order_by=order_by, direc=direc)

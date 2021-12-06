@@ -644,10 +644,10 @@ class Prod_Sell_Rev_Cat:
         self.available = available
         self.cat_name = cat_name
     
-    all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Consumer Electronics',
+    all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
-    'Video, DVD & Blu-ray','Video Games','Watches'])
+    'Video DVD & Blu-ray','Video Games','Watches'])
 
     @staticmethod
     def get_sell_rev_info(product_id):
@@ -706,6 +706,8 @@ AND product_id <> :product_id
                 ending = ' ORDER BY product_name DESC'
             elif order_by == 'rating':
                 ending = ' ORDER BY avg_rating DESC NULLS LAST'
+            elif order_by == 'category':
+                ending = ' ORDER BY cat_name DESC'
             else:
                 ending = ' ORDER BY price DESC'
         else:
@@ -713,6 +715,8 @@ AND product_id <> :product_id
                 ending = ' ORDER BY product_name ASC'
             elif order_by == 'rating':
                 ending = ' ORDER BY avg_rating ASC NULLS LAST'
+            elif order_by == 'category':
+                ending = ' ORDER BY cat_name ASC'
             else:
                  ending = ' ORDER BY price ASC'
         full_query = base_query + ending
