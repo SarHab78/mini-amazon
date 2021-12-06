@@ -4,37 +4,100 @@
 
 <br><br>
 
-<h2>Your Profile</h2>
+{% if current_user.is_seller == 'Y' %}
+<h2>{{ current_user.firstname}} {{current_user.lastname}}'s Profile</h2>
+<br>
+<div class="card">
+  <div class="card-header">
+    Seller Profile Information
+  </div>
+<div class="card-body">
+<p class="card-text">
+<strong>User ID: </strong>{{ current_user.id }}<br/>
+<strong>Email: </strong>{{ current_user.email }}<br/>
+<strong>First Name: </strong>{{ current_user.firstname }}<br/>
+<strong>Last Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+<strong>Balance: </strong>${{ current_user.balance }}<br/>
+<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
+    <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
+    <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
+     <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Reviews About You</a>
+     <a <a class="btn btn-outline-info" href="{{ url_for('users_review_page.myreviews') }}" role="button">View Authored Reviews</a>
+      <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
+  
+  
+  </div>
+</div>
 
-{% if current_user.is_authenticated %}
+<br><br>
+<h2>Your recent purchases:</h2>
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Address</th>
-      <th scope="col">Balance</th>
-      <th scope="col">Seller?</th>
-      <th scope="col">Edit</th>
+      <th scope="col">Purchase ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
     </tr>
   </thead>
   <tbody>
-    {% for user in user_info%}
+    {% for purchase in purchase_history%}
       <tr>
-        <th scope="row">{{user.firstname}}</th>
-        <td>{{user.lastname}}</td>
-        <td>{{user.email}}</td>
-        <td>{{user.address}}</td>
-        <td>{{user.balance}}</td>
-        <td>{{user.is_seller}}</td>
-        <td><a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button" color="yellow">Edit</a></td>
+        <th scope="row">{{purchase.id}}</th>
+        <td>{{purchase.pid}}</td>
+        <td>{{purchase.time_purchased}}</td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
-{% else %}
-<p><a href="{{ url_for('users.login') }}">Log in</a> to see your information!</p>
+
+
 {% endif %}
 
+{% if current_user.is_seller == 'N' %}
+<h2>{{ current_user.firstname}} {{current_user.lastname}}'s Profile</h2>
+<br>
+<div class="card">
+  <div class="card-header">
+    Shopper Profile Information
+  </div>
+<div class="card-body">
+<p class="card-text">
+<strong>User ID: </strong>{{ current_user.id }}<br/>
+<strong>Email: </strong>{{ current_user.email }}<br/>
+<strong>First Name: </strong>{{ current_user.firstname }}<br/>
+<strong>Last Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+<strong>Balance: </strong>${{ current_user.balance }}<br/>
+<strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
+    <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
+    <a <a class="btn btn-outline-info" href="{{ url_for('users_review_page.myreviews') }}" role="button">View Authored Reviews</a>
+    <a <a class="btn btn-info" href="{{ url_for('carts.carts') }}" role="button">My Cart</a>
+  </div>
+</div>
+
+<br><br>
+<h2>Your recent purchases:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Purchase ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for purchase in purchase_history%}
+      <tr>
+        <th scope="row">{{purchase.id}}</th>
+        <td>{{purchase.pid}}</td>
+        <td>{{purchase.time_purchased}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endif %}
 
 {% endblock %}

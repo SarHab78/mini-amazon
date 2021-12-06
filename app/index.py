@@ -173,8 +173,5 @@ def index():
                            sortform = sortform,
                            filterform = filterform)
 
-@bp.route('/item_successfully_added')
-def interim():
-     return render_template('interim_added_cart_page.html')
 
 

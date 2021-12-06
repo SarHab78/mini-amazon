@@ -1,8 +1,3 @@
-#forms and path
-#write a review
-#edit
-#add in access restriction to only those who have purchased
-
 from flask import render_template, redirect, url_for, flash, request
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
@@ -17,15 +12,17 @@ from .models.base_model import Product_review
 from .models.base_model import User
 from .models.base_model import Product
 from .models.base_model import Add_review
+from .models.base_model import Add_seller_review
+from .models.base_model import Seller_review
 
 
 from flask import Blueprint
-bp = Blueprint('reviews', __name__)
+bp = Blueprint('seller_reviews', __name__)
 
 class reviews(FlaskForm):
     rid = StringField(_l('rid'), validators=[DataRequired()])
-    pid = IntegerField(_l('pid'), validators=[DataRequired()])
     uid = IntegerField(_l('uid'), validators=[DataRequired()])
+    sid = IntegerField(_l('sid'), validators=[DataRequired()])
     email = StringField(_l('email'), validators=[DataRequired()])
     rev_timestamp = StringField(_l('rev_timestamp'), validators=[DataRequired()])
     rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
@@ -40,8 +37,8 @@ class reviews(FlaskForm):
        # else: 
         #    return False
 
-@bp.route('/<product_id>/review_form', methods=['GET', 'POST'])
-def add_review(product_id):
+@bp.route('/<int:sid>/seller_review_form', methods=['GET', 'POST'])
+def add_seller_review(sid):
     form = reviews()
     #autopopulate with user id:
     if current_user.is_authenticated: 
@@ -57,10 +54,10 @@ def add_review(product_id):
     gen_rid = uuid.uuid4()
     form.rid.data = gen_rid
     
-    #autopopulate product id:
-    page_product = Product.get_product_for_page(product_id = product_id)
-    if request.method == 'GET':
-        form.pid.data = page_product[0].product_id
+    #autopopulate seller id:
+    #page_product = Product.get_product_for_page(product_id = product_id)
+    #if request.method == 'GET':
+     #   form.pid.data = page_product[0].product_id
 
 
     #actually submit form
@@ -92,10 +89,4 @@ def add_review(product_id):
                             review)
                 flash('thanks for submitting your review!')
                 return redirect(url_for('index.index'))
-    return render_template('review_form.html', title='reviews', form=form)
-
-
-#@bp.route('/editreview/<int:id>', methods=['GET', 'POST'])
-#def editreview(id):
- #   form = EditReviewForm()
-  #  if form.validate_on_submit():
+    return render_template('seller_review_form.html', title='reviews', form=form, sid=sid)

@@ -8,9 +8,9 @@ from .. import login
 class User(UserMixin):
     def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
         self.id = id
-        self.email = email
-        self.firstname = firstname
-        self.lastname = lastname
+        self.email = firstname
+        self.firstname = lastname
+        self.lastname = email
         self.address = address
         self.balance = balance
         self.is_seller = is_seller
@@ -85,7 +85,28 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
-
+    @staticmethod
+    def edit(email, password, firstname, lastname, address, balance, is_seller):
+        try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
+WHERE id=:id
+""",
+                                  email=email,
+                                  password=generate_password_hash(password),
+                                  firstname=firstname,
+                                  lastname=lastname,
+                                  address= address,
+                                  balance = balance,
+                                  is_seller = is_seller)
+            
+            id = rows[0][0]
+            return User.get(id)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
 #Purchase table information
         
@@ -351,15 +372,13 @@ ORDER BY price, quantity
 
 
 
-##add to git - all functions for reviews
-
 class Product_review:
-    def __init__(self, rid, pid, uid, email, timestamp, rating, review):
+    def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
         self.rid = rid
         self.pid = pid
         self.uid = uid
         self.email = email
-        self.timestamp = timestamp
+        self.rev_timestamp = rev_timestamp
         self.rating = rating
         self.review = review
 #possibly rename review attr because it could fuck stuff up who knows
@@ -376,7 +395,6 @@ ORDER BY rev_timestamp
 ''',
                               pid=pid)
         return [Product_review(*row) for row in rows] 
-
 
 #to get reviews written by a specific user
     @staticmethod
@@ -424,68 +442,203 @@ WHERE pid = :pid
             count = 'N/A (no reviews yet)'
         return count
 
-
-#add a review 
+#get by review id
     @staticmethod
-    def add_review(rid, pid, uid, email, timestamp, rating, review):
+    def get(rid):
+        rows = app.db.execute('''
+SELECT rid, pid, uid, email, rev_timestamp, rating, review
+FROM product_review
+WHERE rid = :rid
+''',
+                              rid=rid)
+        return [Product_review(*row) for row in rows]
+
+#    @staticmethod
+ #   def review_exists(pid, uid):
+  #      rows = app.db.execute('''
+#SELECT rid, pid, uid, email, rev_timestamp, rating, review
+#FROM product_review
+#WHERE pid = :pid
+#AND uid = :uid
+ #       ''',
+  #                              pid=pid,
+   #                             uid=uid)
+    #    return len(rows)>0
+
+
+class Add_review:
+    def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
+        self.rid = rid
+        self.pid = pid
+        self.uid = uid
+        self.email = email
+        self.rev_timestamp = rev_timestamp
+        self.rating = rating
+        self.review = review
+
+    @staticmethod
+    def add_review(rid, pid, uid, email, rev_timestamp, rating, review):
         try:
             rows = app.db.execute("""
-INSERT INTO Reviews(rid, pid, uid, email, timestamp, rating, review)
-VALUES(:rid, :pid, :uid, :email, :timestamp, :rating, :review)
-RETURNING nameS
-""", ##what is nameS?
+INSERT INTO Reviews(rid, pid, uid, email, rev_timestamp, rating, review)
+VALUES(:rid, :pid, :uid, :email, :rev_timestamp, :rating, :review)
+RETURNING rid
+""", 
                                   rid=rid,
                                   pid= pid,
                                   uid=uid,
                                   email=email,
-                                  timestamp= timestamp,
+                                  rev_timestamp= rev_timestamp,
                                   rating = rating,
                                   review = review,
             )
-            return Review.get_prod_reviews(pid)
+            #return Product_review.get(rid)
         except Exception:
             # likely email already in use; better error checking and
             # reporting needed
             return None
 
+
+class Seller_review:
+    def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
+        self.rid = rid
+        self.uid = uid
+        self.sid = sid
+        self.email = email
+        self.rev_timestamp = rev_timestamp
+        self.rating = rating
+        self.review = review
+
+    @staticmethod
+    def get_seller_reviews(sid):
+        rows = app.db.execute('''
+SELECT rid, uid, sid, email, rev_timestamp, rating, review
+FROM seller_review
+WHERE sid = :sid
+ORDER BY rev_timestamp
+''',
+                              sid=sid)
+        return [Product_review(*row) for row in rows] 
+
+    @staticmethod
+    def count_seller_reviews(sid):
+        count = app.db.execute('''
+SELECT COUNT(rating)
+FROM seller_review
+WHERE sid = :sid
+''',
+                            sid=sid)
+        try:
+            count = ("").join([str(c) for (c,) in count])
+        except:
+            count = 'N/A (no reviews yet)'
+        
+        if count == '0':
+            count = 'N/A (no reviews yet)'
+        return count
+
+    #get by review id
+    @staticmethod
+    def get(rid):
+        rows = app.db.execute('''
+SELECT rid, uid, sid, email, rev_timestamp, rating, review
+FROM seller_review
+WHERE rid = :rid
+''',
+                              rid=rid)
+        return [Product_review(*row) for row in rows]
+
+#average rating for a product
+    @staticmethod
+    def avg_seller_rating(sid):
+        avg = app.db.execute('''
+SELECT AVG(rating)
+FROM seller_review
+WHERE sid = :sid
+''',
+                            sid=sid)
+        try:
+            avg = ("").join(['{:.1f}'.format(a) for (a,) in avg])
+        except:
+            avg = 'N/A (no reviews yet)'
+        return avg #change
+
+    
+
 class Orders:
-    def __init__(self, prod_id, uid, order_quantity, date, ordered):
+    def __init__(self, prod_id, uid, order_quantity, add_date, ordered):
         self.prod_id = prod_id
         self.uid = uid
         self.order_quantity = order_quantity
-        self.date = date
+        self.add_date = add_date
         self.ordered = ordered
 
 
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
-SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.date, Orders.ordered
+SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders, Products
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
         ''',uid= uid)
-        return [Products(*row) for row in rows] 
+        return [Orders(*row) for row in rows] 
+    
+    @staticmethod
+    def add_to_cart(prod_id, quantity, uid, add_date):
+        rows = app.db.execute("""
+    INSERT INTO Orders
+    VALUES (:prod_id, :uid, :quantity, :add_date, 'N')
+    RETURNING uid
+    """, 
+                                uid = uid,
+                                prod_id = prod_id,
+                                quantity = quantity,
+                                add_date = add_date
+            )
+        return Orders.get_cart(uid)
 
+#add seller reviews
+class Add_seller_review:
+    def __init__(self, uid, sid, email, rev_timestamp, rating, review):
+        self.rid = rid
+        self.uid = uid
+        self.sid = sid
+        self.email = email
+        self.rev_timestamp = rev_timestamp
+        self.rating = rating
+        self.review = review
 
-    # @staticmethod
-    # def add_to_cart(product_id, quantity, uid):
-    #         if ordered = 'Y' and quantity > 0:
-    #             rows = app.db.execute("""
-    # SELECT CAST( GETDATE() AS Date )
-    # INSERT INTO Orders(prod_id, uid, order_quantity, date, ordered)
-    # VALUES(:product_id, :uid, 1, Date, 'N')
-    # RETURNING prod_id
-    # """, 
-    #                             product_id= product_id,
-    #                               uid = uid
-    #         )
-        #     return Orders.get_cart(prod_id, uid)
-        # else:
-        #     # add error message that is not available or quanitiy < 1
-        #     return None
+    @staticmethod
+    def add_review(rid, uid, sid, email, rev_timestamp, rating, review):
+        try:
+            rows = app.db.execute("""
+INSERT INTO Reviews(rid, uid, sid, email, rev_timestamp, rating, review)
+VALUES(:rid, :uid, :sid, :email, :rev_timestamp, :rating, :review)
+RETURNING rid
+""", 
+                                  rid=rid,
+                                  uid= uid,
+                                  sid=sid,
+                                  email=email,
+                                  rev_timestamp= rev_timestamp,
+                                  rating = rating,
+                                  review = review,
+            )
+            #return Product_review.get(rid)
+        except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
+<<<<<<< HEAD
 class Prod_Sell_Rev_Cat:
     def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name):
+=======
+
+    
+class Prod_Sell_Rev:
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating):
+>>>>>>> origin/main
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
@@ -543,6 +696,7 @@ WHERE available = :available
 AND product_name = :target_name
 AND product_id <> :product_id
         ''',target_name=target_name, available=available, product_id=product_id)
+<<<<<<< HEAD
         return [Prod_Sell_Rev_Cat(*row) for row in rows]
 
     @staticmethod
@@ -594,3 +748,6 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
         ''',
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
+=======
+        return [Prod_Sell_Rev(*row) for row in rows]
+>>>>>>> origin/main

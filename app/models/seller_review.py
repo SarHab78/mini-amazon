@@ -17,7 +17,7 @@ class seller_review:
     @staticmethod
     def get_prod_reviews(pid):
         rows = app.db.execute('''
-SELECT rid, sid, uid, email, timestamp, rating, review
+SELECT rid, uid, sid, email, timestamp, rating, review
 FROM product_review
 WHERE sid = :sid
 ''',

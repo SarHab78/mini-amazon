@@ -116,7 +116,11 @@ html, body {
         <p>{{product.product_description}}</p>
         <p><b>Category:</b> {{product.cat_name}}</p>
         <p><b>Seller:</b> {{product.firstname}} {{product.lastname}}</p>
-        </div>
+      </div>
+      
+      {% for thing in seller %}
+      <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_seller_review', sid=thing.seller_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
+      {% endfor %}
 
         <!-- Product Pricing -->
         <div class="product-price">
@@ -134,6 +138,13 @@ html, body {
           <p>
             {{ form.quantity.label }}<br/>
             {{ form.quantity(size=32) }}<br/>
+            {% for error in get_flashed_messages() %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </p>
+          <p>
+            {{ form.add_date.label }}<br/>
+            {{ form.add_date(size=32) }}<br/>
             {% for error in get_flashed_messages() %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
