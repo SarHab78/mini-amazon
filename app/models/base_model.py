@@ -90,7 +90,7 @@ WHERE id = :id
         try:
             rows = app.db.execute("""
 UPDATE Users
-SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
+SET(id=:id, email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
 WHERE id=:id
 """,
                                   email=email,
@@ -102,7 +102,8 @@ WHERE id=:id
                                   is_seller = is_seller,
                                   id=id
                                   )
-            
+                       
+            id = rows[0][0]
             return User.get(id)
         except Exception:
             # likely email already in use; better error checking and
