@@ -107,15 +107,17 @@ WHERE id=:id
             # likely email already in use; better error checking and
             # reporting needed
             return None
+
     @staticmethod
-    def decrement_balance(balance, total):
+    def decrement_balance(balance):
+        total = cart_total()
         rows = app.db.execute("""
-        Update User
-        WHERE balance = balance - total
-        """,
-                              balance = balance
-                              total = totaal)
-        return User(*(rows[0])) if rows else None
+    Update User
+    WHERE balance = balance - :total """,
+                                balance = balance)
+        return user
+
+
 #Purchase table information
         
 class Purchase:
@@ -611,8 +613,7 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     SELECT COUNT(price) 
     FROM Product
     WHERE Product.product_id = Orders.prod_id
-    """, 
-        )
+    """)
         return COUNT
 
 
