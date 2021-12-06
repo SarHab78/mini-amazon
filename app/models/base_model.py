@@ -526,7 +526,7 @@ WHERE sid = :sid
 ORDER BY rev_timestamp
 ''',
                               sid=sid)
-        return [Product_review(*row) for row in rows] 
+        return [Seller_review(*row) for row in rows] 
 
     @staticmethod
     def count_seller_reviews(sid):
@@ -570,6 +570,46 @@ WHERE sid = :sid
         except:
             avg = 'N/A (no reviews yet)'
         return avg #change
+
+
+#class Add_seller_review:
+ #   def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
+  #      self.rid = rid
+   #     self.uid = uid
+    #    self.sid = sid
+     #   self.email = email
+    #    self.rev_timestamp = rev_timestamp
+    #    self.rating = rating
+     #   self.review = review
+    
+    @staticmethod
+    def stest():
+        print('this is a method')
+        return None
+    
+    @staticmethod
+    def add_seller_review(rid, uid, sid, email, rating, review):
+        try:
+            print("are you even trying")
+            rows = app.db.execute("""
+INSERT INTO Seller_review(rid, uid, sid, email, rev_timestamp, rating, review) 
+VALUES(:rid, :uid, :sid, :email, NOW()::TIMESTAMP, :rating, :review)
+RETURNING rid
+""", 
+                                  rid=str(rid),
+                                  uid= int(uid),
+                                  sid=int(sid),
+                                  email=str(email),
+                                  #rev_timestamp= rev_timestamp,
+                                  rating = int(rating),
+                                  review = str(review)
+            )
+           # return Product_review.get(rid)
+        except Exception:
+            print('exception. not added to db :( ')
+            # likely email already in use; better error checking and
+            # reporting needed
+            return None
 
     
 
