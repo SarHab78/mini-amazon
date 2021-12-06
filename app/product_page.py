@@ -32,7 +32,7 @@ class QuantityForm(FlaskForm):
 @bp.route('/<name>/<product_id>', methods=['GET','POST'])
 def product_page(name, product_id):
     form = QuantityForm()
-
+    print('accessing')
     name = name
     product_id = product_id
     searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str='book')     
