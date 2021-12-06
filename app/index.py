@@ -138,11 +138,9 @@ def index():
 
     else:
         if request.method == "POST":
-            user = current_user.id
 
             # Try adding this request.form.get line to differentiate between the two buttons
             if request.form.get("product_query"):
-                user = current_user.id
                 product_query = request.form['product_query']
                 session['current_query'] = product_query
 
@@ -174,10 +172,6 @@ def index():
                            curr_uid = user,
                            sortform = sortform,
                            filterform = filterform)
-
-#@bp.route('/', methods=['GET', 'POST'])
-#def search_sort():
-#    print('hi')
 
 @bp.route('/item_successfully_added')
 def interim():
