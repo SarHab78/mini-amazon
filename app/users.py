@@ -159,8 +159,8 @@ class EditBalanceForm(FlaskForm):
     balance = IntegerField(_l('balance'), validators=[DataRequired()])
     submit = SubmitField('Update Balance')
 
-    @bp.route('/editbalance/<int:id>', methods=['GET', 'POST'])
-    def editbalance(id):
+@bp.route('/editbalance/<int:id>', methods=['GET', 'POST'])
+def editbalance(id):
     print ('start')
     form = EditBalanceForm()
     if form.validate_on_submit():
