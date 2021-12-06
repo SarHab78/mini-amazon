@@ -57,7 +57,7 @@ def product_page(name, product_id):
             #return redirect(url_for('index.index'))
             return redirect(url_for('product_page.product_page', name=name, product_id=product_id))
         else:
-            return redirect(url_for('interim.interim', name=name, product_id=product_id, quant=quant_selected))
+            return redirect(url_for('interim.interim', uid = current_user.id, name=name, product_id=product_id, quant=quant_selected, add_date = add_date))
     if form.is_submitted() and not form.validate():
         flash('Invalid - must enter a value between 0 and {}'.format(quant_options[-1]))
 
