@@ -99,11 +99,10 @@ WHERE id=:id
                                   lastname=lastname,
                                   address= address,
                                   balance = balance,
-                                  is_seller = is_seller
-                                  
+                                  is_seller = is_seller,
+                                  id=id
                                   )
             
-            id = rows[0][0]
             return User.get(id)
         except Exception:
             # likely email already in use; better error checking and
