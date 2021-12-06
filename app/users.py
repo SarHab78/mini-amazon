@@ -158,3 +158,21 @@ def editprofile(id):
             return render_template("profile.html") 
     return render_template("edit.html", form=form, id=id)
 
+class EditFirstNameForm(FlaskForm):
+    id = IntegerField(_l('id'), validators=[DataRequired()])
+    firstname = StringField(_l('First Name'), validators=[DataRequired()])
+    submit = SubmitField('Update First Name')
+
+@bp.route('/editfirstname/<int:id>', methods=['GET', 'POST'])
+def editfirstname(id):
+    print ('start')
+    form = EditFirstnameForm()
+    if form.validate_on_submit():
+        if User.edit_firstname(
+                        form.id.data,
+                         form.firstname.data):
+            print ('if two')
+            flash('First name has been updated!')
+            return render_template("profile.html") 
+    return render_template("editfirstname.html", form=form, id=id)
+
