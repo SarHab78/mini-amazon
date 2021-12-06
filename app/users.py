@@ -41,29 +41,11 @@ def login():
 
 
 class RegistrationForm(FlaskForm):
-    # def checkNumber(self, balance):
-    #     if request.method == 'POST':
-
-    #         number_str = request.form['balance']
-    #         try:
-    #             number = float(number_str)
-    #         except ValueError:
-    #             number = None
-
-    #         if number is None:
-    #             raise ValueError('Please enter number only')
-    #         elif number < 0:
-    #             raise ValueError('Balance should be greater than or equal to 0')
-    #         else:
-    #             pass
-
-    #     return render_template('register.html')
-
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
     is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
@@ -74,8 +56,6 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         if User.email_exists(email.data):
             raise ValidationError(_('Already a user with this email.'))
-    
-    
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -94,7 +74,6 @@ def register():
             flash('Congratulations, you are now a registered user!')
             return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
-
 
 @bp.route('/logout')
 def logout():
