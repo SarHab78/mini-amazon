@@ -94,8 +94,8 @@ WHERE id = :id
         #try:
             rows = app.db.execute("""
 UPDATE Users
-SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
-WHERE id=:id
+SET(email= :email, pwd= :password, firstname= :firstname, lastname= :lastname, address= :address, balance= :balance, is_seller= :is_seller)
+WHERE id= :id
 RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
 """,
                                   id=id,
