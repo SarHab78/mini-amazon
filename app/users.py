@@ -103,9 +103,9 @@ def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
-@bp.route('/profile', methods=['GET', 'POST'])
-def profile():
-    return render_template('profile.html')
+@bp.route('/profile/<int:id>', methods=['GET', 'POST'])
+def profile(id):
+    return render_template('profile.html', id=id)
 
 class EditProfileForm(FlaskForm):
     firstname = StringField(_l('First Name'), validators=[DataRequired()])

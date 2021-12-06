@@ -35,13 +35,6 @@
     {% endfor %}
   </p>
   <p>
-    {{ form.rev_timestamp.label }} (auto-generated) <br/>
-    {{ form.rev_timestamp(size=32) }}<br/>
-    {% for error in form.rev_timestamp.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-  </p>
-  <p>
     {{ form.rating.label }} from 1-5 stars <br/>
     {{ form.rating(size=32) }}<br/>
     {% for error in form.rating.errors %}
@@ -56,8 +49,6 @@
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
-  
-
   
 
   <p>{{ form.submit() }}</p>
