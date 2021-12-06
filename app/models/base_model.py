@@ -578,6 +578,7 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
                                 uid = uid,
                                 prod_id = prod_id,
                                 quantity = quantity
+                                add_date = add_date
             )
         return Orders.get_cart(uid)
 
