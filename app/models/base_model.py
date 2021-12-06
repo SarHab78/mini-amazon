@@ -188,7 +188,7 @@ RETURNING id, address
             rows = app.db.execute("""
 UPDATE Users
 SET(balance = :balance)
-WHERE id == :id
+WHERE id = :id
 RETURNING id, balance
 """,
                                   id=id,
