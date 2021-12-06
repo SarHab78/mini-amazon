@@ -39,12 +39,33 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
+
 class RegistrationForm(FlaskForm):
+    def checkNumber(self, balance):
+        if request.method == 'POST':
+
+            number_str = request.form['balance']
+            try:
+                number = float(number_str)
+            except ValueError:
+                number = None
+
+            if number is None:
+                raise ValueError('Please enter number only')
+            elif number < 0:
+                raise ValueError('Balance should be greater than or equal to 0')
+            else:
+                pass
+
+        return render_template('register.html')
+
+    
+
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
     is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
@@ -55,6 +76,8 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         if User.email_exists(email.data):
             raise ValidationError(_('Already a user with this email.'))
+    
+    
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -79,3 +102,36 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
+
+@bp.route('/profile/<int:id>', methods=['GET', 'POST'])
+def profile(id):
+    return render_template('profile.html', id=id)
+
+class EditProfileForm(FlaskForm):
+    firstname = StringField(_l('First Name'), validators=[DataRequired()])
+    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    address = StringField(_l('Address'), validators=[DataRequired()])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
+    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
+    password = PasswordField(_l('Password'), validators=[DataRequired()])
+    password2 = PasswordField(
+        _l('Repeat Password'), validators=[DataRequired(),
+                                           EqualTo('password')])
+    submit = SubmitField('Update Profile')
+
+@bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
+def editprofile(id):
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        if User.edit(form.email.data,
+                         form.password.data,
+                         form.firstname.data,
+                         form.lastname.data,
+                         form.address.data,
+                         form.balance.data,
+                         form.is_seller.data):
+            flash('Profile has been updated!')
+            return render_template("profile.html") 
+    return render_template("edit.html", form=form, id=id)
+
