@@ -41,25 +41,23 @@ def login():
 
 
 class RegistrationForm(FlaskForm):
-    def checkNumber(self, balance):
-        if request.method == 'POST':
+    # def checkNumber(self, balance):
+    #     if request.method == 'POST':
 
-            number_str = request.form['balance']
-            try:
-                number = float(number_str)
-            except ValueError:
-                number = None
+    #         number_str = request.form['balance']
+    #         try:
+    #             number = float(number_str)
+    #         except ValueError:
+    #             number = None
 
-            if number is None:
-                raise ValueError('Please enter number only')
-            elif number < 0:
-                raise ValueError('Balance should be greater than or equal to 0')
-            else:
-                pass
+    #         if number is None:
+    #             raise ValueError('Please enter number only')
+    #         elif number < 0:
+    #             raise ValueError('Balance should be greater than or equal to 0')
+    #         else:
+    #             pass
 
-        return render_template('register.html')
-
-    
+    #     return render_template('register.html')
 
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
