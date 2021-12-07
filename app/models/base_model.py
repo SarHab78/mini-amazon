@@ -247,7 +247,7 @@ RETURNING id, password
     @staticmethod
     def get_from_email(email):
         rows = app.db.execute('''
-SELECT *
+SELECT id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 ''',
