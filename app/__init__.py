@@ -58,7 +58,7 @@ def create_app():
     app.register_blueprint(seller_reviews_bp)
 
     from .checkout import bp as checkout_bp
-        app.register_blueprint(checkout_bp)
+    app.register_blueprint(checkout_bp)
 
 
     return app
