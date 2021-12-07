@@ -23,9 +23,12 @@ bp = Blueprint('carts', __name__)
 @bp.route('/carts')
 def carts():
     if current_user.is_authenticated:
+        print('getting to my caart')
+
         my_cart = Orders.get_cart(current_user.id)
+        print('getting to my caart 2')
+
     else:
-        print('getting to else')
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
 
