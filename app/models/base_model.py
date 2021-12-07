@@ -90,13 +90,15 @@ WHERE id = :id
         return User(*(rows[0])) if rows else None
 
     @staticmethod
-    def edit(email, password, firstname, lastname, address, balance, is_seller):
-        try:
+    def edit(id, email, password, firstname, lastname, address, balance, is_seller):
+        #try:
             rows = app.db.execute("""
 UPDATE Users
-SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
-WHERE id=:id
+SET email = :email, pwd = :password, firstname = :firstname, lastname = :lastname, address = :address, balance  = :balance, is_seller = :is_seller
+WHERE id = :id
+RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
 """,
+                                  id=id,
                                   email=email,
                                   password=generate_password_hash(password),
                                   firstname=firstname,
@@ -104,13 +106,132 @@ WHERE id=:id
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
-            
             id = rows[0][0]
+            print(rows)
             return User.get(id)
-        except Exception:
+        #except Exception:
             # likely email already in use; better error checking and
             # reporting needed
-            return None
+          #  return 'test'
+
+    @staticmethod
+    def edit_firstname(id, firstname):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(Users.firstname = :firstname)
+WHERE id = :id
+RETURNING id, firstname
+""",
+                                  id=id,
+                                  firstname=firstname
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+        #except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+          #  return 'test'
+ 
+    @staticmethod
+    def edit_lastname(id, lastname):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(lastname = :lastname)
+WHERE id = :id
+RETURNING id, lastname
+""",
+                                  id=id,
+                                  lastname=lastname
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_email(id, email):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(email = :email)
+WHERE id = :id
+RETURNING id, email
+""",
+                                  id=id,
+                                  email=email
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_address(id, address):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(address = :address)
+WHERE id = :id
+RETURNING id, address
+""",
+                                  id=id,
+                                  address=address
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_balance(id, balance):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET balance = :balance
+WHERE id = :id
+RETURNING id, balance
+""",
+                                  id=id,
+                                  balance=balance
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_is_seller(id, is_seller):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(is_seller = :is_seller)
+WHERE id = :id
+RETURNING id, is_seller
+""",
+                                  id=id,
+                                  is_seller=is_seller
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_password(id, password):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(password = :password)
+WHERE id = :id
+RETURNING id, password
+""",
+                                  id=id,
+                                  password=password
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    
+
 
 #Purchase table information
         
@@ -428,8 +549,7 @@ ORDER BY price, quantity
         return [Product(*row) for row in rows]
 
 
-
-
+        
 class Product_review:
     def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
         self.rid = rid
@@ -511,6 +631,29 @@ WHERE rid = :rid
                               rid=rid)
         return [Product_review(*row) for row in rows]
 
+        
+
+
+#edit a review
+    @staticmethod
+    def edit(rid, pid, uid, email, rating, review):
+        #try:
+            rows = app.db.execute("""
+UPDATE Product_review
+SET rid = :rid, pid = :pid, uid = :uid, email = :email, rev_timestamp = NOW()::TIMESTAMP, rating  = :rating, review = :review
+WHERE rid = :rid
+RETURNING rid, pid, uid, email, rev_timestamp, rating, review
+""",
+                                    rid=rid,
+                                    pid=pid,
+                                    uid=uid,
+                                    email=email,
+                                    rating=rating,
+                                    review= review)
+            id = rows[0][0]
+            print(rows)
+            return Product_review.get(id)
+
 #    @staticmethod
  #   def review_exists(pid, uid):
   #      rows = app.db.execute('''
@@ -582,6 +725,19 @@ ORDER BY rev_timestamp
                               sid=sid)
         return [Seller_review(*row) for row in rows] 
 
+
+    @staticmethod
+    def get_users_reviews(uid):
+        rows = app.db.execute('''
+SELECT rid, uid, sid, email, rev_timestamp, rating, review
+FROM Seller_review
+WHERE uid = :uid
+ORDER BY rev_timestamp
+''',
+                              uid=uid)
+        return [Seller_review(*row) for row in rows] 
+
+
     @staticmethod
     def count_seller_reviews(sid):
         count = app.db.execute('''
@@ -608,7 +764,7 @@ FROM seller_review
 WHERE rid = :rid
 ''',
                               rid=rid)
-        return [Product_review(*row) for row in rows]
+        return [Seller_review(*row) for row in rows]
 
 #average rating for a product
     @staticmethod
@@ -625,16 +781,24 @@ WHERE sid = :sid
             avg = 'N/A (no reviews yet)'
         return avg #change
 
-
-#class Add_seller_review:
- #   def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
-  #      self.rid = rid
-   #     self.uid = uid
-    #    self.sid = sid
-     #   self.email = email
-    #    self.rev_timestamp = rev_timestamp
-    #    self.rating = rating
-     #   self.review = review
+    @staticmethod
+    def edit(rid, uid, sid, email, rating, review):
+        #try:
+            rows = app.db.execute("""
+UPDATE Seller_review
+SET rid = :rid, uid = :uid, sid = :sid, email = :email, rev_timestamp = NOW()::TIMESTAMP, rating  = :rating, review = :review
+WHERE rid = :rid
+RETURNING rid, uid, sid, email, rev_timestamp, rating, review
+""",
+                                    rid=rid,
+                                    uid=uid,
+                                    sid=sid,
+                                    email=email,
+                                    rating=rating,
+                                    review= review)
+            id = rows[0][0]
+            print(rows)
+            return Seller_review.get(id)
     
     @staticmethod
     def stest():
@@ -733,7 +897,7 @@ RETURNING rid
             return None
 
 class Prod_Sell_Rev_Cat:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name):
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, email, address, id, available, avg_rating, cat_name):
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
@@ -742,11 +906,16 @@ class Prod_Sell_Rev_Cat:
         self.price = price
         self.firstname = firstname
         self.lastname = lastname
+        self.email = email
+        self.address = address
+        self.id = id
         self.avg_rating = avg_rating
         self.available = available
         self.cat_name = cat_name
        
     
+        
+        
     
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
@@ -851,7 +1020,6 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
 
-
 class Prod_Sell_Rev_Cat_Ord:
     def __init__(self,  uid, firstname, lastname, email, address, product_name, product_id, add_date, order_quantity, ordered):
         self.uid = uid
@@ -924,3 +1092,24 @@ WHERE Prod_Sell_Rev_Cat_Ord.uid = Users.id
                             search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by, direc=direc, filt_list=filt_list)
 
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows]
+class Seller_Information:
+    def __init__(self, product_name, product_id, firstname, lastname, email, address, id):
+        self.product_name = product_name
+        self.product_id = product_id
+        self.firstname=firstname
+        self.lastname=lastname
+        self.email=email
+        self.address=address
+        self.id = id
+
+    @staticmethod
+    def get_information(product_id):
+        rows = app.db.execute('''
+SELECT p.product_name, p.product_id, u.firstname, u.lastname, u.email, u.address, u.id
+FROM Products as p
+FULL OUTER JOIN Users as u
+ON p.seller_id = u.id
+WHERE p.product_id = :product_id
+        ''',
+                                product_id = product_id)
+        return [Seller_Information(*row) for row in rows] 

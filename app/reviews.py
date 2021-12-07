@@ -101,9 +101,36 @@ def add_a_review(product_id):
     return render_template('review_form.html', title='reviews', form=form)
 
 
-@bp.route('/editreview/<int:id>', methods=['GET', 'POST'])
+
+class EditReviewForm(FlaskForm):
+    rid = StringField(_l('rid'), validators=[DataRequired()])
+    pid = IntegerField(_l('pid'), validators=[DataRequired()])
+    uid = IntegerField(_l('uid'), validators=[DataRequired()])
+    email = StringField(_l('email'), validators=[DataRequired()])
+    #rev_timestamp = DateTimeField(_l('rev_timestamp'), validators=[DataRequired()])
+    rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
+    review = StringField(_l('review'), validators=[DataRequired()])
+    submit = SubmitField(_l('Submit'))
+    # def validate_email(self, email): when we have cart functionality?
+
+    #validate review 
+    #def validate_review(self, pid):
+     #   if Product_review.review_exists(pid, current_user.id):
+      #      return True
+       # else: 
+        #    return False
+@bp.route('/editreview/<id>', methods=['GET', 'POST'])
 def editreview(id):
+    #id = id
     form = EditReviewForm()
+    obj = Product_review.get(id)
+    #print(obj)
+    pid = obj[0].pid
+    uid = obj[0].uid
+    rid = obj[0].rid
+    email = current_user.email
+    rating = obj[0].rating
+    review = obj[0].review
     if form.validate_on_submit():
                 rid = request.form['rid']
                 print(rid)
@@ -120,13 +147,13 @@ def editreview(id):
                 print(rating)
                 review = request.form['review']
                 print(review)
-                Add_review.edit_review(rid,
+                Product_review.edit(rid,
                             pid,
                             uid,
                             email,
-                            rev_timestamp,
+                            #rev_timestamp,
                             rating,
                             review)
                 flash('thanks for editing your review!')
                 return redirect(url_for('users_review_page.myreviews'))
-    return render_template('review_form.html', title='reviews', form=form)
+    return render_template('edit_review.html', title='reviews', form=form, pid=pid, uid=uid, email=email, rid=rid, rating=rating, review=review)

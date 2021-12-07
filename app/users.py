@@ -41,31 +41,11 @@ def login():
 
 
 class RegistrationForm(FlaskForm):
-    def checkNumber(self, balance):
-        if request.method == 'POST':
-
-            number_str = request.form['balance']
-            try:
-                number = float(number_str)
-            except ValueError:
-                number = None
-
-            if number is None:
-                raise ValueError('Please enter number only')
-            elif number < 0:
-                raise ValueError('Balance should be greater than or equal to 0')
-            else:
-                pass
-
-        return render_template('register.html')
-
-    
-
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired(), checkNumber])
+    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
     is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
@@ -76,8 +56,6 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         if User.email_exists(email.data):
             raise ValidationError(_('Already a user with this email.'))
-    
-    
 
 
 @bp.route('/register', methods=['GET', 'POST'])
@@ -97,7 +75,6 @@ def register():
             return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
-
 @bp.route('/logout')
 def logout():
     logout_user()
@@ -108,6 +85,7 @@ def profile(id):
     return render_template('profile.html', id=id)
 
 class EditProfileForm(FlaskForm):
+    
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
@@ -124,14 +102,53 @@ class EditProfileForm(FlaskForm):
 def editprofile(id):
     form = EditProfileForm()
     if form.validate_on_submit():
-        if User.edit(form.email.data,
+        if User.edit(
+                        current_user.id,
+                        form.email.data,
                          form.password.data,
                          form.firstname.data,
                          form.lastname.data,
                          form.address.data,
                          form.balance.data,
                          form.is_seller.data):
-            flash('Profile has been updated!')
+    
             return render_template("profile.html") 
     return render_template("edit.html", form=form, id=id)
+
+class EditFirstnameForm(FlaskForm):
+    id = IntegerField(_l('id'), validators=[DataRequired()])
+    firstname = StringField(_l('First Name'), validators=[DataRequired()])
+    submit = SubmitField('Update First Name')
+
+@bp.route('/editfirstname/<int:id>', methods=['GET', 'POST'])
+
+def editfirstname(id):
+    print ('start')
+    form = EditFirstnameForm()
+    if form.validate_on_submit():
+        if User.edit_firstname(
+                        form.id.data,
+                         form.firstname.data):
+            print ('if two')
+            flash('First name has been updated!')
+            return render_template("profile.html") 
+    return render_template("editfirstname.html", form=form, id=id)
+
+class EditBalanceForm(FlaskForm):
+    id = IntegerField(_l('id'), validators=[DataRequired()])
+    balance = IntegerField(_l('balance'), validators=[DataRequired()])
+    submit = SubmitField('Update Balance')
+
+@bp.route('/editbalance/<int:id>', methods=['GET', 'POST'])
+def editbalance(id):
+    print ('start')
+    form = EditBalanceForm()
+    if form.validate_on_submit():
+        if User.edit_balance(
+                        form.id.data,
+                         form.balance.data):
+            print ('if two')
+            flash('Balance has been updated!')
+            return render_template("profile.html") 
+    return render_template("editbalance.html", form=form, id=id)
 
