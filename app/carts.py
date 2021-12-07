@@ -25,6 +25,7 @@ def carts():
     if current_user.is_authenticated:
         my_cart = Orders.get_cart(current_user.id)
     else:
+        print('getting to else')
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
 
