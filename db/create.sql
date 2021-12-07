@@ -111,7 +111,7 @@ CREATE VIEW total_money AS (
     SELECT sum(price) as total, uid, ordered
     FROM Orders
     GROUP BY uid
-)
+);
 
 CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$
 BEGIN
