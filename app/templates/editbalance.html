@@ -6,8 +6,8 @@
 
 <form action="" method="post" >
   {{ form.hidden_tag() }}
-  <h3> Add or withdraw money from your account. Simply enter the new amount you want your account to have! <h3>
-  <p> Current Balance: {{ current_user.balance }} <p>
+  <h3> Add or withdraw money from your account. Simply enter the new amount you want your account to have! </h3>
+  <p> Current Balance: {{ current_user.balance }} </p>
   <p>
     {{ form.balance.label }} <br/>
     {{ form.balance(size=32, value=current_user.balance) }}<br/>
