@@ -650,9 +650,10 @@ WHERE rid = :rid
         rows = app.db.execute("""
 DELETE FROM Product_review 
 WHERE rid = :rid
+RETURNING *
 """,
                                     rid=rid)
-        return Product_review.get_users_reviews(uid)
+        return [Product_review(*row) for row in rows]
 
         
 
@@ -676,15 +677,6 @@ RETURNING rid, pid, uid, email, rev_timestamp, rating, review
             id = rows[0][0]
             print(rows)
             return Product_review.get(id)
-
-    @staticmethod
-    def delete(rid):
-        #try:
-            rows = app.db.execute("""
-DELETE FROM Product_review 
-WHERE rid = :rid
-""",
-                                    rid=rid,)
 
 
 
@@ -792,9 +784,10 @@ WHERE rid = :rid
         rows = app.db.execute("""
 DELETE FROM Seller_review 
 WHERE rid = :rid
+RETURNING *
 """,
                                     rid=rid)
-        return Seller_review.get_users_reviews(uid)
+        return [Seller_review(*row) for row in rows]
 
 
 #average rating for a product

@@ -161,10 +161,11 @@ def editreview(id):
 
 @bp.route('/<rid>/delete_review', methods=['GET', 'POST'])
 def delete_this_review(rid):
-    obj = Product_review.get(rid)
-    rid = obj[0].rid
-    #print(rid)
-    Product_review.delete(rid)
-    newobj = Product_review.get_users_reviews(current_user.id)
-    return redirect(url_for('users_review_page.myreviews'))
+    if current_user.is_authenticated:
+        obj = Product_review.get(rid)
+        rid = obj[0].rid
+        #print(rid)
+        Product_review.delete(rid)
+        newobj = Product_review.get_users_reviews(current_user.id)
+        return redirect(url_for('users_review_page.myreviews'))
     #return render_template('review_deleted_confirmation.html', seller_reviews = newobj)
