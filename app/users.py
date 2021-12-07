@@ -170,7 +170,7 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset Password')
 
 def send_reset_email(user):
-    token = User.get_reset_token()
+    token = User.get_reset_token(user)
     msg=Message('Password Reset: Mini Amazon', sender='noreply@steministgirlboss.com', recipients=[user.email()])
     msg.body=f'''To reset your password, visit the following link: {url_for('Users.reset_token', token=token, _external=True)}
 
