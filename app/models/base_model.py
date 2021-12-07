@@ -25,6 +25,17 @@ class User(UserMixin):
         digest = md5(email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
+    
+    @staticmethod
+    def get_email(id):
+        rows = app.db.execute("""
+SELECT email
+FROM Users
+WHERE id=:id
+""",
+        id=id)
+    return [User(*row) for row in rows] if rows else []
+
 
     @staticmethod
     def get_by_auth(email, password):
