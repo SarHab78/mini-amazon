@@ -30,7 +30,7 @@ def checkout():
 def final_checkout():
     my_cart = Orders.get_cart(current_user.id)
     balance = current_user.balance
-    price = Orders.total_price(prod_id, current_user.id)
+    price = Orders.total_price(current_user.id)
     if form.validate_on_submit():
         if balance < total:
             flash('Insufficient Funds, you current have a balance of ${}, your cart total is ${}', balance, total)
