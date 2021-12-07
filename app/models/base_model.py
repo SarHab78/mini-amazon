@@ -860,6 +860,8 @@ class Prod_Sell_Rev_Cat:
         self.price = price
         self.firstname = firstname
         self.lastname = lastname
+        self.email = email
+        self.address=address
         self.avg_rating = avg_rating
         self.available = available
         self.cat_name = cat_name
