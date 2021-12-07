@@ -576,19 +576,46 @@ WHERE sid = :sid
     
 
 class Orders:
-    def __init__(self, prod_id, uid, order_quantity, add_date, ordered):
+    def __init__(self, prod_id, uid, order_quantity, add_date, ordered, orders_image_url, orders_price):
         self.prod_id = prod_id
         self.uid = uid
         self.order_quantity = order_quantity
         self.add_date = add_date
         self.ordered = ordered
+        self.orders_image_url = orders_image_url
+        self.orders_price = orders_price
+        self.order_name = orders_name
+
+    @staticmethod
+    def get_order_image(prod_id):
+        rows = app.db.execute("""
+SELECT orders_image_url
+FROM Orders
+WHERE prod_id = :prod_id
+    """, 
+                                orders_image_url =orders_image_url,
+                                uid = uid
+                                            )
+        return rows
+
+        @staticmethod
+    def get_order_price(prod_id):
+        rows = app.db.execute("""
+SELECT orders_image_url
+FROM Orders
+WHERE prod_id = :prod_id
+    """, 
+                                orders_price =orders_price,
+                                uid = uid
+                                            )
+        return rows
 
 
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
-SELECT Products.name, Products.image_url, Products.price, Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
-FROM Orders, Products
+SELECT Orders.orders_name, Orders.orders_price, Orders.orders_image_url, Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
+FROM Orders
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
 
 
@@ -599,12 +626,15 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
 # WHERE ordered = 'N' AND uid = :uid    
 
     @staticmethod
-    def add_to_cart(prod_id, quantity, uid, add_date):
+    def add_to_cart(orders_name, orders_price, orders_image_url, prod_id, quantity, uid, add_date):
         rows = app.db.execute("""
 INSERT INTO Orders
-VALUES (:prod_id, :uid, :quantity, :add_date, 'N')
+VALUES (:orders_name, :orders_price, :orders_image_url, :prod_id, :uid, :quantity, :add_date, 'N')
 RETURNING uid
     """, 
+                                orders_name=orders_name,
+                                orders_price=orders_price,
+                                orders_image_url =orders_image_url,
                                 uid = uid,
                                 prod_id = prod_id,
                                 quantity = quantity,
@@ -619,7 +649,7 @@ SELECT SUM(price)
 FROM Product
 WHERE Product.product_id = Orders.prod_id AND User.id = Orders.uid AND Orders.ordered = 'N'
     """)
-        return SUM
+        return rows
 
 
     @staticmethod
