@@ -52,7 +52,7 @@
         {% if current_user.is_authenticated %}
           <p><font size="+1"><a href="{{ url_for('users.profile', id=current_user.id) }}"> Hello {{current_user.firstname}}!</a></font></p>
           <a href="{{ url_for('users.logout') }}" role="button" class="btn btn-danger" color=#FF5733><i class="fa fa-close"> </i>Log out</a>
-          <td><a class="btn btn-primary" href="{{ url_for('carts.carts')}}" role="button" color="blue">My Cart</a></td>
+          <td><a class="btn btn-primary" href="{{ url_for('carts.carts')}}" role="button" color="blue"> <i class="fa fa-cart"> </i> My Cart</a></td>
         
         {% else %}
           <a href="{{ url_for('users.login') }}" role="button" class="btn btn-primary" color=#FF5733>Log in</a>
