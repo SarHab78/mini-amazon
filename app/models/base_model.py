@@ -197,24 +197,24 @@ class Product:
         self.avg_rating = avg_rating
     
     @staticmethod
-    def get_order_price(id):
+    def get_order_price(product_id):
         rows = app.db.execute('''
 SELECT Products.price
 FROM Products
-WHERE id = :id
+WHERE product_id = :product_id
     ''', 
-                                id = id
+                                product_id = product_id
                                             )
-        return [Product(*(rows[0])) ]
+        return [Products(*(rows[0])) ]
 
     @staticmethod
-    def get_order_image(id):
+    def get_order_image(product_id):
         rows = app.db.execute("""
 SELECT Products.image_url
 FROM Products
-WHERE id = :id
+WHERE product_id = :product_id
     """, 
-                                id = id
+                                product_id = product_id
 
                                             )
         return [Products(*(rows[0]))]
