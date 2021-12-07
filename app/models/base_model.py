@@ -607,38 +607,12 @@ class Orders:
         self.orders_price = orders_price
         self.order_name = orders_name
 
-#     @staticmethod
-#     def get_order_image(prod_id):
-#         rows = app.db.execute("""
-# SELECT Orders.orders_image_url
-# FROM Orders
-# WHERE prod_id = :prod_id AND Orders.ordered = 'N'
-#     """, 
-#                                 prod_id = prod_id
-
-#                                             )
-#         return [Orders(*(rows[0]))
-
-#     @staticmethod
-#     def get_order_price(prod_id):
-#         rows = app.db.execute('''
-# SELECT Orders.orders_price
-# FROM Orders
-# WHERE prod_id = :prod_id AND Orders.ordered = 'N'
-#     ''', 
-#                                 prod_id = prod_id
-#                                             )
-#         return [Orders(*(rows[0]))
-
-
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
 SELECT Orders.orders_name, Orders.orders_price, Orders.orders_image_url, Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
-
-
         ''',
                                 uid= uid)
         return [Orders(*row) for row in rows] 
@@ -646,12 +620,12 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
 # WHERE ordered = 'N' AND uid = :uid    
 
     @staticmethod
-    def add_to_cart(orders_name, orders_price, orders_image_url, prod_id, quantity, uid, add_date):
-        rows = app.db.execute("""
-INSERT INTO Orders
+    def add_to_cart(prod_id, uid, quantity, add_date, orders_image_url, orders_price, orders_name):
+        rows = app.db.execute('''
+INSERT INTO Orders(prod_id, uid, quantity, add_date, 'N', orders_image_url, orders_price, orders_name)
 VALUES (:prod_id, :uid, :quantity, :add_date, 'N', :orders_image_url, :orders_price, :orders_name)
 RETURNING uid
-    """, 
+    ''', 
                                 orders_name=orders_name,
                                 orders_price=orders_price,
                                 orders_image_url =orders_image_url,
