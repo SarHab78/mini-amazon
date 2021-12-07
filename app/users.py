@@ -90,8 +90,8 @@ class EditProfileForm(FlaskForm):
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
-    is_seller = StringField(_l('Seller?'), validators=[DataRequired()])
+    balance = DecimalField(_l('Balance'), validators=[DataRequired()], places=2)
+    is_seller = StringField(_l('Seller?'), validators.AnyOf(values=['Y','N'])])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
@@ -136,7 +136,7 @@ def editfirstname(id):
 
 class EditBalanceForm(FlaskForm):
     
-    balance = IntegerField(_l('balance'), validators=[DataRequired()])
+    balance = DecimalField(_l('New Balance'), validators=[DataRequired()], places=2)
     submit = SubmitField('Update Balance')
 
 @bp.route('/editbalance/<int:id>', methods=['GET', 'POST'])
