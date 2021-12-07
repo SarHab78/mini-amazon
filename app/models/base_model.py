@@ -1064,7 +1064,7 @@ ORDER BY Prod_Sell_Rev_Cat_Ord.add_date DESC
         
 
     @staticmethod
-    def get_search_result(seller_id, search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
+    def get_search_result(seller_id, search_str='', order_by = 'price', direc='high-to-low', filt_list=all_categories):
         if filt_list == 'all':
             filt_list = all_categories
         
@@ -1078,26 +1078,26 @@ ORDER BY Prod_Sell_Rev_Cat_Ord.add_date DESC
         ending = ''
         if direc == 'high-to-low':
             if order_by == 'name':
-                ending = ' ORDER BY product_name DESC'
+                ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.product_name DESC'
             elif order_by == 'rating':
                 ending = ' ORDER BY avg_rating DESC NULLS LAST'
             elif order_by == 'category':
-                ending = ' ORDER BY cat_name DESC'
+                ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.cat_name DESC'
             else:
-                ending = ' ORDER BY price DESC'
+                ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.price DESC'
         else:
             if order_by == 'name':
-                ending = ' ORDER BY product_name ASC'
+                ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.product_name ASC'
             elif order_by == 'rating':
-                ending = ' ORDER BY avg_rating ASC NULLS LAST'
+                ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.avg_rating ASC NULLS LAST'
             elif order_by == 'category':
-                ending = ' ORDER BY cat_name ASC'
+                ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.cat_name ASC'
             else:
-                 ending = ' ORDER BY price ASC'
+                 ending = ' ORDER BY Prod_Sell_Rev_Cat_Ord.price ASC'
         full_query = base_query + ending
 
         rows = app.db.execute(full_query,
-                            search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by, direc=direc, filt_list=filt_list, seller_id = seller_id)
+                            search_str = '%' + search_str.lower() + '%',  order_by = order_by, direc=direc, filt_list=filt_list, seller_id = seller_id)
 
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows]
 class Seller_Information:
