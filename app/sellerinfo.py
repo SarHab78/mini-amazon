@@ -10,8 +10,8 @@ from .models.base_model import User
 
 
 from flask import Blueprint
-bp = Blueprint('seller_information', __name__)
+bp = Blueprint('sellerinfo', __name__)
 
-@bp.route('/seller_information>', methods=['GET', 'POST'])
-def seller_information():
-    return render_template('seller_information.html')
+@bp.route('/sellerinfo>', methods=['GET', 'POST'])
+def sellerinfo():
+    return render_template('sellerinfo.html')
