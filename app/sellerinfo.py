@@ -14,4 +14,5 @@ bp = Blueprint('sellerinfo/<int:id>', __name__)
 
 @bp.route('/sellerinfo', methods=['GET', 'POST'])
 def sellerinfo(id):
+    id=id
     return render_template('sellerinfo.html', id=id)
