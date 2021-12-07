@@ -853,7 +853,7 @@ RETURNING rid
             return None
 
 class Prod_Sell_Rev_Cat:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name, email, address, id):
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, email, address, id, available, avg_rating, cat_name):
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
@@ -862,12 +862,13 @@ class Prod_Sell_Rev_Cat:
         self.price = price
         self.firstname = firstname
         self.lastname = lastname
-        self.avg_rating = avg_rating
-        self.available = available
-        self.cat_name = cat_name
         self.email = email
         self.address = address
         self.id = id
+        self.avg_rating = avg_rating
+        self.available = available
+        self.cat_name = cat_name
+        
         
     
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
