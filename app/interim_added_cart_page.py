@@ -33,10 +33,10 @@ def interim(uid, name, product_id, quant, add_date):
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     print('getting here 1')
-    price = Product.get_order_price(id = product_id)
+    price = Product.get_order_price(product_id)
     print('getting here 2')
 
-    img = Product.get_order_image(id = product_id)
+    img = Product.get_order_image(product_id)
     print('getting here 3')
 
 
