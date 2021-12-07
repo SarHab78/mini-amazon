@@ -1,4 +1,5 @@
-from flask import render_template, redirect, url_for, flash, request, mail
+from flask import render_template, redirect, url_for, flash, request
+from flaskblog import mail
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
