@@ -24,8 +24,6 @@ class Ordered_date(FlaskForm):
 
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
 def interim(uid, name, product_id, quant, add_date):
-    # form = Ordered_date()
-    print('accessing')
 
     searched_products = Product.get_search_result_2(search_str='book')     
     quant = int(quant)
@@ -34,16 +32,11 @@ def interim(uid, name, product_id, quant, add_date):
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
-    
-
-    # time = datetime.datetime.now()
-    # form.add_date.data = time
-    
-    # add_date = request.form['add_date']
+    price = Orders.get_order_price(prod_id = product_id)
+    img = Orders.get_order_image(prod_id = product_id)
 
 
-    cart = Orders.add_to_cart(prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
-    print(page_product)
+    cart = Orders.add_to_cart(orders_name = name,orders_price=price, orders_image_url=img, prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
     
     if current_user.is_authenticated:
         sell_id = current_user.id
