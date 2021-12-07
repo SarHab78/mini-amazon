@@ -35,7 +35,7 @@ def carts():
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
 
-@bp.route('/checkout')
+@bp.route('/checkout', methods=['GET','POST'])
 def checkout():
     form = Checkout()
     time = datetime.datetime.now()
