@@ -26,7 +26,7 @@ def checkout():
     return render_template('checkout.html')
     
     
-bp.route('/final_checkout')
+@bp.route('/final_checkout')
 def final_checkout():
     my_cart = Orders.get_cart(current_user.id)
     balance = current_user.balance
