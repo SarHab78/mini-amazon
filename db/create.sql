@@ -107,6 +107,12 @@ CREATE VIEW Past_Order_Info AS(
     WHERE o.prod_id = p.product_id) as po, Category as C 
     WHERE po.prod_id = c.pid);
 
+CREATE VIEW total_money AS (
+    SELECT sum(price), uid
+    FROM Orders
+    GROUP BY uid
+)
+
 CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$
 BEGIN
     IF EXISTS (SELECT * 
