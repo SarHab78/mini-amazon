@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 import time
 from wtforms.fields import DateTimeField
+from hashlib import md5
 
 
 from .. import login
@@ -18,6 +19,12 @@ class User(UserMixin):
         self.address = address
         self.balance = balance
         self.is_seller = is_seller
+
+    @staticmethod
+    def avatar(email, size):
+        digest = md5(email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+            digest, size)
 
     @staticmethod
     def get_by_auth(email, password):
