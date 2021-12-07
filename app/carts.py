@@ -45,7 +45,7 @@ def checkout():
         add_date = request.form['add_date']
     if form.is_submitted() and not form.validate():
         flash('Error, please try again later')
-    checking_out = Orders.checkout_cart(uid, add_date)
+    checking_out = Orders.checkout_cart(current_user.id, add_date)
     return render_template('checkout.html', checking_out)
 
 
