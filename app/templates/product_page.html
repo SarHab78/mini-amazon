@@ -115,7 +115,7 @@ html, body {
         <h1>{{product.product_name}}</h1>
         <p>{{product.product_description}}</p>
         <p><b>Category:</b> {{product.cat_name}}</p>
-        <p><b>Seller:</b> <a href="{{ url_for('seller_information.sellerinformation', id=current_user.id) }}"> {{product.firstname}} {{product.lastname}}</a></p>
+        <p><b>Seller:</b> <a href="{{ url_for('seller_information.seller_information') }}"> {{product.firstname}} {{product.lastname}}</a></p>
         
       </div>
 
