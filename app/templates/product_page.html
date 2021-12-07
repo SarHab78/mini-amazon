@@ -187,8 +187,8 @@ html, body {
           <td>{{product.quantity}}</td>
           <td>{{product.firstname}} {{product.lastname}}</td>
           <td>{{product.avg_rating}}</td>
-          <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
-            style = "background: #57edf6; color: black">More Details</a></td>
+          <td><a class="btn btn-outline-info" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" <i class="fa fa-home"> </i>
+            >More Details</a></td>
         </tr>
       {% endfor %}
     </tbody>
