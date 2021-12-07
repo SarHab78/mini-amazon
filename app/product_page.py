@@ -15,6 +15,7 @@ from .models.base_model import Purchase
 from .models.base_model import Product_review
 from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Orders
+from .models.base_model import Prod_user_rev
 
 
 from flask import Blueprint
@@ -44,6 +45,7 @@ def product_page(name, product_id):
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
+    user_info = Prod_user_rev.get_user_info(pid = product_id)
 
     time = datetime.datetime.now()
     form.add_date.data = time
@@ -71,7 +73,8 @@ def product_page(name, product_id):
                             name = name,
                             product_id = product_id,
                             quant_options = quant_options,
-                            form=form)
+                            form=form
+                            user_info=user_info)
 
 @bp.route('/sellerinfo', methods=['GET', 'POST'])
 def sellerinfo(id):
