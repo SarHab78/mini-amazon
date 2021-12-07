@@ -219,7 +219,7 @@ html, body {
   <tbody>
     {% for review in product_reviews %} 
       <tr>
-        <th scope = "row"><p><a href="{{ url_for('product_page.sellerinfo', id=review.uid) }}">{{review.uid}}</a></p></th>
+        <th scope = "row"></th>
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
       </tr>
