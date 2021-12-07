@@ -228,7 +228,8 @@ html, body {
         <th><details>
     <summary>{{review.uid}}</summary>
     {% for user in user_info %} 
-      <p>Name: {{user.firstname}} {{user.lastname}}</p>
+      <p>Reviewer ID: {{user.id}}</p>
+      <p>Reviewer Name: {{user.firstname}} {{user.lastname}}</p>
     {% endfor %}
 
 </details></th>
