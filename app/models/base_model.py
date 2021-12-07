@@ -605,7 +605,6 @@ SELECT orders_price
 FROM Orders
 WHERE prod_id = :prod_id
     """, 
-                                orders_price = orders_price,
                                 uid = uid
                                             )
         return rows
