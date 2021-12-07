@@ -91,7 +91,7 @@ class EditProfileForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
     balance = DecimalField(_l('Balance'), validators=[DataRequired()], places=2)
-    is_seller = StringField(_l('Seller?'), validators.AnyOf(values=['Y','N'])])
+    is_seller = StringField(_l('Seller?'), validators.AnyOf(values=['Y','N']))
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
