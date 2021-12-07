@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import datetime
 import time
 from wtforms.fields import DateTimeField
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 from .. import login
@@ -225,10 +226,23 @@ RETURNING id, password
 """,
                                   id=id,
                                   password=password
-                                  )
+                                  ) 
             id = rows[0][0]
             print(rows)
             return User.get(id)
+
+    def get_reset_token(self, expires_seconds=1800):
+        s = Serializer(app.config['SECRET_KEY'], expires_seconds)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id=s.loads(token)['user_id']
+        except:
+            return None
+
+         return User.get(user_id)
 
     
 
@@ -322,9 +336,7 @@ WHERE product_name = :product_name
         except Exception:
             return None
 
-
-          
-        
+       
 
     @staticmethod
     def update_product(product_id, seller_id, quantity, available):
