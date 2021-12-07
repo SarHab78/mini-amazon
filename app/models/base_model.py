@@ -178,6 +178,34 @@ RETURNING seller_id
             return None
 
     @staticmethod
+    def add_category(category, product_name):
+        add_to_category = app.db.execute("""
+SELECT product_id
+FROM Products
+WHERE product_name = :product_name
+""",
+        product_name = product_name)
+        
+        #add_to_category = ', '.join(map(str, add_to_category))
+        
+        add_to_category = ("").join([str(r) for (r,) in add_to_category])
+        print(type(add_to_category))
+        try:
+            rows = app.db.execute('''
+        INSERT INTO Category(cat_name, pid)
+        VALUES(:category, :add_to_category)
+        RETURNING pid
+        ''',
+                                    category = category, add_to_category = add_to_category)
+
+        except Exception:
+            return None
+
+
+          
+        
+
+    @staticmethod
     def update_product(product_id, seller_id, quantity, available):
         try:
             rows = app.db.execute("""
