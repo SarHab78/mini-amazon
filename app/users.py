@@ -41,13 +41,13 @@ def login():
 
 
 class RegistrationForm(FlaskForm):
-    firstname = StringField(_l('First Name'), validators=[DataRequired()])
-    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
-    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    address = StringField(_l('Address'), validators=[DataRequired()])
+    firstname = StringField(_l('First Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    lastname = StringField(_l('Last Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    address = StringField(_l('Address'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     balance = IntegerField(_l('Balance'), validators=[DataRequired()])
     is_seller = StringField(_l('Are you a Seller?'), validators=[DataRequired(), AnyOf(values=['Y','N'])])
-    password = PasswordField(_l('Password'), validators=[DataRequired()])
+    password = PasswordField(_l('Password'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
                                            EqualTo('password')])
@@ -86,13 +86,13 @@ def profile(id):
 
 class EditProfileForm(FlaskForm):
     
-    firstname = StringField(_l('First Name'), validators=[DataRequired()])
-    lastname = StringField(_l('Last Name'), validators=[DataRequired()])
-    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
-    address = StringField(_l('Address'), validators=[DataRequired()])
+    firstname = StringField(_l('First Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    lastname = StringField(_l('Last Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    email = StringField(_l('Email'), validators=[DataRequired(), Email(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    address = StringField(_l('Address'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     balance = DecimalField(_l('Balance'), validators=[DataRequired()], places=2)
     is_seller = StringField(_l('Are you a Seller?', validators=[DataRequired(), AnyOf(values=['Y','N'], message=('Must indicate Y for yes seller or N for not seller'))]))
-    password = PasswordField(_l('Password'), validators=[DataRequired()])
+    password = PasswordField(_l('Password'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
                                            EqualTo('password')])
