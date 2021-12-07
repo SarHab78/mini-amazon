@@ -649,7 +649,7 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     def add_to_cart(orders_name, orders_price, orders_image_url, prod_id, quantity, uid, add_date):
         rows = app.db.execute("""
 INSERT INTO Orders
-VALUES (:orders_name, :orders_price, :orders_image_url, :prod_id, :uid, :quantity, :add_date, 'N')
+VALUES (:prod_id, :uid, :quantity, :add_date, 'N', :orders_image_url, :orders_price, :orders_name)
 RETURNING uid
     """, 
                                 orders_name=orders_name,
