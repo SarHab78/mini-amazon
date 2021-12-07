@@ -110,12 +110,12 @@ WHERE id=:id
 
     @staticmethod
     def decrement_balance(balance):
-        total = cart_total()
         rows = app.db.execute("""
     Update User
     WHERE balance = balance - :total """,
-                                balance = balance)
-        return user
+                    total = cart_total()
+)
+        return balance
 
 
 #Purchase table information
@@ -585,12 +585,14 @@ class Orders:
 
 
     @staticmethod
-    def get_cart(uid):
+    def get_cart(uid,prod_id):
         rows = app.db.execute('''
 SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders, Products
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
-        ''',uid= uid)
+        ''',
+        
+            uid= uid)
         return [Orders(*row) for row in rows] 
     
     @staticmethod
@@ -605,18 +607,17 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
                                 quantity = quantity,
                                 add_date = add_date
             )
-        return Orders.get_cart(uid)
+        return Orders.get_cart(uid, prod_id)
  
     @staticmethod
-    def cart_total():
+    def total_price(prod_id, uid):
         rows = app.db.execute("""
-    SELECT COUNT(price) 
-    FROM Product
-    WHERE Product.product_id = Orders.prod_id
-    """)
-        return COUNT
-
-
+        SELECT price
+        FROM Products, Orders
+        WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
+        """, 
+            price=price)
+        return price
 
 
     @staticmethod
