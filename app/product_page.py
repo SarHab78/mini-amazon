@@ -14,7 +14,7 @@ from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
 from .models.base_model import Prod_Sell_Rev_Cat
-from .models.base_model import Orders
+from .models.base_model import Order
 
 
 from flask import Blueprint
