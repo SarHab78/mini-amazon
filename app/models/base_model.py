@@ -255,7 +255,7 @@ WHERE email = :email
 
   
   
-        return [Users(*row) for row in rows] if rows else []
+        return [User(*row) for row in rows] if rows else []
 
 
 #Purchase table information
