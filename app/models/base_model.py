@@ -34,7 +34,7 @@ FROM Users
 WHERE id=:id
 """,
         id=id)
-        return User(*(rows[3][1:]))
+        return User(*(rows[0][1:]))
 
 
     @staticmethod
