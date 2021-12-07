@@ -745,6 +745,8 @@ class Prod_Sell_Rev_Cat:
         self.avg_rating = avg_rating
         self.available = available
         self.cat_name = cat_name
+       
+    
     
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
@@ -848,3 +850,76 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
         ''',
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
+
+
+class Prod_Sell_Rev_Cat_Ord:
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, address, email, avg_rating, cat_name, uid, order_quantity, add_date, ordered):
+        self.product_name = product_name
+        self.product_id = product_id
+        self.product_description = product_description
+        self.image_url = image_url
+        self.price = price
+        self.quantity = quantity
+        self.firstname = firstname
+        self.lastname = lastname
+        self.available = available
+        self.address = address
+        self.avg_rating = avg_rating
+        self.email = email
+        self.cat_name = cat_name
+        self.uid = uid
+        self.order_quantity = order_quantity
+        self.add_date = add_date
+        self.ordered = ordered
+
+    all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
+    'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
+    'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
+    'Video DVD & Blu-ray','Video Games','Watches'])  
+
+    @staticmethod
+    def get_all(seller_id):
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev_Cat_Ord
+WHERE Prod_Sell_Rev_Cat_Ord.uid = :seller_id
+        ''',seller_id= seller_id)
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] if rows else []
+
+    
+    @staticmethod
+    def get_search_result(search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
+        if filt_list == 'all':
+            filt_list = all_categories
+        base_query = '''
+        SELECT * 
+        FROM Prod_Sell_Rev_Cat_Ord 
+        WHERE Prod_Sell_Rev_Cat_Ord.uid = :seller_id
+        AND (LOWER(product_name) LIKE :search_str OR LOWER(product_description) LIKE :search_str) 
+        AND cat_name IN :filt_list
+            '''
+        ending = ''
+        if direc == 'high-to-low':
+            if order_by == 'name':
+                ending = ' ORDER BY product_name DESC'
+            elif order_by == 'rating':
+                ending = ' ORDER BY avg_rating DESC NULLS LAST'
+            elif order_by == 'category':
+                ending = ' ORDER BY cat_name DESC'
+            else:
+                ending = ' ORDER BY price DESC'
+        else:
+            if order_by == 'name':
+                ending = ' ORDER BY product_name ASC'
+            elif order_by == 'rating':
+                ending = ' ORDER BY avg_rating ASC NULLS LAST'
+            elif order_by == 'category':
+                ending = ' ORDER BY cat_name ASC'
+            else:
+                 ending = ' ORDER BY price ASC'
+        full_query = base_query + ending
+
+        rows = app.db.execute(full_query,
+                            search_str = '%' + search_str.lower() + '%', available=available, order_by = order_by, direc=direc, filt_list=filt_list)
+
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows]
