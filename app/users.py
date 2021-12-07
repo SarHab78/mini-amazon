@@ -7,6 +7,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, An
 from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import User
+from .models.base_model import Past_Order_Info
 
 
 from flask import Blueprint
@@ -82,7 +83,8 @@ def logout():
 
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
-    return render_template('profile.html', id=id)
+    ordered = Past_Order_Info.get_user_orders(uid=id)
+    return render_template('profile.html',ordered=ordered, id=id)
 
 class EditProfileForm(FlaskForm):
     
