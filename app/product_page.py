@@ -44,7 +44,6 @@ def product_page(name, product_id):
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
-    seller_information = Product.get_information(product_id=product_id)
 
     time = datetime.datetime.now()
     form.add_date.data = time
@@ -72,5 +71,4 @@ def product_page(name, product_id):
                             name = name,
                             product_id = product_id,
                             quant_options = quant_options,
-                            seller_information=seller_information,
                             form=form)
