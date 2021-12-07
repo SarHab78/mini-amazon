@@ -912,7 +912,9 @@ WHERE Orders.ordered = 'N' AND Orders.uid = :uid
 SELECT *
 FROM Orders
 WHERE Orders.ordered = 'Y' AND Orders.uid = :uid
-        ''',uid = uid)
+        ''',
+        
+                        uid = uid)
         return [Orders(*row) for row in rows] 
 
 
