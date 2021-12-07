@@ -199,25 +199,25 @@ class Product:
     @staticmethod
     def get_order_price(id):
         rows = app.db.execute('''
-SELECT Product.price
-FROM Product
+SELECT Products.price
+FROM Products
 WHERE id = :id
     ''', 
                                 id = id
                                             )
         return [Product(*(rows[0])) ]
-    
+
     @staticmethod
     def get_order_image(id):
         rows = app.db.execute("""
-SELECT Product.image_url
-FROM Product
+SELECT Products.image_url
+FROM Products
 WHERE id = :id
     """, 
                                 id = id
 
                                             )
-        return [Product(*(rows[0]))]
+        return [Products(*(rows[0]))]
 
     @staticmethod
     def get_seller_products(id):
