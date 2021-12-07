@@ -601,11 +601,11 @@ WHERE prod_id = :prod_id
     @staticmethod
     def get_order_price(prod_id):
         rows = app.db.execute("""
-SELECT orders_image_url
+SELECT orders_price
 FROM Orders
 WHERE prod_id = :prod_id
     """, 
-                                orders_price =orders_price,
+                                orders_price = orders_price,
                                 uid = uid
                                             )
         return rows
