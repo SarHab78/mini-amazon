@@ -1050,7 +1050,7 @@ class Prod_user_rev:
         self.lastname=lastname
 
     @staticmethod
-    def get_user_info(product_id):
+    def get_user_info(pid):
         rows = app.db.execute('''
 SELECT *
 FROM Product_Review_User_Information
