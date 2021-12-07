@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+<h2>Seller Information</h2>
+<br>
+<div class="card">
+  <div class="card-header">
+    Seller Information
+  </div>
+<div class="card-body">
+<p class="card-text">
+<strong>Email: </strong>{{ current_user.email }}<br/>
+<strong>First Name: </strong>{{ current_user.firstname }}<br/>
+<strong>Last Name: </strong>{{ current_user.lastname }}<br/>
+<strong>Address: </strong>{{ current_user.address }}<br/>
+
+  <!-- reviews about you button will need to be modified for public view -->
+  
+  </div>
+</div>
+{% endblock %}
