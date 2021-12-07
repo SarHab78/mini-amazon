@@ -1056,4 +1056,4 @@ SELECT *
 FROM Product_Review_User_Information
 WHERE Product_Review_User_Information.pid = :pid
         ''',pid= pid)
-        return [Product_Review_User_Information(*row) for row in rows]
+        return [Prod_user_rev(*row) for row in rows]
