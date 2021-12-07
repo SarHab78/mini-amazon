@@ -99,6 +99,13 @@ CREATE VIEW Seller_Review_User_Information AS(
     FROM Seller_review as sr, Users as u
     Where sr.sid = u.id);
 
+CREATE VIEW Past_Order_Info AS(
+    SELECT po.prod_id, po.uid, po.order_quantity, po.add_date, po.ordered, po.product_name, po.price, po.seller_id, c.cat_name
+    FROM (
+    SELECT o.prod_id, o.uid, o.order_quantity, o.add_date, o.ordered, p.product_name, p.price, p.seller_id
+    FROM Orders as o, Products as p
+    WHERE o.prod_id = p.product_id) as po, Category as C 
+    WHERE po.prod_id = c.pid);
 
 CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$
 BEGIN
