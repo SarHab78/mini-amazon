@@ -7,7 +7,7 @@
 
 <td><a class="btn btn-secondary" href="{{ url_for('add_items.add_items') }}" role="button" color=#FF5733>Add to Your Inventory</a></td>
 <td><a class="btn btn-secondary" href="{{ url_for('update_items.update_items') }}" role="button" color=#FF5733>Update Inventory</a></td>
-<td><a class="btn btn-secondary" href="{{ url_for('seller_order_history.seller_order_history') }}" role="button" color=#FF5733>My Orders</a></td>
+<td><a class="btn btn-secondary" href="{{ url_for('seller_order_history.order_history') }}" role="button" color=#FF5733>My Orders</a></td>
 
 {% if avail_products|length == 0 %}
 <h3> No Products to show - make sure you're a seller! If you are, add inventory to show here!</h3>
