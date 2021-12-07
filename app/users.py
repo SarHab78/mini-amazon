@@ -143,7 +143,7 @@ def profile(id):
 
         return render_template('profile.html',ordered=ordered, id=id)
 
-    else filterform.validate_on_submit(): #make this line elif if including the rest of the things
+    else filterform.validate_on_submit():
         search_str = ''
         if 'current_query' in session:
             search_str = session['current_query']
