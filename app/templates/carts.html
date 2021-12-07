@@ -19,9 +19,9 @@
   <tbody>
     {% for item in user_cart%}
       <tr>
-        <th scope="row">{{item.id}}</th>
-        <td>{{item.pid}}</td>
-        <td>{{item.time_purchased}}</td>
+        <th scope="row">{{item.prod_id}}</th>
+        <td>{{item.order_quantity}}</td>
+        <td>{{item.add_date}}</td>
       </tr>
     {% endfor %}
   </tbody>
