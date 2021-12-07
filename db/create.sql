@@ -89,6 +89,15 @@ CREATE VIEW Prod_Sell_Rev_Cat AS(
             WHERE PUR.product_id = C.pid
 );
 
+CREATE VIEW Product_Review_User_Information AS(
+    SELECT pr.rid, pr.pid, pr.email, u.id, u.firstname, u.lastname
+    FROM Product_review as pr, Users as u
+    Where pr.uid = u.id);
+
+CREATE VIEW Seller_Review_User_Information AS(
+    SELECT sr.rid, sr.sid, sr.email, u.id, u.firstname, u.lastname
+    FROM Seller_review as sr, Users as u
+    Where sr.sid = u.id);
 
 
 CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$

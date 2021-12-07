@@ -1084,3 +1084,21 @@ WHERE p.product_id = :product_id
         ''',
                                 product_id = product_id)
         return [Seller_Information(*row) for row in rows] 
+
+class Prod_user_rev:
+    def __init__(self, rid, pid, email, id, firstname, lastname):
+        self.rid=rid
+        self.pid=pid
+        self.email=email
+        self.id=id
+        self.firstname=firstname
+        self.lastname=lastname
+
+    @staticmethod
+    def get_user_info(pid):
+        rows = app.db.execute('''
+SELECT *
+FROM Product_Review_User_Information
+WHERE Product_Review_User_Information.pid = :pid
+        ''',pid= pid)
+        return [Prod_user_rev(*row) for row in rows]
