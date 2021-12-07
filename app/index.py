@@ -63,8 +63,9 @@ def index():
     # find the products current user has bought:
     if current_user.is_authenticated:
         user = current_user.id
-        purchases = Purchase.get_all_by_uid_since(
-            current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
+        # purchases = Purchase.get_all_by_uid_since(
+        #     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
+        purchases = Orders.past_orders(user)
     else:
         purchases = None
         user = None
@@ -90,9 +91,10 @@ def index():
         # If user is signed in, get all their purchases
         if current_user.is_authenticated:
             user = current_user.id
+            purchases = Orders.past_orders(user)
 
-            purchases = Purchase.get_all_by_uid_since(
-                current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
+            # purchases = Purchase.get_all_by_uid_since(
+            #     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
         else:
             purchases = None
             user = None
@@ -123,9 +125,10 @@ def index():
         # If user is signed in, get all their purchases
         if current_user.is_authenticated:
             user = current_user.id
+            purchases = Orders.past_orders(user)
 
-            purchases = Purchase.get_all_by_uid_since(
-                current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
+            # purchases = Purchase.get_all_by_uid_since(
+            #     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
         else:
             purchases = None
             user = None
@@ -154,8 +157,10 @@ def index():
                 
                 if current_user.is_authenticated:
                     user = current_user.id
-                    purchases = Purchase.get_all_by_uid_since(
-                        current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
+                    purchases = Orders.past_orders(user)
+
+                    # purchases = Purchase.get_all_by_uid_since(
+                    #     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
                 else:
                     user = None
                     purchases = None
