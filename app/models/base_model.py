@@ -34,7 +34,7 @@ FROM Users
 WHERE id=:id
 """,
         id=id)
-        return [User(*row) for row in rows] if rows else []
+        return User(*(rows[3][1:]))
 
 
     @staticmethod
