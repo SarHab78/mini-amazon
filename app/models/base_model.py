@@ -596,7 +596,7 @@ WHERE sid = :sid
 
     
 
-class Orders:
+class Order:
     def __init__(self, prod_id, uid, order_quantity, add_date, ordered, orders_image_url, orders_price, orders_name):
         self.prod_id = prod_id
         self.uid = uid
