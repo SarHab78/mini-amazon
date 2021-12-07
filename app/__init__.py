@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_babel import Babel
 from .config import Config
 from .db import DB
+from flask_mail import Mail
 
 
 login = LoginManager()
@@ -13,6 +14,12 @@ babel = Babel()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = 'annikakessler2@gmail.com'
+    app.config['MAIL_PASSWORD'] = 'emmasutton2'
+    
 
     # ADD A SECRET KEY LINE - SOPHIE - this is to try to make "session" work
     app.secret_key = "any random string"
