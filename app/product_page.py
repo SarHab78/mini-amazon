@@ -16,6 +16,7 @@ from .models.base_model import Product_review
 from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Orders
 from .models.base_model import Prod_user_rev
+from .models.base_model import Seller_review
 
 
 from flask import Blueprint
@@ -46,8 +47,14 @@ def product_page(name, product_id):
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
     user_info = Prod_user_rev.get_user_info(pid = product_id)
-    have_reviewed = Product_review.user_has_reviewed(uid = current_user.id, pid= product_id) #returns True if user has already reviewed this product before
-    #have_reviewed_seller = Seller_review.user_has_reviewed(uid = current_user.id, sid = )
+    sid = page_product[0].id
+
+    if current_user.is_authenticated:
+        have_reviewed = Product_review.user_has_reviewed(uid = current_user.id, pid= product_id) #returns True if user has already reviewed this product before
+        have_reviewed_seller = Seller_review.user_has_reviewed(uid = current_user.id, sid = sid)
+    else:
+        have_reviewed = True #won't display write a review button if user not logged in
+        have_reviewed_seller = True #won't display write a seller review button if user not logged in
 
     time = datetime.datetime.now()
     form.add_date.data = time
@@ -76,6 +83,7 @@ def product_page(name, product_id):
                             product_id = product_id,
                             quant_options = quant_options,
                             have_reviewed = have_reviewed,
+                            have_reviewed_seller = have_reviewed_seller,
                             form=form,
                             user_info=user_info)
 
