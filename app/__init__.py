@@ -60,6 +60,9 @@ def create_app():
     from .seller_reviews import bp as seller_reviews_bp
     app.register_blueprint(seller_reviews_bp)
 
+    from .seller_information import bp as seller_information_bp
+    app.register_blueprint(seller_information_bp)
+
     return app
 
 
