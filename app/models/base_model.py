@@ -1219,8 +1219,8 @@ class total_money:
     def total_money(uid):
         rows = app.db.execute('''
 SELECT total
-FROM total_money
-WHERE total_money.uid = :uid
+FROM Spending
+WHERE Spending.uid = :uid
 AND ordered = 'Y'
         ''',uid= uid)
         return [total_money(*row) for row in rows]
