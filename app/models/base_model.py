@@ -589,25 +589,25 @@ class Orders:
     @staticmethod
     def get_order_image(prod_id):
         rows = app.db.execute("""
-SELECT orders_image_url
+SELECT Orders.orders_image_url
 FROM Orders
-WHERE prod_id = :prod_id AND Ordered = 'N'
+WHERE prod_id = :prod_id AND Orders.ordered = 'N'
     """, 
                                 prod_id = prod_id
 
                                             )
-        return rows
+        return [Orders(*row) for row in rows] 
 
     @staticmethod
     def get_order_price(prod_id):
-        rows = app.db.execute("""
-SELECT orders_price
+        rows = app.db.execute('''
+SELECT Orders.orders_price
 FROM Orders
-WHERE prod_id = :prod_id AND Ordered = 'N'
-    """, 
+WHERE prod_id = :prod_id AND Orders.ordered = 'N'
+    ''', 
                                 prod_id = prod_id
                                             )
-        return rows
+        return [Orders(*row) for row in rows] 
 
 
     @staticmethod
