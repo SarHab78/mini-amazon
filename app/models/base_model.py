@@ -622,7 +622,7 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     @staticmethod
     def add_to_cart(prod_id, uid, quantity, add_date, orders_image_url, orders_price, orders_name):
         rows = app.db.execute('''
-INSERT INTO Orders(prod_id, uid, quantity, add_date, 'N', orders_image_url, orders_price, orders_name)
+INSERT INTO Orders(prod_id, uid, quantity, add_date, ordered, orders_image_url, orders_price, orders_name)
 VALUES (:prod_id, :uid, :quantity, :add_date, 'N', :orders_image_url, :orders_price, :orders_name)
 RETURNING uid
     ''', 
