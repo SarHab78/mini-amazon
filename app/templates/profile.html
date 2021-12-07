@@ -43,6 +43,7 @@
       <th scope="col">Product Seller</th>
       <th scope="col">Order Quantity</th>
       <th scope="col">Price per Item</th>
+      <th scope="col">Total Spent</th>
     </tr>
   </thead>
   <tbody>
@@ -55,6 +56,7 @@
         <td>{{purchase.seller_id}}</td>
         <td>{{purchase.order_quantity}}</td>
         <td>${{purchase.price}}</td>
+        <td>${{purchase.total_spent}}</td>
       </tr>
     {% endfor %}
   </tbody>
