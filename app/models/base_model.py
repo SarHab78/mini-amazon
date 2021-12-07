@@ -576,7 +576,7 @@ WHERE sid = :sid
     
 
 class Orders:
-    def __init__(self, prod_id, uid, order_quantity, add_date, ordered, orders_image_url, orders_price):
+    def __init__(self, prod_id, uid, order_quantity, add_date, ordered, orders_image_url, orders_price, orders_name):
         self.prod_id = prod_id
         self.uid = uid
         self.order_quantity = order_quantity
@@ -591,10 +591,10 @@ class Orders:
         rows = app.db.execute("""
 SELECT orders_image_url
 FROM Orders
-WHERE prod_id = :prod_id
+WHERE prod_id = :prod_id AND Ordered = 'N'
     """, 
-                                orders_image_url =orders_image_url,
-                                uid = uid
+                                prod_id = prod_id
+
                                             )
         return rows
 
@@ -603,7 +603,7 @@ WHERE prod_id = :prod_id
         rows = app.db.execute("""
 SELECT orders_price
 FROM Orders
-WHERE prod_id = :prod_id
+WHERE prod_id = :prod_id AND Ordered = 'N'
     """, 
                                 prod_id = prod_id
                                             )
