@@ -82,111 +82,12 @@ def logout():
     return redirect(url_for('index.index'))
 
 
-class SortForm(FlaskForm):
-    sort_attribute = SelectField(_l('Sort By'), choices=[('name','name'),('price','price'),('category','category')], validators=[DataRequired()])
-    up_or_down = SelectField(_l('Sort By'), validators=[DataRequired()], choices=[('high-to-low','high-to-low'),('low-to-high','low-to-high')])
-    submit = SubmitField('Sort')
-
-class FilterForm(FlaskForm):
-    # get all amazon categories list by reading the amazon_categories.csv file
-    filter_fields = SelectMultipleField(_l('Filter By Category'), validators=[DataRequired()], choices=[('Automotive & Powersports', 'Automotive & Powersports'),
-                            ('Baby Products', 'Baby Products'),
-                            ('Books', 'Books'),
-                            ('Camera & Photo', 'Camera & Photo'),
-                            ('Cell Phones & Accessories', 'Cell Phones & Accessories'),
-                            ('Clothing', 'Clothing'),
-                            ('Consumer Electronics', 'Consumer Electronics'),
-                            ('Entertainment Collectibles', 'Entertainment Collectibles'),
-                            ('Fine Art', 'Fine Art'),
-                            ('Grocery & Gourmet Foods', 'Grocery & Gourmet Foods'),
-                            ('Health & Personal Care', 'Health & Personal Care'),
-                            ('Home & Garden', 'Home & Garden'),
-                            ('Independent Design', 'Independent Design'),
-                            ('Industrial & Scientific', 'Industrial & Scientific'),
-                            ('Major Appliances', 'Major Appliances'),
-                            ('Misc', 'Misc'),
-                            ('Music and DVD', 'Music and DVD'),
-                            ('Musical Instruments', 'Musical Instruments'),
-                            ('Office Products', 'Office Products'),
-                            ('Outdoors', 'Outdoors'),
-                            ('Personal Computers', 'Personal Computers'),
-                            ('Pet Supplies', 'Pet Supplies'),
-                            ('Software', 'Software'),
-                            ('Sports', 'Sports'),
-                            ('Sports Collectibles', 'Sports Collectibles'),
-                            ('Tools & Home Improvement', 'Tools & Home Improvement'),
-                            ('Toys & Games', 'Toys & Games'),
-                            ('Video DVD & Blu-ray', 'Video DVD & Blu-ray'),
-                            ('Video Games', 'Video Games'),
-                            ('Watches', 'Watches')])
-    submit = SubmitField('Filter by Category')
 
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
-    sortform = SortForm()
-    filterform = FilterForm()
+    
     ordered = Past_Order_Info.get_user_orders(uid=id)
-
-    if sortform.validate_on_submit():
-        order_by = sortform.sort_attribute.data
-        session['order_by'] = order_by
-        direc = sortform.up_or_down.data
-        session['direc'] = direc
-
-        search_str = ''
-        filter_fields = 'all'
-        if 'current_query' in session:
-            search_str = session['current_query']
-        if 'filter_fields' in session:
-            filter_fields = session['filter_fields']
-        searched_products = Past_Order_Info.past_order_search(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
-
-        return render_template('profile.html',ordered=ordered, id=id)
-
-    #elif filterform.validate_on_submit():
-    else:
-        search_str = ''
-        if 'current_query' in session:
-            search_str = session['current_query']
-        order_by = 'price'
-        if 'order_by' in session:
-            order_by = session['order_by']
-        direc = 'high-to-low'
-        if 'direc' in session:
-            direc = session['direc']
-
-        filter_fields = tuple(filterform.filter_fields.data)
-        #print(filter_fields)
-        session['filter_fields'] = filter_fields
-        searched_products = Past_Order_Info.past_order_search(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
-
-        # If user is signed in, get all their purchases
-
-        return render_template('profile.html',ordered=ordered, id=id)
-
-    # else:
-    #     if request.method == "POST":
-
-    #         # Try adding this request.form.get line to differentiate between the two buttons
-    #         if request.form.get("product_query"):
-    #             product_query = request.form['product_query']
-    #             session['current_query'] = product_query
-
-    #             if product_query.lower() == "all":
-    #                  searched_products = Prod_Sell_Rev_Cat.get_all()
-    #                  session['current_query'] = ''
-    #             else:
-    #                 searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=product_query)
-                
-    #             if current_user.is_authenticated:
-    #                 user = current_user.id
-    #                 purchases = Purchase.get_all_by_uid_since(
-    #                     current_user.id, datetime.datetime(1980, 9, 14, 0, 0, 0))
-    #             else:
-    #                 user = None
-    #                 purchases = None
-
-    #             return render_template('profile.html',ordered=ordered, id=id)
+    return render_template('profile.html',ordered=ordered, id=id)
 
 
 class EditProfileForm(FlaskForm):
