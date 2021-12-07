@@ -244,7 +244,18 @@ RETURNING id, password
 
         return User.get(user_id)
 
-    
+    @staticmethod
+    def get_from_email(email):
+        rows = app.db.execute('''
+SELECT *
+FROM Users
+WHERE email = :email
+''',
+                                email = email)
+
+  
+  
+        return [Users(*row) for row in rows] if rows else []
 
 
 #Purchase table information
