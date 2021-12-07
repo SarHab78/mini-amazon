@@ -910,3 +910,24 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
         ''',
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
+
+class Product_and_User:
+    def __init__(self, product_name, product_id, firstname, lastname, address, email, id
+        self.product_id = product_id
+        self.product_name = product_name
+        self.firstname = firstname
+        self.lastname = lastname
+        self.address=edit_address
+        self.email=email
+        self.id=id
+    
+    @staticmethoddef 
+    def get_seller(product_id):
+        rows = app.db.execute('''
+SELECT *
+FROM Product_and_User
+WHERE Product_and_User.product_id = :product_id
+        ''',product_id= product_id)
+        return [Product_and_User(*row) for row in rows]
+    
+
