@@ -85,3 +85,61 @@ def add_a_seller_review(sid):
                 flash('thanks for submitting your review!')
                 return redirect(url_for('index.index'))
     return render_template('seller_review_form.html', title='reviews', form=form, sid=sid)
+
+
+
+class EditReviewForm(FlaskForm):
+    rid = StringField(_l('rid'), validators=[DataRequired()])
+    sid = IntegerField(_l('sid'), validators=[DataRequired()])
+    uid = IntegerField(_l('uid'), validators=[DataRequired()])
+    email = StringField(_l('email'), validators=[DataRequired()])
+    #rev_timestamp = DateTimeField(_l('rev_timestamp'), validators=[DataRequired()])
+    rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
+    review = StringField(_l('review'), validators=[DataRequired()])
+    submit = SubmitField(_l('Submit'))
+    # def validate_email(self, email): when we have cart functionality?
+
+    #validate review 
+    #def validate_review(self, pid):
+     #   if Product_review.review_exists(pid, current_user.id):
+      #      return True
+       # else: 
+        #    return False
+@bp.route('/editsellerreview/<id>', methods=['GET', 'POST'])
+def editreview(id):
+    #id = id
+    form = EditReviewForm()
+    obj = Seller_review.get(id)
+    print(obj)
+    rid = obj[0].rid
+    uid = obj[0].uid
+    sid = obj[0].sid
+    email = current_user.email
+    rating = obj[0].rating
+    review = obj[0].review
+    if form.validate_on_submit():
+                rid = request.form['rid']
+                print(rid)
+                uid = request.form['uid']
+                print(uid)
+                sid = request.form['sid']
+                print(sid)
+                #print(type(uid))
+                email = request.form['email']
+                print(email)
+                #rev_timestamp = request.form['rev_timestamp']
+                #print(rev_timestamp)
+                rating = request.form['rating']
+                print(rating)
+                review = request.form['review']
+                print(review)
+                Seller_review.edit(rid,
+                            uid,
+                            sid,
+                            email,
+                            #rev_timestamp,
+                            rating,
+                            review)
+                flash('thanks for editing your review!')
+                return redirect(url_for('users_review_page.myreviews'))
+    return render_template('edit_seller_review.html', title='reviews', form=form, uid=uid, sid=sid, email=email, rid=rid, rating=rating, review=review)
