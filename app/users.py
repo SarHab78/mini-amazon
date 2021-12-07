@@ -141,14 +141,14 @@ class EditBalanceForm(FlaskForm):
 
 @bp.route('/editbalance/<int:id>', methods=['GET', 'POST'])
 def editbalance(id):
-    print ('start')
+    
     form = EditBalanceForm()
     if form.validate_on_submit():
         if User.edit_balance(
-                        form.id.data,
+                        current_user.id,
                          form.balance.data):
-            print ('if two')
-            flash('Balance has been updated!')
+           
+           
             return render_template("profile.html") 
     return render_template("editbalance.html", form=form, id=id)
 
