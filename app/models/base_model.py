@@ -160,7 +160,7 @@ class Add_Product:
         self.quantity = quantity
         self.available = available
         
-        
+
     @staticmethod
     def add_product(product_name, product_description, image_url, price, seller_id, quantity, available):
         try:
@@ -196,7 +196,28 @@ class Product:
         self.available = available
         self.avg_rating = avg_rating
         
-    
+        @staticmethod
+    def get_order_image(product_id):
+        rows = app.db.execute("""
+SELECT Product.image_url
+FROM Product
+WHERE product_id = :product_id
+    """, 
+                                product_id = product_id
+
+                                            )
+        return [Product(*(rows[0]))
+
+    @staticmethod
+    def get_order_price(product_id):
+        rows = app.db.execute('''
+SELECT Product.price
+FROM Product
+WHERE product_id = :product_id
+    ''', 
+                                product_id = product_id
+                                            )
+        return [Product(*(rows[0]))
 
     @staticmethod
     def get_seller_products(id):
@@ -596,18 +617,18 @@ class Orders:
 #                                 prod_id = prod_id
 
 #                                             )
-#         return [Orders(*row) for row in rows] 
+#         return [Orders(*(rows[0]))
 
-    @staticmethod
-    def get_order_price(prod_id):
-        rows = app.db.execute('''
-SELECT Orders.orders_price
-FROM Orders
-WHERE prod_id = :prod_id AND Orders.ordered = 'N'
-    ''', 
-                                prod_id = prod_id
-                                            )
-        return [Orders(*row) for row in rows] 
+#     @staticmethod
+#     def get_order_price(prod_id):
+#         rows = app.db.execute('''
+# SELECT Orders.orders_price
+# FROM Orders
+# WHERE prod_id = :prod_id AND Orders.ordered = 'N'
+#     ''', 
+#                                 prod_id = prod_id
+#                                             )
+#         return [Orders(*(rows[0]))
 
 
     @staticmethod
