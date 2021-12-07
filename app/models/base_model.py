@@ -552,15 +552,15 @@ ORDER BY price, quantity
     @staticmethod
     def get_information(product_id):
         rows = app.db.execute('''
-SELECT p.product_id, p.seller_id, u.email, u.address 
+SELECT *
 FROM Products as p
 FULL OUTER JOIN Users as u
 ON p.seller_id = u.id
 WHERE p.product_id = :product_id
         ''',
                                 product_id = product_id)
-        return [Product(*row) for row in rows]
-
+    return [Product_review(*row) for row in rows] 
+        
 class Product_review:
     def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
         self.rid = rid
