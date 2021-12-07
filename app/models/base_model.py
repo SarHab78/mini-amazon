@@ -598,7 +598,7 @@ WHERE prod_id = :prod_id
                                             )
         return rows
 
-        @staticmethod
+    @staticmethod
     def get_order_price(prod_id):
         rows = app.db.execute("""
 SELECT orders_image_url
