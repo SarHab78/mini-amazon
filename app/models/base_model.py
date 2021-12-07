@@ -851,7 +851,7 @@ RETURNING rid
             return None
 
 class Prod_Sell_Rev_Cat:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name):
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name, email, address):
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
