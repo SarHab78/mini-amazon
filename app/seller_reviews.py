@@ -143,3 +143,14 @@ def editreview(id):
                 flash('thanks for editing your review!')
                 return redirect(url_for('users_review_page.myreviews'))
     return render_template('edit_seller_review.html', title='reviews', form=form, uid=uid, sid=sid, email=email, rid=rid, rating=rating, review=review)
+
+
+@bp.route('/<rid>/delete_seller_review', methods=['GET', 'POST'])
+def delete_this_review(rid):
+    obj = Seller_review.get(rid)
+    rid = obj[0].rid
+    #print(rid)
+    Seller_review.delete(rid)
+    newobj = Seller_review.get_users_reviews(current_user.id)
+    return redirect(url_for('users_review_page.myreviews'))
+    return render_template('review_deleted_confirmation.html', seller_reviews = newobj)
