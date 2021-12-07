@@ -1,12 +1,13 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, session
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DecimalField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DecimalField, SelectField, SelectMultipleField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, AnyOf, NoneOf
 from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import User
+from .models.base_model import Past_Order_Info
 
 
 from flask import Blueprint
@@ -80,9 +81,16 @@ def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
+
+
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
-    return render_template('profile.html', id=id)
+    
+    ordered = Past_Order_Info.get_user_orders(uid=id)
+    for order in ordered:
+        total_spent=order.price * order.order_quantity
+    return render_template('profile.html',ordered=ordered, total_spent=total_spent, id=id)
+
 
 class EditProfileForm(FlaskForm):
     

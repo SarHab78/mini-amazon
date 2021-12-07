@@ -1184,3 +1184,29 @@ FROM Product_Review_User_Information
 WHERE Product_Review_User_Information.pid = :pid
         ''',pid= pid)
         return [Prod_user_rev(*row) for row in rows]
+
+class Past_Order_Info:
+    def __init__(self, prod_id, uid, order_quantity, add_date, ordered, product_name, price, seller_id, cat_name, total_spent):
+        self.prod_id=prod_id
+        self.uid=uid
+        self.order_quantity=order_quantity
+        self.add_date=add_date
+        self.ordered=ordered
+        self.product_name = product_name
+        self.price = price
+        self.seller_id = seller_id
+        self.cat_name = cat_name
+        self.total_spent=total_spent
+
+    @staticmethod
+    def get_user_orders(uid):
+        rows = app.db.execute('''
+SELECT *
+FROM Past_Order_Info
+WHERE Past_Order_Info.uid = :uid
+AND ordered = 'Y'
+ORDER BY add_date DESC
+        ''',uid= uid)
+        return [Past_Order_Info(*row) for row in rows]
+    
+          

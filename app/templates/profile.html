@@ -32,20 +32,31 @@
 
 <br><br>
 <h2>Your recent purchases:</h2>
+
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Purchase ID</th>
+      <th scope="col">Product ID</th>
       <th scope="col">Product Name</th>
-      <th scope="col">Price</th>
+      <th scope="col">Date Purchased</th>
+      <th scope="col">Product Category</th>
+      <th scope="col">Product Seller</th>
+      <th scope="col">Order Quantity</th>
+      <th scope="col">Price per Item</th>
+      <th scope="col">Total Spent</th>
     </tr>
   </thead>
   <tbody>
-    {% for purchase in purchase_history%}
+    {% for purchase in ordered%}
       <tr>
-        <th scope="row">{{purchase.id}}</th>
-        <td>{{purchase.pid}}</td>
-        <td>{{purchase.time_purchased}}</td>
+        <th scope="row">{{purchase.prod_id}}</th>
+        <td>{{purchase.product_name}}</td>
+        <td>{{purchase.add_date}}</td>
+        <td>{{purchase.cat_name}}</td>
+        <td>{{purchase.seller_id}}</td>
+        <td>{{purchase.order_quantity}}</td>
+        <td>${{purchase.price}}</td>
+        <td>${{purchase.total_spent}}</td>
       </tr>
     {% endfor %}
   </tbody>
@@ -81,21 +92,32 @@
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Purchase ID</th>
+      <th scope="col">Product ID</th>
       <th scope="col">Product Name</th>
-      <th scope="col">Price</th>
+      <th scope="col">Date Purchased</th>
+      <th scope="col">Product Category</th>
+      <th scope="col">Product Seller</th>
+      <th scope="col">Order Quantity</th>
+      <th scope="col">Price per Item</th>
+      <th scope="col">Total Spent</th>
     </tr>
   </thead>
   <tbody>
-    {% for purchase in purchase_history%}
+    {% for purchase in ordered%}
       <tr>
-        <th scope="row">{{purchase.id}}</th>
-        <td>{{purchase.pid}}</td>
-        <td>{{purchase.time_purchased}}</td>
+        <th scope="row">{{purchase.prod_id}}</th>
+        <td>{{purchase.product_name}}</td>
+        <td>{{purchase.add_date}}</td>
+        <td>{{purchase.cat_name}}</td>
+        <td>{{purchase.seller_id}}</td>
+        <td>{{purchase.order_quantity}}</td>
+        <td>${{purchase.price}}</td>
+        <td>${{purchase.total_spent}}</td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
+
 
 
 {% endif %}
