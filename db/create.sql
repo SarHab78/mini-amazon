@@ -107,7 +107,7 @@ CREATE VIEW Past_Order_Info AS(
     WHERE o.prod_id = p.product_id) as po, Category as C 
     WHERE po.prod_id = c.pid);
 
-CREATE VIEW total_money AS (
+CREATE VIEW Spending AS (
     SELECT sum(price) as total, uid, ordered
     FROM Orders
     GROUP BY uid
