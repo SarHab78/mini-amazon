@@ -587,7 +587,7 @@ class Orders:
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
-SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
+SELECT Products.name, Products.image_url, Products.price, Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders, Products
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
 
