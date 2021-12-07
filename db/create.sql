@@ -64,7 +64,7 @@ CREATE TABLE Orders(
     uid INT NOT NULL REFERENCES Users(id),
     order_quantity INT NOT NULL,
     add_date TIMESTAMP, --DEFAULT current_timestamp,    
-    ordered VARCHAR(256) UNIQUE NOT NULL
+    ordered VARCHAR(256) NOT NULL
     -- PRIMARY KEY(uid, prod_id, ordered)
 );
 
@@ -90,18 +90,19 @@ CREATE VIEW Prod_Sell_Rev_Cat AS(
 );
 
 CREATE VIEW Prod_Sell_Rev_Cat_Ord AS(
-    SELECT PURC.product_name, PURC.product_id, PURC.product_description, PURC.image_url, PURC.price, PURC.quantity,
-    PURC.firstname, PURC.lastname, PURC.available, PURC.email, PURC.address, PURC.avg_rating, PURC.cat_name, O.uid, O.order_quantity, O.add_date, O.ordered
+	SELECT PORC.product_name, PORC.product_id, PORC.product_description, PORC.image_url, PORC.price, PORC.seller_id, PORC.quantity,
+    PORC.available, PORC.uid, PORC.order_quantity, PORC.add_date, PORC.ordered, PORC.avg_rating, PORC.cat_name,
+		U.id, U.firstname, U.lastname, U.address, U.email
+		FROM
+    (SELECT POR.product_name, POR.product_id, POR.product_description, POR.image_url, POR.price, POR.seller_id, POR.quantity,
+    POR.available, POR.uid, POR.order_quantity, POR.add_date, POR.ordered, POR.avg_rating, C.cat_name
     FROM(
-    SELECT PUR.product_name, PUR.product_id, PUR.product_description, PUR.image_url, PUR.price, PUR.quantity,
-    PUR.firstname, PUR.lastname, PUR.available, PUR.email, PUR.address, PUR.avg_rating, C.cat_name
-    FROM(
-        SELECT PU.product_name, PU.product_id, PU.product_description, PU.image_url, PU.price, PU.quantity,
-        PU.firstname, PU.lastname, PU.available, PU.email, PU.address, ROUND(R.avg_rating, 1) AS avg_rating
-        FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.quantity, 
-        P.available, U.firstname, U.lastname, U.email, U.address
-            FROM Products AS P, Users AS U
-            WHERE P.seller_id = U.id) AS PU, 
+        SELECT PO.product_name, PO.product_id, PO.product_description, PO.image_url, PO.price, PO.seller_id, PO.quantity,
+        PO.available, PO.uid, PO.order_quantity, PO.add_date, PO.ordered, ROUND(R.avg_rating, 1) AS avg_rating
+        FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.seller_id, P.quantity, P.available,
+            O.uid, O.order_quantity, O.add_date, O.ordered
+            FROM Products AS P, Orders AS O
+            WHERE P.product_id = O.prod_id) AS PO, 
             (SELECT product_id, avg_rating
             FROM Products AS Prod
             LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
@@ -109,11 +110,10 @@ CREATE VIEW Prod_Sell_Rev_Cat_Ord AS(
                     GROUP BY pid)
                     AS Rev
             ON Prod.product_id = Rev.pid) AS R
-            WHERE PU.product_id = R.product_id) AS PUR, Category AS C
-            WHERE PUR.product_id = C.pid) AS PURC, Orders as O
-            WHERE PURC.product_id = O.prod_id
+            WHERE PO.product_id = R.product_id) AS POR, Category AS C
+            WHERE POR.product_id = C.pid) AS PORC, Users as U
+						WHERE PORC.uid = U.id
 );
-
 
 CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$
 BEGIN

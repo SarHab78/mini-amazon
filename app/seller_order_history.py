@@ -82,7 +82,7 @@ def order_history():
             search_str = session['current_query']
         if 'filter_fields' in session:
             filter_fields = session['filter_fields']
-        searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
+        searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(sell_id, search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
 
         # If user is signed in, get all their purchases
         
@@ -106,7 +106,7 @@ def order_history():
         filter_fields = tuple(filterform.filter_fields.data)
         #print(filter_fields)
         session['filter_fields'] = filter_fields
-        searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
+        searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(sell_id, search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
 
 
         return render_template('seller_order_history.html',
@@ -124,10 +124,10 @@ def order_history():
                 session['current_query'] = product_query
 
                 if product_query.lower() == "all":
-                     searched_products = Prod_Sell_Rev_Cat_Ord.get_all()
+                     searched_products = Prod_Sell_Rev_Cat_Ord.get_all(sell_id)
                      session['current_query'] = ''
                 else:
-                    searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(search_str=product_query)
+                    searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(sell_id, search_str=product_query)
                 
 
                 return render_template('seller_order_history.html',
