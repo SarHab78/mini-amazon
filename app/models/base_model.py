@@ -589,8 +589,7 @@ class Orders:
         rows = app.db.execute('''
 SELECT prod_id, uid, order_quantity, add_date, ordered
 FROM Orders
-WHERE Orders.ordered = 'N' AND uid = :uid
-
+WHERE ordered = 'N' AND uid = :uid
         ''',
             uid= uid)
         return [Orders(*row) for row in rows] 
