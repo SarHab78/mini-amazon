@@ -32,8 +32,8 @@ def interim(uid, name, product_id, quant, add_date):
     prod_review = Product_review.get_prod_reviews(pid = product_id)
     avg_product_rating = Product_review.avg_product_rating(pid = product_id)
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
-    price = Orders.get_order_price(prod_id = product_id)
-    img = Orders.get_order_image(prod_id = product_id)
+    price = Products.get_order_price(product_id)
+    img = Product.get_order_image(product_id)
 
 
     cart = Orders.add_to_cart(orders_name = name,orders_price=price, orders_image_url=img, prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
