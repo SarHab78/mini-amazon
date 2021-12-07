@@ -860,11 +860,11 @@ class Prod_Sell_Rev_Cat:
         self.price = price
         self.firstname = firstname
         self.lastname = lastname
-        self.email = email
-        self.address=address
         self.avg_rating = avg_rating
         self.available = available
         self.cat_name = cat_name
+        self.email = email
+        self.address=address
     
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
