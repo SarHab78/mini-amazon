@@ -72,3 +72,9 @@ def product_page(name, product_id):
                             product_id = product_id,
                             quant_options = quant_options,
                             form=form)
+
+    @bp.route('/sellerinfo', methods=['GET', 'POST'])
+    def sellerinfo(id):
+    id=product_id
+    return render_template('sellerinfo.html', id=id)
+
