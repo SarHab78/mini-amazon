@@ -230,6 +230,9 @@ RETURNING id, password
             print(rows)
             return User.get(id)
 
+    
+
+
 #Purchase table information
         
 class Purchase:
@@ -546,8 +549,7 @@ ORDER BY price, quantity
         return [Product(*row) for row in rows]
 
 
-
-
+        
 class Product_review:
     def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
         self.rid = rid
@@ -895,7 +897,7 @@ RETURNING rid
             return None
 
 class Prod_Sell_Rev_Cat:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, avg_rating, cat_name):
+    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, email, address, id, available, avg_rating, cat_name):
         self.product_id = product_id
         self.product_name = product_name
         self.product_description = product_description
@@ -904,9 +906,14 @@ class Prod_Sell_Rev_Cat:
         self.price = price
         self.firstname = firstname
         self.lastname = lastname
+        self.email = email
+        self.address = address
+        self.id = id
         self.avg_rating = avg_rating
         self.available = available
         self.cat_name = cat_name
+        
+        
     
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
@@ -1010,3 +1017,25 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
         ''',
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
+
+class Seller_Information:
+    def __init__(self, product_name, product_id, firstname, lastname, email, address, id):
+        self.product_name = product_name
+        self.product_id = product_id
+        self.firstname=firstname
+        self.lastname=lastname
+        self.email=email
+        self.address=address
+        self.id = id
+
+    @staticmethod
+    def get_information(product_id):
+        rows = app.db.execute('''
+SELECT p.product_name, p.product_id, u.firstname, u.lastname, u.email, u.address, u.id
+FROM Products as p
+FULL OUTER JOIN Users as u
+ON p.seller_id = u.id
+WHERE p.product_id = :product_id
+        ''',
+                                product_id = product_id)
+        return [Seller_Information(*row) for row in rows] 

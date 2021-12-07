@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block content %}
 <style>
 /* Basic Styling */
@@ -116,8 +117,13 @@ html, body {
         <p>{{product.product_description}}</p>
         <p><b>Category:</b> {{product.cat_name}}</p>
         <p><b>Seller:</b> {{product.firstname}} {{product.lastname}}</p>
+        <p><font size="-1"><b>Seller ID:</b> {{product.id}}</font></p>
+        <p><font size="-1"><b>Seller Email:</b> {{product.email}}</font></p>
+       <p><font size="-1"><b>Seller Address:</b> {{product.address}}</font></p>
+        
       </div>
-      
+
+     
       {% for thing in seller %}
       <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_a_seller_review', sid=thing.seller_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
       {% endfor %}
@@ -182,7 +188,7 @@ html, body {
           <td>{{product.quantity}}</td>
           <td>{{product.firstname}} {{product.lastname}}</td>
           <td>{{product.avg_rating}}</td>
-          <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
+        <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
             style = "background: #57edf6; color: black">More Details</a></td>
         </tr>
       {% endfor %}
