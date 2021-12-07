@@ -1208,5 +1208,23 @@ AND ordered = 'Y'
 ORDER BY add_date DESC
         ''',uid= uid)
         return [Past_Order_Info(*row) for row in rows]
+
+class total_money:
+    def __init__(self, total, uid, ordered):
+        self.total=total
+        self.uid = uid
+        self.ordered=ordered
+    
+    @staticmethod
+    def get_total_spent:
+        rows = app.db.execute('''
+SELECT total
+FROM total_money
+WHERE total_money.uid = :uid
+AND ordered = 'Y'
+        ''',uid= uid)
+        return [total_money(*row) for row in rows]
+
+
     
           
