@@ -39,8 +39,8 @@ def interim(uid, name, product_id, quant, add_date):
     img = Product.get_order_image(product_id)
     print('getting here 3')
 
-
-    cart = Orders.add_to_cart(orders_name = name,orders_price=price, orders_image_url=img, prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
+   
+    cart = Orders.add_to_cart(orders_name = name, orders_price = price, orders_image_url = img, prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
     
     if current_user.is_authenticated:
         sell_id = current_user.id
