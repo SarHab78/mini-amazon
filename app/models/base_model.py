@@ -612,12 +612,11 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     @staticmethod
     def total_price(prod_id, uid):
         rows = app.db.execute("""
-        SELECT price
-        FROM Products, Orders
-        WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
-        """, 
-            price=price)
-        return price
+    SELECT SUM(price) 
+    FROM Product
+    WHERE Product.product_id = Orders.prod_id
+    """)
+        return SUM
 
 
     @staticmethod
