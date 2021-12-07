@@ -990,4 +990,4 @@ ON p.seller_id = u.id
 WHERE p.product_id = :product_id
         ''',
                                 product_id = product_id)
-        return [Product_review(*row) for row in rows] 
+        return [Seller_Information(*row) for row in rows] 
