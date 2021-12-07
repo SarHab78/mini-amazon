@@ -84,7 +84,7 @@ def add_a_seller_review(pid, sid):
                             rating,
                             review)
                 flash('thanks for submitting your review!')
-                return redirect(url_for('index.index'))
+                return redirect(url_for('users_review_page.myreviews'))
     return render_template('seller_review_form.html', title='reviews', form=form, sid=sid)
 
 
