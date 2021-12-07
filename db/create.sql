@@ -108,7 +108,7 @@ CREATE VIEW Past_Order_Info AS(
     WHERE po.prod_id = c.pid);
 
 CREATE VIEW total_money AS (
-    SELECT sum(price) as total, uid
+    SELECT sum(price) as total, uid, ordered
     FROM Orders
     GROUP BY uid
 )
