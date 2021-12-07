@@ -908,7 +908,7 @@ WHERE Orders.ordered = 'N' AND Orders.uid = :uid
 
     @staticmethod
     def past_orders(uid):
-         rows = app.db.execute('''
+        rows = app.db.execute('''
 SELECT *
 FROM Orders
 WHERE Orders.ordered = 'Y' AND Orders.uid = :uid
