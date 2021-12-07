@@ -549,17 +549,6 @@ ORDER BY price, quantity
         return [Product(*row) for row in rows]
 
 
-    @staticmethod
-    def get_information(product_id):
-        rows = app.db.execute('''
-SELECT *
-FROM Products as p
-FULL OUTER JOIN Users as u
-ON p.seller_id = u.id
-WHERE p.product_id = :product_id
-        ''',
-                                product_id = product_id)
-        return [Product_review(*row) for row in rows] 
         
 class Product_review:
     def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
@@ -980,3 +969,25 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
         ''',
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
+
+class Seller_Information:
+    def __init__(self, product_name, product_id, firstname, lastname, email, address, id):
+        self.product_name = product_name
+        self.product_id = product_id
+        self.firstname=firstname
+        self.lastname=lastname
+        self.email=email
+        self.address=address
+        self.id = id
+
+    @staticmethod
+    def get_information(product_id):
+        rows = app.db.execute('''
+SELECT p.product_name, p.product_id, u.firstname, u.lastname, u.email, u.address, u.id
+FROM Products as p
+FULL OUTER JOIN Users as u
+ON p.seller_id = u.id
+WHERE p.product_id = :product_id
+        ''',
+                                product_id = product_id)
+        return [Product_review(*row) for row in rows] 
