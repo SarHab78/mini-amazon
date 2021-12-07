@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-<html lang="en">
+
 
 {% block content %}
 <style>
@@ -188,7 +188,8 @@ html, body {
           <td>{{product.quantity}}</td>
           <td>{{product.firstname}} {{product.lastname}}</td>
           <td>{{product.avg_rating}}</td>
-        <td><a <button class="btn btn-primary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" color=#FF5733><i class="fas fa-info"> </i> More Details</button> </a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('product_page.product_page', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
+            style = "background: #57edf6; color: black">More Details</a></td>
         </tr>
       {% endfor %}
     </tbody>
