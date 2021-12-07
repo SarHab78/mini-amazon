@@ -205,7 +205,7 @@ WHERE id = :id
     ''', 
                                 id = id
                                             )
-        return [Product(*(rows[0])) 
+        return [Product(*(rows[0])) ]
     
     @staticmethod
     def get_order_image(id):
@@ -217,7 +217,7 @@ WHERE id = :id
                                 id = id
 
                                             )
-        return [Product(*(rows[0]))
+        return [Product(*(rows[0]))]
 
     @staticmethod
     def get_seller_products(id):
