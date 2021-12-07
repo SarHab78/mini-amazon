@@ -8,7 +8,7 @@ from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import User
 from .models.base_model import Past_Order_Info
-
+from .models.base_model import total_money
 
 from flask import Blueprint
 bp = Blueprint('users', __name__)
