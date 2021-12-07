@@ -12,7 +12,7 @@ from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
 from .models.base_model import Prod_Sell_Rev_Cat
-from .models.base_model import Orders
+from .models.base_model import Order
 
 from flask import Blueprint
 bp = Blueprint('interim', __name__)
@@ -40,7 +40,7 @@ def interim(uid, name, product_id, quant, add_date):
     print('getting here 3')
 
    
-    cart = Orders.add_to_cart(orders_name = name, orders_price = price, orders_image_url = img, prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
+    cart = Order.add_to_cart(orders_name = name, orders_price = price, orders_image_url = img, prod_id = product_id, quantity = quant, uid = uid, add_date = add_date)
     
     if current_user.is_authenticated:
         sell_id = current_user.id
