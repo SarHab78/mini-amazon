@@ -32,6 +32,29 @@
 
 <br><br>
 <h2>Your recent purchases:</h2>
+<div style="float:left;">
+    <form action="" id = "filt" method="post">
+      {{ filterform.hidden_tag() }}
+      <p>
+        {{ filterform.filter_fields(size=4) }}<br/>
+      </p>
+      <p>{{ filterform.submit() }}</p>
+    </form>
+  </div>
+
+  <div style="float:right;">
+    <form action="" id = "sort" method="post">
+      {{ sortform.hidden_tag() }}
+      <p>
+        {{ sortform.sort_attribute(size=1) }}<br/>
+        {{ sortform.up_or_down(size=1) }}<br/>
+      </p>
+      <p>{{ sortform.submit() }}</p>
+    </form>
+  </div>
+
+  <br></br><br></br><br></br><br>
+
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
