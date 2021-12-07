@@ -18,7 +18,7 @@
 <strong>Name: </strong>{{ current_user.firstname }} {{ current_user.lastname }}<br/>
 
 <strong>Address: </strong>{{ current_user.address }}<br/>
-<strong>Balance: </strong>${{ current_user.balance }}<br/>
+<strong>Balance: </strong>${{ current_user.balance }} <a <a class="btn btn-warning" href="{{ url_for('users.editbalance', id=current_user.id) }}" role="button">Edit Balance</a> <br/> 
 <strong>Are you a seller? </strong>{{ current_user.is_seller }}<br/></p>
     <a <a class="btn btn-warning" href="{{ url_for('users.editprofile', id=current_user.id) }}" role="button">Edit Profile</a>
     <a <a class="btn btn-outline-info" href="{{ url_for('seller_inventory.inventory') }}" role="button">View Seller Inventory</a>
