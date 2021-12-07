@@ -11,6 +11,7 @@ import uuid
 from .models.base_model import User
 from .models.base_model import Product
 from .models.base_model import Add_seller_review
+from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Seller_review
 
 
@@ -35,8 +36,8 @@ class seller_reviews(FlaskForm):
        # else: 
         #    return False
 
-@bp.route('/<sid>/seller_review_form', methods=['GET', 'POST'])
-def add_a_seller_review(sid):
+@bp.route('/<pid>/<sid>/seller_review_form', methods=['GET', 'POST'])
+def add_a_seller_review(pid, sid):
     form = seller_reviews()
     #autopopulate with user id:
     if current_user.is_authenticated: 
@@ -49,9 +50,9 @@ def add_a_seller_review(sid):
     form.rid.data = gen_rid
     
     #autopopulate seller id: -- FIX THIS
-    #page_product = Product.get_product_for_page(product_id = product_id)
-    #if request.method == 'GET':
-     #   form.sid.data = page_product[0].seller_id
+    page_product = Prod_Sell_Rev_Cat.get_sell_rev_info(product_id = pid)
+    if request.method == 'GET':
+        form.sid.data = page_product[0].id
 
 
     #actually submit form
@@ -153,4 +154,4 @@ def delete_this_review(rid):
     Seller_review.delete(rid)
     newobj = Seller_review.get_users_reviews(current_user.id)
     return redirect(url_for('users_review_page.myreviews'))
-    return render_template('review_deleted_confirmation.html', seller_reviews = newobj)
+    #return render_template('review_deleted_confirmation.html', seller_reviews = newobj)
