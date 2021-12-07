@@ -91,15 +91,15 @@ CREATE VIEW Prod_Sell_Rev_Cat AS(
 
 CREATE VIEW Prod_Sell_Rev_Cat_Ord AS(
     SELECT PURC.product_name, PURC.product_id, PURC.product_description, PURC.image_url, PURC.price, PURC.quantity,
-    PURC.firstname, PURC.lastname, PURC.available, PURC.address, PURC.email, PURC.avg_rating, PURC.cat_name, O.uid, O.order_quantity, O.add_date, O.ordered
+    PURC.firstname, PURC.lastname, PURC.available, PURC.email, PURC.address, PURC.avg_rating, PURC.cat_name, O.uid, O.order_quantity, O.add_date, O.ordered
     FROM(
     SELECT PUR.product_name, PUR.product_id, PUR.product_description, PUR.image_url, PUR.price, PUR.quantity,
-    PUR.firstname, PUR.lastname, PUR.available, PUR.address, PUR.avg_rating, C.cat_name
+    PUR.firstname, PUR.lastname, PUR.available, PUR.email, PUR.address, PUR.avg_rating, C.cat_name
     FROM(
         SELECT PU.product_name, PU.product_id, PU.product_description, PU.image_url, PU.price, PU.quantity,
-        PU.firstname, PU.lastname, PU.available, PU.address, ROUND(R.avg_rating, 1) AS avg_rating
-        FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.quantity, P.available,
-            U.firstname, U.lastname, U.address
+        PU.firstname, PU.lastname, PU.available, PU.email, PU.address, ROUND(R.avg_rating, 1) AS avg_rating
+        FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.quantity, 
+        P.available, U.firstname, U.lastname, U.email, U.address
             FROM Products AS P, Users AS U
             WHERE P.seller_id = U.id) AS PU, 
             (SELECT product_id, avg_rating

@@ -853,25 +853,22 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
 
 
 class Prod_Sell_Rev_Cat_Ord:
-    def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, available, address, email, avg_rating, cat_name, uid, order_quantity, add_date, ordered):
-        self.product_name = product_name
-        self.product_id = product_id
-        self.product_description = product_description
-        self.image_url = image_url
-        self.price = price
-        self.quantity = quantity
+    def __init__(self,  uid, firstname, lastname, email, address, product_name, product_id, add_date, order_quantity, ordered):
+        self.uid = uid
         self.firstname = firstname
         self.lastname = lastname
-        self.available = available
-        self.address = address
-        self.avg_rating = avg_rating
         self.email = email
-        self.cat_name = cat_name
-        self.uid = uid
-        self.order_quantity = order_quantity
+        self.address = address
+        self.product_name = product_name
+        self.product_id = product_id
         self.add_date = add_date
+        self.order_quantity = order_quantity
         self.ordered = ordered
 
+        
+        
+     
+        
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
@@ -880,13 +877,17 @@ class Prod_Sell_Rev_Cat_Ord:
     @staticmethod
     def get_all(seller_id):
         rows = app.db.execute('''
-SELECT *
-FROM Prod_Sell_Rev_Cat_Ord
-WHERE Prod_Sell_Rev_Cat_Ord.uid = :seller_id
-        ''',seller_id= seller_id)
-        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] if rows else []
+SELECT Prod_Sell_Rev_Cat_Ord.uid, Users.firstname, Users.lastname, Users.email, Users.address, Prod_Sell_Rev_Cat_Ord.product_name, Prod_Sell_Rev_Cat_Ord.product_id, Prod_Sell_Rev_Cat_Ord.add_date, Prod_Sell_Rev_Cat_Ord.order_quantity, Prod_Sell_Rev_Cat_Ord.ordered
+FROM Prod_Sell_Rev_Cat_Ord, Users
+WHERE Prod_Sell_Rev_Cat_Ord.uid = Users.id
+        ''',
+        seller_id= seller_id)
 
-    
+       # get_prod_id = ("").join([str(r) for (r,) in get_prod_id])
+        print(rows)
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] if rows else []
+        
+
     @staticmethod
     def get_search_result(search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
         if filt_list == 'all':
