@@ -85,7 +85,7 @@ def profile(id):
     return render_template('profile.html', id=id)
 
 class EditProfileForm(FlaskForm):
-    id = IntegerField(_l('id'), validators=[DataRequired()])
+    
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
     lastname = StringField(_l('Last Name'), validators=[DataRequired()])
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
@@ -103,7 +103,7 @@ def editprofile(id):
     form = EditProfileForm()
     if form.validate_on_submit():
         if User.edit(
-                        form.id.data,
+                        current_user.id,
                         form.email.data,
                          form.password.data,
                          form.firstname.data,
