@@ -135,7 +135,7 @@ def editfirstname(id):
     return render_template("editfirstname.html", form=form, id=id)
 
 class EditBalanceForm(FlaskForm):
-    id = IntegerField(_l('id'), validators=[DataRequired()])
+    
     balance = IntegerField(_l('balance'), validators=[DataRequired()])
     submit = SubmitField('Update Balance')
 
