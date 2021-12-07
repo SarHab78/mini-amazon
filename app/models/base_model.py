@@ -559,7 +559,7 @@ ON p.seller_id = u.id
 WHERE p.product_id = :product_id
         ''',
                                 product_id = product_id)
-    return [Product_review(*row) for row in rows] 
+        return [Product_review(*row) for row in rows] 
         
 class Product_review:
     def __init__(self, rid, pid, uid, email, rev_timestamp, rating, review):
