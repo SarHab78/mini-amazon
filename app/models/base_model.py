@@ -242,7 +242,7 @@ RETURNING id, password
         except:
             return None
 
-         return User.get(user_id)
+        return User.get(user_id)
 
     
 
