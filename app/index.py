@@ -73,19 +73,19 @@ def index():
     sortform = SortForm()
     filterform = FilterForm()
 
-    # if sortform.validate_on_submit():
-    #     order_by = sortform.sort_attribute.data
-    #     session['order_by'] = order_by
-    #     direc = sortform.up_or_down.data
-    #     session['direc'] = direc
+    if sortform.validate_on_submit():
+        order_by = sortform.sort_attribute.data
+        session['order_by'] = order_by
+        direc = sortform.up_or_down.data
+        session['direc'] = direc
 
-    #     search_str = ''
-    #     #filter_fields = 'all'
-    #    # if 'current_query' in session:
-    #         search_str = session['current_query']
-    #     #if 'filter_fields' in session:
-    #        # filter_fields = session['filter_fields']
-    #     #searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
+        search_str = ''
+        #filter_fields = 'all'
+       # if 'current_query' in session:
+            search_str = session['current_query']
+        #if 'filter_fields' in session:
+           # filter_fields = session['filter_fields']
+        #searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
 
         # If user is signed in, get all their purchases
         if current_user.is_authenticated:
