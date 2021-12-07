@@ -32,6 +32,9 @@
 
 <br><br>
 <h2>Your recent purchases:</h2>
+{% for t in total%}
+<h1>Total Spent: {{t.total}}</h1>
+{% endfor %}
 
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
