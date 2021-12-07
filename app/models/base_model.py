@@ -615,7 +615,7 @@ FROM Orders
 WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
         ''',
                                 uid= uid)
-        return [Orders(*row) for row in rows] 
+        return [Order(*row) for row in rows] 
 # FROM Orders
 # WHERE ordered = 'N' AND uid = :uid    
 
@@ -634,7 +634,7 @@ RETURNING uid
                                 quantity = quantity,
                                 add_date = add_date
             )
-        return Orders.get_cart(uid)
+        return Order.get_cart(uid)
  
     @staticmethod
     def total_price(uid):
@@ -658,7 +658,7 @@ WHERE Product.product_id = Orders.prod_id AND User.id = Orders.uid AND Orders.or
                                 balance = balance, 
 
             )
-        return Orders.get_cart(uid)
+        return Order.get_cart(uid)
 
 
 #add seller reviews
