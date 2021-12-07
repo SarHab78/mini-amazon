@@ -128,10 +128,11 @@ html, body {
         
       </div>
 
-     
+      
       {% for thing in seller %}
       <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_a_seller_review', sid=thing.seller_id, pid=product.product_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
       {% endfor %}
+      
 
         <!-- Product Pricing -->
         <div class="product-price">
@@ -200,13 +201,14 @@ html, body {
     </tbody>
   </table>
 
-<!--review button-->
 
 <br><br>
-<!-- add review button -->
-{% for product in product_row %}
-<a class="btn btn-secondary" href="{{ url_for('reviews.add_a_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review of this Product</a>
-{% endfor %}
+<!-- add product review button, only shows up if user has never reviewed product before -->
+{% if have_reviewed != True %}
+  {% for product in product_row %}
+  <a class="btn btn-secondary" href="{{ url_for('reviews.add_a_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review of this Product</a>
+  {% endfor %}
+{% endif %}
 
 <br><br>
 <!--review table-->

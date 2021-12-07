@@ -586,6 +586,19 @@ ORDER BY rev_timestamp
                               uid=uid)
         return [Product_review(*row) for row in rows] 
 
+    
+    @staticmethod
+    def user_has_reviewed(uid, pid):
+        rows = app.db.execute('''
+SELECT rid, pid, uid, email, rev_timestamp, rating, review
+FROM product_review
+WHERE uid = :uid
+AND pid = :pid
+''',
+                              uid=uid,
+                              pid=pid)
+        return len(rows)>0 
+
 
 #average rating for a product
     @staticmethod
@@ -673,17 +686,7 @@ WHERE rid = :rid
 """,
                                     rid=rid,)
 
-#    @staticmethod
- #   def review_exists(pid, uid):
-  #      rows = app.db.execute('''
-#SELECT rid, pid, uid, email, rev_timestamp, rating, review
-#FROM product_review
-#WHERE pid = :pid
-#AND uid = :uid
- #       ''',
-  #                              pid=pid,
-   #                             uid=uid)
-    #    return len(rows)>0
+
 
 
 class Add_review:
@@ -698,8 +701,6 @@ class Add_review:
 
     @staticmethod
     def add_review(rid, pid, uid, email, rating, review):
-        #print(rid, pid, review)
-        #print(type(rev_timestamp))
         try:
             print("are you even trying")
             rows = app.db.execute("""
@@ -830,6 +831,19 @@ RETURNING rid, uid, sid, email, rev_timestamp, rating, review
             print(rows)
             return Seller_review.get(id)
     
+#check if user has an existing seller review
+    @staticmethod
+    def user_has_reviewed(uid, sid):
+        rows = app.db.execute('''
+SELECT rid, uid, sid, email, rev_timestamp, rating, review
+FROM Seller_review
+WHERE uid = :uid
+AND sid = :sid
+''',
+                              uid=uid,
+                              sid=sid)
+        return len(rows)>0 
+
 
     @staticmethod
     def stest():
