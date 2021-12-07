@@ -585,7 +585,7 @@ class Orders:
 
 
     @staticmethod
-    def get_cart(uid,prod_id):
+    def get_cart(uid):
         rows = app.db.execute('''
 SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
 FROM Orders, Products
