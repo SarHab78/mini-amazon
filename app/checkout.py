@@ -38,4 +38,4 @@ def final_checkout():
             return Orders.checkout_cart(balance = balance, uid = current_user.id)
     if form.is_submitted() and not form.validate():
 
-    return render_template('finalized_order.html')
+        return render_template('finalized_order.html')
