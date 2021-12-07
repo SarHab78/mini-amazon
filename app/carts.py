@@ -24,10 +24,11 @@ bp = Blueprint('carts', __name__)
 def carts():
     if current_user.is_authenticated:
         my_cart = Orders.get_cart(current_user.id)
+        return render_template('carts.html', user_cart = my_cart)
 
     else:
         my_cart = None
-    return render_template('carts.html', user_cart = my_cart)
+        return render_template('carts.html', user_cart = my_cart)
 
 
 
