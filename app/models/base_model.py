@@ -598,9 +598,9 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     @staticmethod
     def add_to_cart(prod_id, quantity, uid, add_date):
         rows = app.db.execute("""
-    INSERT INTO Orders
-    VALUES (:prod_id, :uid, :quantity, :add_date, 'N')
-    RETURNING uid
+INSERT INTO Orders
+VALUES (:prod_id, :uid, :quantity, :add_date, 'N')
+RETURNING uid
     """, 
                                 uid = uid,
                                 prod_id = prod_id,
@@ -612,9 +612,9 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
     @staticmethod
     def total_price(uid):
         rows = app.db.execute("""
-    SELECT SUM(price) 
-    FROM Product
-    WHERE Product.product_id = Orders.prod_id AND User.id = Orders.uid AND Orders.ordered = 'N'
+SELECT SUM(price) 
+FROM Product
+WHERE Product.product_id = Orders.prod_id AND User.id = Orders.uid AND Orders.ordered = 'N'
     """)
         return SUM
 
