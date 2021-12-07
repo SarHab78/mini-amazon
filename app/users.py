@@ -85,7 +85,7 @@ def logout():
 
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
-    avatar = User.avatar(User.get_email(id))
+    avatar = User.avatar(User.get_email(id), 128)
     ordered = Past_Order_Info.get_user_orders(uid=id)
     return render_template('profile.html',ordered=ordered, avatar=avatar, id=id)
 
