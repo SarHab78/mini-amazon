@@ -152,3 +152,27 @@ def editbalance(id):
             return render_template("profile.html") 
     return render_template("editbalance.html", form=form, id=id)
 
+class RequestResetForm(FlaskForm):
+    email = StringField(_l('Email'), validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        if not User.email_exists(email.data):
+            raise ValidationError(_('There is no account associated with this email. Please register first.'))
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(_l('Password'), validators=[DataRequired()])
+    password2 = PasswordField(
+        _l('Repeat Password'), validators=[DataRequired(),
+                                           EqualTo('password')])
+    submit = SubmitField('Reset Password')
+
+@bp.route("/reset_password", methods=['GET', 'POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index.index'))
+    form = RequestResetForm()
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+
