@@ -723,6 +723,19 @@ ORDER BY rev_timestamp
                               sid=sid)
         return [Seller_review(*row) for row in rows] 
 
+
+    @staticmethod
+    def get_users_reviews(uid):
+        rows = app.db.execute('''
+SELECT rid, uid, sid, email, rev_timestamp, rating, review
+FROM Seller_review
+WHERE uid = :uid
+ORDER BY rev_timestamp
+''',
+                              uid=uid)
+        return [Seller_review(*row) for row in rows] 
+
+
     @staticmethod
     def count_seller_reviews(sid):
         count = app.db.execute('''
@@ -749,7 +762,7 @@ FROM seller_review
 WHERE rid = :rid
 ''',
                               rid=rid)
-        return [Product_review(*row) for row in rows]
+        return [Seller_review(*row) for row in rows]
 
 #average rating for a product
     @staticmethod
@@ -766,16 +779,24 @@ WHERE sid = :sid
             avg = 'N/A (no reviews yet)'
         return avg #change
 
-
-#class Add_seller_review:
- #   def __init__(self, rid, uid, sid, email, rev_timestamp, rating, review):
-  #      self.rid = rid
-   #     self.uid = uid
-    #    self.sid = sid
-     #   self.email = email
-    #    self.rev_timestamp = rev_timestamp
-    #    self.rating = rating
-     #   self.review = review
+    @staticmethod
+    def edit(rid, uid, sid, email, rating, review):
+        #try:
+            rows = app.db.execute("""
+UPDATE Seller_review
+SET rid = :rid, uid = :uid, sid = :sid, email = :email, rev_timestamp = NOW()::TIMESTAMP, rating  = :rating, review = :review
+WHERE rid = :rid
+RETURNING rid, uid, sid, email, rev_timestamp, rating, review
+""",
+                                    rid=rid,
+                                    uid=uid,
+                                    sid=sid,
+                                    email=email,
+                                    rating=rating,
+                                    review= review)
+            id = rows[0][0]
+            print(rows)
+            return Seller_review.get(id)
     
     @staticmethod
     def stest():

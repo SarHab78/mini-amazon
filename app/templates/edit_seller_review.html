@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Edit your review</h1>
+
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.rid.label }} (auto-generated) <br/>
+    {{ form.rid(size=32, value=rid) }}<br/>
+    {% for error in form.rid.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.uid.label }} : your user id<br/>
+    {{ form.uid(size=32, value = uid) }}<br/>
+    {% for error in form.uid.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.sid.label }} : seller you are reviewing<br/>
+    {{ form.sid(size=32, value = sid) }}<br/>
+    {% for error in form.sid.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.email.label }} <br/>
+    {{ form.email(size=32, value = email) }}<br/>
+    {% for error in form.email.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.rating.label }} from 1-5 stars <br/>
+    {{ form.rating(size=32, value = rating) }}<br/>
+    {% for error in form.rating.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+ 
+  <p>
+    {{ form.review.label }} <br/>
+    {{ form.review(size=32, value = review) }}<br/>
+    {% for error in form.review.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  
+
+  <p>{{ form.submit() }}</p>
+</form>
+
+{% endblock %}

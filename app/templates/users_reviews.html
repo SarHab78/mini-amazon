@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Reviews You Have Written</h1>
+<h1>Product Reviews You Have Written</h1>
 
 <br><br>
 <table class='table table-hover table-bordered container'>
@@ -25,6 +25,36 @@
         <td>{{review.review}}</td>
         <td>{{review.rev_timestamp}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('reviews.editreview', id = review.rid)}}" role="button"
+          style = "background: #57edf6; color: black">Edit Review</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br><br>
+<br><br>
+<h1>Seller Reviews You Have Written</h1>
+
+<br><br>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">sid</th>
+      <th scope="col">rating</th>
+      <th scope="col">review</th>
+      <th scope="col">rev_timestamp</th>
+      <th scope="col">edit</th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for review in seller_reviews%}
+      <tr>
+        <th scope="row">{{review.sid}}</th>
+        <td>{{review.rating}}</td>
+        <td>{{review.review}}</td>
+        <td>{{review.rev_timestamp}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('seller_reviews.editreview', id = review.rid)}}" role="button"
           style = "background: #57edf6; color: black">Edit Review</a></td>
       </tr>
     {% endfor %}
