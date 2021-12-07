@@ -188,7 +188,7 @@ def reset_request():
             if User.edit_password(
                         current_user.id,
                         form.password.data):
-            return render_template("login.html", form=form, id=id)
+                return render_template("login.html", form=form, id=id)
     return render_template('reset_request.html', title='Reset Password', form=form)
 
 @bp.route("/reset_password/<token>")
