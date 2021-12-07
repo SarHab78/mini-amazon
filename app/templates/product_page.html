@@ -225,7 +225,12 @@ html, body {
   <tbody>
     {% for review in product_reviews %} 
       <tr>
-        <th scope = "row">{{review.uid}}</th>
+        <th><details>
+    <summary>{{review.uid}}</summary>
+
+    <p>name goes here</p>
+</details></th>
+        
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
       </tr>
