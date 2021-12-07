@@ -46,6 +46,8 @@ def product_page(name, product_id):
     num_reviews = Product_review.count_prod_reviews(pid = product_id)
     quant_options = Prod_Sell_Rev_Cat.get_quant_list(product_id = product_id)
     user_info = Prod_user_rev.get_user_info(pid = product_id)
+    have_reviewed = Product_review.user_has_reviewed(uid = current_user.id, pid= product_id) #returns True if user has already reviewed this product before
+    #have_reviewed_seller = Seller_review.user_has_reviewed(uid = current_user.id, sid = )
 
     time = datetime.datetime.now()
     form.add_date.data = time
@@ -73,8 +75,10 @@ def product_page(name, product_id):
                             name = name,
                             product_id = product_id,
                             quant_options = quant_options,
+                            have_reviewed = have_reviewed,
                             form=form,
                             user_info=user_info)
+
 
 @bp.route('/sellerinfo', methods=['GET', 'POST'])
 def sellerinfo(id):
