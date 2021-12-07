@@ -85,11 +85,9 @@ def logout():
 
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
-    
+    avatar = User.avatar(User.get_email(id))
     ordered = Past_Order_Info.get_user_orders(uid=id)
-    for order in ordered:
-        total_spent=order.price * order.order_quantity
-    return render_template('profile.html',ordered=ordered, total_spent=total_spent, id=id)
+    return render_template('profile.html',ordered=ordered, avatar=avatar, id=id)
 
 
 class EditProfileForm(FlaskForm):
