@@ -10,7 +10,7 @@ from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
 from .models.base_model import Prod_Sell_Rev_Cat
-from .models.base_model import Orders
+from .models.base_model import Order
 from .models.base_model import User
 
 
@@ -28,14 +28,14 @@ def checkout():
     
 @bp.route('/final_checkout')
 def final_checkout():
-    my_cart = Orders.get_cart(current_user.id)
+    my_cart = Order.get_cart(current_user.id)
     balance = current_user.balance
-    price = Orders.total_price(current_user.id)
+    price = Order.total_price(current_user.id)
     if form.validate_on_submit():
         if balance < total:
             flash('Insufficient Funds, you current have a balance of ${}, your cart total is ${}', balance, total)
         else:
-            return Orders.checkout_cart(balance = balance, uid = current_user.id)
+            return Order.checkout_cart(balance = balance, uid = current_user.id)
     if form.is_submitted() and not form.validate():
 
         return render_template('finalized_order.html')
