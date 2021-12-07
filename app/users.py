@@ -143,7 +143,8 @@ def profile(id):
 
         return render_template('profile.html',ordered=ordered, id=id)
 
-    else filterform.validate_on_submit():
+    #elif filterform.validate_on_submit():
+    else:
         search_str = ''
         if 'current_query' in session:
             search_str = session['current_query']
