@@ -6,8 +6,6 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, InputRequired, NumberRange
 from flask_babel import _, lazy_gettext as _l
 
-from .interim_added_cart_page import interim
-
 import datetime
 
 from .models.base_model import Product
@@ -23,7 +21,7 @@ from flask import Blueprint
 bp = Blueprint('carts', __name__)
 
 class Checkout(FlaskForm):
-    add_date = StringField(_l('add_date'), validators=[DataRequired()])
+    add_date2 = StringField(_l('add_date2'), validators=[DataRequired()])
     submit = SubmitField('Checkout')
 
 
@@ -39,15 +37,15 @@ def carts():
 def checkout():
     form = Checkout()
     time = datetime.datetime.now()
-    form.add_date.data = time
+    form.add_date2.data = time
 
     if form.validate_on_submit():
         print('made it')
-        add_date = request.form['add_date']
+        add_date2 = request.form['add_date2']
     else:        
         print('not submitted')
         flash('Error, please try again later')
-    checking_out = Orders.checkout_cart(current_user.id, add_date)
-    return render_template('checkout.html', checking_out)
+    checking_out = Orders.checkout_cart(current_user.id, add_date2)
+    return render_template('checkout.html', checking_out, form=form)
 
 
