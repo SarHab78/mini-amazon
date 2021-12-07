@@ -195,27 +195,27 @@ class Product:
         self.quantity = quantity
         self.available = available
         self.avg_rating = avg_rating
-        
+    
     @staticmethod
-    def get_order_image(product_id):
-        rows = app.db.execute("""
-SELECT Product.image_url
-FROM Product
-WHERE product_id = :product_id
-    """, 
-                                product_id = product_id
-
-                                            )
-        return [Product(*(rows[0]))
-
-    @staticmethod
-    def get_order_price(product_id):
+    def get_order_price(id):
         rows = app.db.execute('''
 SELECT Product.price
 FROM Product
-WHERE product_id = :product_id
+WHERE id = :id
     ''', 
-                                product_id = product_id
+                                id = id
+                                            )
+        return [Product(*(rows[0])) 
+    
+    @staticmethod
+    def get_order_image(id):
+        rows = app.db.execute("""
+SELECT Product.image_url
+FROM Product
+WHERE id = :id
+    """, 
+                                id = id
+
                                             )
         return [Product(*(rows[0]))
 
