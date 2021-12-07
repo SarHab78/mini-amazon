@@ -13,6 +13,7 @@
       <th scope="col">review</th>
       <th scope="col">rev_timestamp</th>
       <th scope="col">edit</th>
+      <th scope="col">delete</th>
 
 
     </tr>
@@ -26,6 +27,8 @@
         <td>{{review.rev_timestamp}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('reviews.editreview', id = review.rid)}}" role="button"
           style = "background: #57edf6; color: black">Edit Review</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('reviews.delete_this_review', rid = review.rid)}}" role="button"
+          style = "background: #f65757; color: black">Delete Review</a></td>
       </tr>
     {% endfor %}
   </tbody>
@@ -43,6 +46,7 @@
       <th scope="col">review</th>
       <th scope="col">rev_timestamp</th>
       <th scope="col">edit</th>
+      <th scope="col">delete</th>
 
 
     </tr>
@@ -56,6 +60,8 @@
         <td>{{review.rev_timestamp}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('seller_reviews.editreview', id = review.rid)}}" role="button"
           style = "background: #57edf6; color: black">Edit Review</a></td>
+        <td><a class="btn btn-secondary" href="{{ url_for('seller_reviews.delete_this_review', rid = review.rid)}}" role="button"
+          style = "background: #f65757; color: black">Delete Review</a></td>
       </tr>
     {% endfor %}
   </tbody>
