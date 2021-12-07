@@ -196,7 +196,7 @@ class Product:
         self.available = available
         self.avg_rating = avg_rating
         
-        @staticmethod
+    @staticmethod
     def get_order_image(product_id):
         rows = app.db.execute("""
 SELECT Product.image_url
