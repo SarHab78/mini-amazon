@@ -1197,11 +1197,6 @@ class Past_Order_Info:
         self.seller_id = seller_id
         self.cat_name = cat_name
 
-    all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
-    'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
-    'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
-    'Video DVD & Blu-ray','Video Games','Watches'])  
-
     @staticmethod
     def get_user_orders(uid):
         rows = app.db.execute('''
@@ -1209,39 +1204,8 @@ SELECT *
 FROM Past_Order_Info
 WHERE Past_Order_Info.uid = :uid
 AND ordered = 'Y'
+ORDER BY add_date DESC
         ''',uid= uid)
         return [Past_Order_Info(*row) for row in rows]
     
-    @staticmethod
-    def past_order_search(seller_id, search_str='', order_by = 'price', direc='high-to-low', filt_list=all_categories):
-        if filt_list == 'all':
-            filt_list = all_categories
-        
-        base_query = '''
-        SELECT * 
-        FROM Past_Order_Info
-        WHERE Past_Order_Info.seller_id = :seller_id
-        AND (LOWER(product_name) LIKE :search_str) 
-        AND cat_name IN :filt_list
-            '''
-        ending = ''
-        if direc == 'high-to-low':
-            if order_by == 'name':
-                ending = ' ORDER BY Past_Order_Info.product_name DESC'
-            elif order_by == 'category':
-                ending = ' ORDER BY Past_Order_Info.cat_name DESC'
-            else:
-                ending = ' ORDER BY Past_Order_Info.price DESC'
-        else:
-            if order_by == 'name':
-                ending = ' ORDER BY Past_Order_Info.product_name ASC'
-            elif order_by == 'category':
-                ending = ' ORDER BY Past_Order_Info.cat_name ASC'
-            else:
-                 ending = ' ORDER BY Past_Order_Info.price ASC'
-        full_query = base_query + ending
-
-        rows = app.db.execute(full_query,
-                            search_str = '%' + search_str.lower() + '%',  order_by = order_by, direc=direc, filt_list=filt_list, seller_id = seller_id)
-
-        return [Past_Order_Info(*row) for row in rows]
+          
