@@ -34,8 +34,8 @@ FROM Users
 WHERE id=:id
 """,
         id=id)
-        except Exception:
-            return None
+        
+        return None
 
 
     @staticmethod
