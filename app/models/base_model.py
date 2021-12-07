@@ -90,13 +90,15 @@ WHERE id = :id
         return User(*(rows[0])) if rows else None
 
     @staticmethod
-    def edit(email, password, firstname, lastname, address, balance, is_seller):
-        try:
+    def edit(id, email, password, firstname, lastname, address, balance, is_seller):
+        #try:
             rows = app.db.execute("""
 UPDATE Users
-SET(email=:email, pwd=:password, firstname=:firstname, lastname=:lastname, address=:address, balance=:balance, is_seller=:is_seller)
-WHERE id=:id
+SET email = :email, pwd = :password, firstname = :firstname, lastname = :lastname, address = :address, balance  = :balance, is_seller = :is_seller
+WHERE id = :id
+RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
 """,
+                                  id=id,
                                   email=email,
                                   password=generate_password_hash(password),
                                   firstname=firstname,
@@ -104,13 +106,129 @@ WHERE id=:id
                                   address= address,
                                   balance = balance,
                                   is_seller = is_seller)
-            
             id = rows[0][0]
+            print(rows)
             return User.get(id)
-        except Exception:
+        #except Exception:
             # likely email already in use; better error checking and
             # reporting needed
-            return None
+          #  return 'test'
+
+    @staticmethod
+    def edit_firstname(id, firstname):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(Users.firstname = :firstname)
+WHERE id = :id
+RETURNING id, firstname
+""",
+                                  id=id,
+                                  firstname=firstname
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+        #except Exception:
+            # likely email already in use; better error checking and
+            # reporting needed
+          #  return 'test'
+ 
+    @staticmethod
+    def edit_lastname(id, lastname):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(lastname = :lastname)
+WHERE id = :id
+RETURNING id, lastname
+""",
+                                  id=id,
+                                  lastname=lastname
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_email(id, email):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(email = :email)
+WHERE id = :id
+RETURNING id, email
+""",
+                                  id=id,
+                                  email=email
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_address(id, address):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(address = :address)
+WHERE id = :id
+RETURNING id, address
+""",
+                                  id=id,
+                                  address=address
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_balance(id, balance):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET balance = :balance
+WHERE id = :id
+RETURNING id, balance
+""",
+                                  id=id,
+                                  balance=balance
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_is_seller(id, is_seller):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(is_seller = :is_seller)
+WHERE id = :id
+RETURNING id, is_seller
+""",
+                                  id=id,
+                                  is_seller=is_seller
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
+
+    @staticmethod
+    def edit_password(id, password):
+        #try:
+            rows = app.db.execute("""
+UPDATE Users
+SET(password = :password)
+WHERE id = :id
+RETURNING id, password
+""",
+                                  id=id,
+                                  password=password
+                                  )
+            id = rows[0][0]
+            print(rows)
+            return User.get(id)
 
 #Purchase table information
         

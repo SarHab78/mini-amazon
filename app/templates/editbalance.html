@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Edit Balance</h1>
+
+<form action="" method="post" >
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.id.label }}<br/>
+    {{ form.id(size=32, value=current_user.id) }}<br/>
+    {% for error in form.id.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  <p>
+    {{ form.balance.label }}<br/>
+    {{ form.balance(size=32, value=current_user.balance) }}<br/>
+    {% for error in form.balance.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+  </p>
+  
+
+  <p>{{ form.submit() }}</p>
+</form>
+
+{% endblock %}
