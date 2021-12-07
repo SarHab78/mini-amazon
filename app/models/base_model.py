@@ -1216,7 +1216,7 @@ class total_money:
         self.ordered=ordered
     
     @staticmethod
-    def get_total_spent:
+    def total_spent(uid):
         rows = app.db.execute('''
 SELECT total
 FROM total_money
