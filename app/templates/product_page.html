@@ -118,10 +118,7 @@ html, body {
         <p><b>Seller:</b> {{product.firstname}} {{product.lastname}}</p>
       </div>
 
-      {% for seller in seller_information %}
-      <p><b>Seller Email:</b> {{seller.email}}</p>
-
-      {% endfor %}
+     
       {% for thing in seller %}
       <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_a_seller_review', sid=thing.seller_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
       {% endfor %}
