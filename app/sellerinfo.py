@@ -12,6 +12,6 @@ from .models.base_model import User
 from flask import Blueprint
 bp = Blueprint('sellerinfo', __name__)
 
-@bp.route('/sellerinfo>', methods=['GET', 'POST'])
+@bp.route('/sellerinfo', methods=['GET', 'POST'])
 def sellerinfo():
     return render_template('sellerinfo.html')
