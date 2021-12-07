@@ -591,7 +591,7 @@ SELECT prod_id, uid, order_quantity, add_date, ordered
 FROM Orders
 WHERE ordered = 'N' AND uid = :uid
         ''',
-            uid= uid)
+                                uid= uid)
         return [Orders(*row) for row in rows] 
 #     FROM Orders, Products
 # WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
