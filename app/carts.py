@@ -10,7 +10,7 @@ from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
 from .models.base_model import Prod_Sell_Rev_Cat
-from .models.base_model import Orders
+from .models.base_model import Order
 from .models.base_model import User
 
 
@@ -23,7 +23,7 @@ bp = Blueprint('carts', __name__)
 @bp.route('/carts')
 def carts():
     if current_user.is_authenticated:
-        my_cart = Orders.get_cart(current_user.id)
+        my_cart = Order.get_cart(current_user.id)
         return render_template('carts.html', user_cart = my_cart)
 
     else:
