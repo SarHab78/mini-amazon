@@ -35,25 +35,25 @@
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Purchase ID</th>
+      <th scope="col">Product ID</th>
       <th scope="col">Product Name</th>
       <th scope="col">Date Purchased</th>
       <th scope="col">Product Category</th>
       <th scope="col">Product Seller</th>
       <th scope="col">Order Quantity</th>
-      <th scope="col">Price ID</th>
+      <th scope="col">Price per Item</th>
     </tr>
   </thead>
   <tbody>
     {% for purchase in ordered%}
       <tr>
-        <th scope="row">{{purchase.pid}}</th>
+        <th scope="row">{{purchase.prod_id}}</th>
         <td>{{purchase.product_name}}</td>
         <td>{{purchase.add_date}}</td>
         <td>{{purchase.cat_name}}</td>
         <td>{{purchase.seller_id}}</td>
         <td>{{purchase.order_quantity}}</td>
-        <td>{{purchase.price}}</td>
+        <td>${{purchase.price}}</td>
       </tr>
     {% endfor %}
   </tbody>
