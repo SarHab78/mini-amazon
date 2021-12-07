@@ -1,1 +1,31 @@
+{% extends "checkout.html" %}
 
+{% block content %}
+
+<br><br>
+<h2>Here is Your Order, please expect in 3-5 business days!</h2>
+
+
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in user_cart%}
+      <tr>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.pid}}</td>
+        <td>{{item.time_purchased}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  <a class="btn btn-secondary" href="{{ url_for('index.index') }}" role="button">Return Home</a>
+
+
+{% endblock %}
