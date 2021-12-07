@@ -12,6 +12,7 @@
       <th scope="col">rating</th>
       <th scope="col">review</th>
       <th scope="col">rev_timestamp</th>
+      <th scope="col">edit</th>
 
 
     </tr>
@@ -23,6 +24,8 @@
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
         <td>{{review.rev_timestamp}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('reviews.editreview', id = review.rid)}}" role="button"
+          style = "background: #57edf6; color: black">Edit Review</a></td>
       </tr>
     {% endfor %}
   </tbody>

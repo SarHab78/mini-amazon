@@ -629,6 +629,29 @@ WHERE rid = :rid
                               rid=rid)
         return [Product_review(*row) for row in rows]
 
+        
+
+
+#edit a review
+    @staticmethod
+    def edit(rid, pid, uid, email, rating, review):
+        #try:
+            rows = app.db.execute("""
+UPDATE Product_review
+SET rid = :rid, pid = :pid, uid = :uid, email = :email, rev_timestamp = NOW()::TIMESTAMP, rating  = :rating, review = :review
+WHERE rid = :rid
+RETURNING rid, pid, uid, email, rev_timestamp, rating, review
+""",
+                                    rid=rid,
+                                    pid=pid,
+                                    uid=uid,
+                                    email=email,
+                                    rating=rating,
+                                    review= review)
+            id = rows[0][0]
+            print(rows)
+            return Product_review.get(id)
+
 #    @staticmethod
  #   def review_exists(pid, uid):
   #      rows = app.db.execute('''
