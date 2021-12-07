@@ -64,7 +64,7 @@ CREATE TABLE Orders(
     uid INT NOT NULL REFERENCES Users(id),
     order_quantity INT NOT NULL,
     add_date TIMESTAMP, --DEFAULT current_timestamp,    
-    ordered VARCHAR(256) UNIQUE NOT NULL
+    ordered VARCHAR(256) NOT NULL
     -- PRIMARY KEY(uid, prod_id, ordered)
 );
 
