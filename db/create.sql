@@ -110,8 +110,7 @@ CREATE VIEW Past_Order_Info AS(
 CREATE VIEW Spending AS (
     SELECT sum(price) as total, uid, ordered
     FROM Orders
-    GROUP BY uid
-);
+    GROUP BY uid);
 
 CREATE FUNCTION TF_insertProduct() RETURNS TRIGGER AS $$
 BEGIN
