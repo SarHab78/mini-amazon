@@ -3,7 +3,7 @@ from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, DecimalField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, AnyOf
 from flask_babel import _, lazy_gettext as _l
 
 from .models.base_model import User
@@ -91,7 +91,7 @@ class EditProfileForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     address = StringField(_l('Address'), validators=[DataRequired()])
     balance = DecimalField(_l('Balance'), validators=[DataRequired()], places=2)
-    is_seller = StringField(_l('Seller?'), validators.AnyOf(values=['Y','N']))
+    is_seller = StringField(_l('Seller?'), AnyOf(values=['Y','N']))
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(),
