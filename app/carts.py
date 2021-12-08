@@ -40,4 +40,8 @@ def carts():
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
 
+@bp.route('/delete/<prod_id>/from_cart')
+def delete_item(uid, prod_id, name):
+    my_cart = Orders.delete_item(uid, prod_id)
+    return render_template('item_deleted.html', my_cart = my_cart)
 
