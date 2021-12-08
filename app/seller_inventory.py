@@ -10,15 +10,12 @@ bp = Blueprint('seller_inventory', __name__)
 @bp.route('/inventory')
 def inventory():
    
-    # print(Sellers.get_all_sellers())
-    # get all available products for sale:
+    
+    # get all available products for sale from a specific seller:
 
-    #this is referencing the function in the model folder where we're getting all the possible products
-    #models are for writing sql queries, have the inits so that you can do like product.id or just use to x.y to get the specific parameter of a table
+   
 
-
-
-    # find the products current user has bought:
+    
     
     if current_user.is_authenticated:
         sell_id = current_user.id
@@ -30,7 +27,7 @@ def inventory():
 
    
 
-    # render the page by adding information to the index.html file
+    # render the page by adding information to the seller_inventory.html file
     return render_template('seller_inventory.html',
                            avail_products=products
                            #avail products is parameter name that will be passed to html, product has the actual data
