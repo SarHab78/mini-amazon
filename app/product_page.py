@@ -100,7 +100,4 @@ def sellerinfo(id):
     return render_template('sellerinfo.html', id=id)
 
 
-@bp.route('/delete/<prod_id>/from_cart')
-def delete_item(uid, prod_id, name):
-    Orders.delete_item(uid, prod_id)
-    return product_page(name, product_id)
+
