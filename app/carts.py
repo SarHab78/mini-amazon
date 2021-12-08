@@ -1,15 +1,24 @@
-from flask import render_template
-from flask_login import current_user
+from flask import session, render_template, request, redirect, flash, url_for
+from flask_login import login_user, logout_user, current_user
+from flask_wtf import FlaskForm
+from werkzeug.urls import url_parse
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, SelectField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, InputRequired, NumberRange
+from flask_babel import _, lazy_gettext as _l
+
 import datetime
 
 from .models.base_model import Product
 from .models.base_model import Purchase
+from .models.base_model import Product_review
+from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Orders
+from .models.base_model import Prod_user_rev
+from .models.base_model import Seller_review
 
 
 from flask import Blueprint
 bp = Blueprint('carts', __name__)
-
 
 
 @bp.route('/carts')
@@ -19,10 +28,4 @@ def carts():
     else:
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
-
-@bp.route('/checkout')
-def checkout():
-    products = Product.get_all('Y')
-    return render_template('checkout.html')
-
 

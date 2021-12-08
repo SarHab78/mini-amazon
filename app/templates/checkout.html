@@ -1,16 +1,16 @@
-{% extends "index.html" %}
+{% extends "carts.html" %}
 
 {% block content %}
 
 <br><br>
-<h2>My Cart</h2>
+<h2>Please expect the following items to arrive soon!</h2>
 {% if user_cart != None %}
 
 
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Product ID</th>
+      <th scope="col">Product Name</th>
       <th scope="col">Price</th>
       <th scope="col">Quantity</th>
 
@@ -19,15 +19,13 @@
   <tbody>
     {% for item in user_cart%}
       <tr>
-        <th scope="row">{{item.prod_id}}</th>
-        <td>{{item.order_quantity}}</td>
-        <td>{{item.add_date}}</td>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.pid}}</td>
+        <td>{{item.time_purchased}}</td>
       </tr>
     {% endfor %}
   </tbody>
-
-
-  <a class="btn btn-secondary" href="{{ url_for('checkout.checkout') }}" role="button">Checkout</a>
+</table>
 {% endif %}
 
 

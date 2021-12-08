@@ -20,6 +20,18 @@ class User(UserMixin):
         self.is_seller = is_seller
 
     @staticmethod
+    def decrement_balance(id, balance, total):
+        bal = app.db.execute("""
+    Update User
+    SET balance = balance - total
+    WHERE id = :id """,
+                    balance = balance, 
+                    total = total
+                    
+)
+        return bal
+
+    @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
 SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
@@ -876,6 +888,29 @@ class Orders:
         self.order_quantity = order_quantity
         self.add_date = add_date
         self.ordered = ordered
+    
+    @staticmethod
+    def checkout_cart(uid):
+        rows = app.db.execute('''
+UPDATE Orders
+SET ordered = 'Y' 
+WHERE ordered = 'N' AND uid = :uid
+RETURNING uid
+        ''',
+                # add_date = add_date,
+                uid= uid)
+        return Orders.get_cart(uid)
+
+    @staticmethod
+    def past_orders(uid):
+        rows = app.db.execute('''
+SELECT *
+FROM Orders
+WHERE Orders.ordered = 'Y' AND Orders.uid = :uid
+        ''',
+        
+                        uid = uid)
+        return [Orders(*row) for row in rows] 
 
 
     @staticmethod

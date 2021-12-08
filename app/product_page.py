@@ -38,7 +38,7 @@ def product_page(name, product_id):
     name = name
     product_id = product_id
     searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str='book')     
-    purchases = None
+    purchases = Orders.past_orders(uid)
     products_by_other_sellers = Prod_Sell_Rev_Cat.get_products_by_other_sellers(product_id=product_id)
     seller = Product.get_product_for_page(product_id = product_id)
     page_product = Prod_Sell_Rev_Cat.get_sell_rev_info(product_id = product_id)
