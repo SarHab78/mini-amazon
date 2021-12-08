@@ -2,10 +2,12 @@
 
 {% block content %}
 
-<h2>Reviews of Seller {{sid}}:</h2>
-<h3>Seller: {{seller_info.firstname}} {{seller_info.lastname}}</h3> 
-<h3>Seller Email: {{seller_info.email}}</h3> 
-<h3>Seller Address: {{seller_info.address}}</h3> 
+<details>
+    <p><summary> Reviews of Seller {{seller_info.firstname}} {{seller_info.lastname}}</summary></p>
+    <p><font size="-1"><b>Seller ID: {{sid}} </font></p>
+          <p><font size="-1"><b>Seller Email:</b> {{seller_info.email}}</font></p>
+       <p><font size="-1"><b>Seller Address: {{seller_info.address}}</font></p>
+</details> 
 <h3>Average Rating out of 5 Stars: {{avg_seller_rating}}</h3> 
 <h3>Number of Reviews: {{num_seller_reviews}}</h3>
 <table class='table table-hover'>
