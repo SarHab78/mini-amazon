@@ -91,6 +91,12 @@ def profile(id):
     ordered = Past_Order_Info.get_user_orders(uid=id) #Past_Order_Info uses a view created in create.sql to get a user's order history
     return render_template('profile.html',ordered=ordered, id=id)
 
+
+@bp.route('/public_info/<int:id>', methods=['GET', 'POST'])
+def public_info(id):
+    user_info = User.get(id)
+    return render_template('public_info.html', user_info=user_info, id=id)
+
 #edit profile form (similar to registration form)
 class EditProfileForm(FlaskForm):
     
