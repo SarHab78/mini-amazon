@@ -7,7 +7,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, In
 from flask_babel import _, lazy_gettext as _l
 
 import datetime
-
+# import all models
 from .models.base_model import Product
 from .models.base_model import Purchase
 from .models.base_model import Product_review
@@ -22,9 +22,10 @@ from .models.base_model import Prod_Sell_Rev_Cat_Ord
 from flask import Blueprint
 bp = Blueprint('carts', __name__)
 
-
+# routes user to correct html
 @bp.route('/carts')
 def carts():
+    # can only have cart if logged in
     if current_user.is_authenticated:
         # my_cart = Orders.get_cart(current_user.id)
         my_cart = Prod_Sell_Rev_Cat_Ord.get_cart(current_user.id)
@@ -39,7 +40,7 @@ def carts():
     else:
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
-
+# not working, but will be able to delete item
 @bp.route('/delete/<prod_id>/from_cart')
 def delete_item(uid, prod_id):
     my_cart = Orders.delete_item(uid, prod_id)
