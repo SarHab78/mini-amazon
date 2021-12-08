@@ -906,7 +906,7 @@ RETURNING uid
         ''',
                 # add_date = add_date,
                 uid= uid)
-        return [Orders(*row) for row in rows] 
+        return Orders.get_cart(uid)
 
     @staticmethod
     def past_orders(uid):
