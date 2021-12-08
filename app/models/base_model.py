@@ -890,6 +890,18 @@ class Orders:
         self.ordered = ordered
     
     @staticmethod
+    def delete_item(uid, prod_id):
+        delete = rows = app.db.execute('''
+DELET FROM Orders
+WHERE uid = :uid AND prod_id = :prod_id
+RETURNING uid
+        ''',
+                uid= uid,
+                prod_id = prod_id)
+        return Orders.get_cart(uid)
+
+
+    @staticmethod
     def checkout_cart(uid):
         rows = app.db.execute('''
 UPDATE Orders
