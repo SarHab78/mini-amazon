@@ -207,9 +207,11 @@ html, body {
 <br><br>
 <!-- add product review button, only shows up if user has never reviewed product before -->
 {% if have_reviewed != True %}
+{% if have_bought == True %}
   {% for product in product_row %}
   <a class="btn btn-secondary" href="{{ url_for('reviews.add_a_review', product_id = product.product_id)}}" role="button" color="blue">Write a Review of this Product</a>
   {% endfor %}
+{% endif %}
 {% endif %}
 
 <br><br>

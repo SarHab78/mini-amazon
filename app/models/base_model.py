@@ -901,6 +901,20 @@ WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.u
             )
         return Orders.get_cart(uid)
 
+
+    @staticmethod
+    def user_has_bought(prod_id, uid):
+        rows = app.db.execute('''
+SELECT *
+FROM Orders
+WHERE prod_id = :prod_id
+AND ordered = 'Y'
+AND uid = :uid
+ORDER BY add_date DESC
+        ''',uid= uid,
+            prod_id = prod_id)
+        return len(rows) > 0
+
 #add seller reviews
 class Add_seller_review:
     def __init__(self, uid, sid, email, rev_timestamp, rating, review):
@@ -1201,5 +1215,8 @@ AND ordered = 'Y'
 ORDER BY add_date DESC
         ''',uid= uid)
         return [Past_Order_Info(*row) for row in rows]
+
+    
+    
     
           

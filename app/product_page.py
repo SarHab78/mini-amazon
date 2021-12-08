@@ -50,10 +50,12 @@ def product_page(name, product_id):
     sid = page_product[0].id
 
     if current_user.is_authenticated:
+        have_bought = Orders.user_has_bought(prod_id = product_id, uid = current_user.id)
         have_reviewed = Product_review.user_has_reviewed(uid = current_user.id, pid= product_id) #returns True if user has already reviewed this product before
         have_reviewed_seller = Seller_review.user_has_reviewed(uid = current_user.id, sid = sid)
     else:
         have_reviewed = True #won't display write a review button if user not logged in
+        have_bought = False
         have_reviewed_seller = True #won't display write a seller review button if user not logged in
 
     time = datetime.datetime.now()
@@ -85,6 +87,7 @@ def product_page(name, product_id):
                             have_reviewed = have_reviewed,
                             have_reviewed_seller = have_reviewed_seller,
                             form=form,
+                            have_bought = have_bought,
                             user_info=user_info)
 
 
