@@ -898,7 +898,7 @@ WHERE ordered = 'N' AND uid = :uid
 RETURNING uid
         ''',
                 uid= uid)
-        return Orders.get_cart(uid)
+        return Prod_Sell_Rev_cat.get_cart_all_info(uid)
 
     @staticmethod
     def past_orders(uid):
@@ -912,14 +912,14 @@ WHERE Orders.ordered = 'Y' AND Orders.uid = :uid
         return [Orders(*row) for row in rows] 
 
 
-    @staticmethod
-    def get_cart(uid):
-        rows = app.db.execute('''
-SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
-FROM Orders, Products
-WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
-        ''',uid= uid)
-        return [Orders(*row) for row in rows] 
+#     @staticmethod
+#     def get_cart(uid):
+#         rows = app.db.execute('''
+# SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
+# FROM Orders, Products
+# WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
+#         ''',uid= uid)
+#         return [Orders(*row) for row in rows] 
     
     @staticmethod
     def add_to_cart(prod_id, quantity, uid, add_date):
@@ -1144,19 +1144,19 @@ class Prod_Sell_Rev_Cat_Ord:
     #     d = dict(zip(l, l2))
     #     return(d)
     
-    @staticmethod
-    def get_cart(uid):
-        rows = app.db.execute('''
-SELECT *
-FROM Prod_Sell_Rev_Cat_Ord
-WHERE ordered = 'N' AND uid = :uid
-        ''',uid= uid)
-        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
+#     @staticmethod
+#     def get_cart(uid):
+#         rows = app.db.execute('''
+# SELECT *
+# FROM Prod_Sell_Rev_Cat_Ord
+# WHERE ordered = 'N' AND uid = :uid
+#         ''',uid= uid)
+#         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
 
     @staticmethod
     def get_cart_all_info(id):
         rows = app.db.execute('''
-SELECT product_id, id, quantity, add_date, ordered, image_url, price
+SELECT *
 FROM Prod_Sell_Rev_Cat_Ord
 WHERE ordered = 'N' AND Prod_Sell_Rev_Cat_Ord.id = :id
         ''',id= id)
