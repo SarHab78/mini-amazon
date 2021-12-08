@@ -47,7 +47,7 @@ class RegistrationForm(FlaskForm):
     lastname = StringField(_l('Last Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     email = StringField(_l('Email'), validators=[DataRequired(), Email(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     address = StringField(_l('Address'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
-    balance = IntegerField(_l('Balance'), validators=[DataRequired()])
+    balance = DecimalField(_l('Balance'), validators=[DataRequired()])
     is_seller = StringField(_l('Are you a Seller?'), validators=[DataRequired(), AnyOf(values=['Y','N'])])
     password = PasswordField(_l('Password'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     password2 = PasswordField(
