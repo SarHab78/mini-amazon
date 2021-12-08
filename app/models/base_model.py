@@ -912,14 +912,14 @@ WHERE Orders.ordered = 'Y' AND Orders.uid = :uid
         return [Orders(*row) for row in rows] 
 
 
-#     @staticmethod
-#     def get_cart(uid):
-#         rows = app.db.execute('''
-# SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
-# FROM Orders, Products
-# WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
-#         ''',uid= uid)
-#         return [Orders(*row) for row in rows] 
+    @staticmethod
+    def get_cart(uid):
+        rows = app.db.execute('''
+SELECT Orders.prod_id, Orders.uid, Orders.order_quantity, Orders.add_date, Orders.ordered
+FROM Orders, Products
+WHERE Orders.prod_id = Products.product_id AND Orders.ordered = 'N' AND Orders.uid = :uid
+        ''',uid= uid)
+        return [Orders(*row) for row in rows] 
     
     @staticmethod
     def add_to_cart(prod_id, quantity, uid, add_date):
