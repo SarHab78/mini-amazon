@@ -898,7 +898,7 @@ WHERE ordered = 'N' AND uid = :uid
 RETURNING uid
         ''',
                 uid= uid)
-        return Prod_Sell_Rev_cat.get_cart_all_info(uid)
+        return Orders.get_cart(uid)
 
     @staticmethod
     def past_orders(uid):
@@ -1152,6 +1152,18 @@ class Prod_Sell_Rev_Cat_Ord:
 # WHERE ordered = 'N' AND uid = :uid
 #         ''',uid= uid)
 #         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
+#     @staticmethod
+#     def checkout_cart(uid):
+#         rows = app.db.execute('''
+# UPDATE Orders
+# SET ordered = 'Y' 
+# WHERE ordered = 'N' AND uid = :uid
+# RETURNING uid
+#         ''',
+#                 uid= uid)
+#         return Prod_Sell_Rev_cat.get_cart_all_info(uid)
+
+
 
     @staticmethod
     def get_cart_all_info(id):
