@@ -20,10 +20,6 @@ from .models.base_model import Seller_review
 from flask import Blueprint
 bp = Blueprint('carts', __name__)
 
-class Checkout(FlaskForm):
-    add_date2 = StringField(_l('add_date2'), validators=[DataRequired()])
-    submit = SubmitField('Checkout')
-
 
 @bp.route('/carts')
 def carts():
@@ -32,20 +28,4 @@ def carts():
     else:
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
-
-@bp.route('/checkout', methods=['GET','POST'])
-def checkout():
-    form = Checkout()
-    time = datetime.datetime.now()
-    form.add_date2.data = time
-
-    if form.validate_on_submit():
-        print('made it')
-        add_date2 = request.form['add_date2']
-    else:        
-        print('not submitted')
-        flash('Error, please try again later')
-    checking_out = Orders.checkout_cart(current_user.id, add_date2)
-    return render_template('checkout.html', checking_out, form=form)
-
 
