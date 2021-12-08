@@ -897,7 +897,6 @@ SET ordered = 'Y'
 WHERE ordered = 'N' AND uid = :uid
 RETURNING uid
         ''',
-                # add_date = add_date,
                 uid= uid)
         return Orders.get_cart(uid)
 
@@ -1154,7 +1153,14 @@ WHERE ordered = 'N' AND uid = :uid
         ''',uid= uid)
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
 
-        
+    @staticmethod
+    def get_cart_all_info(id):
+        rows = app.db.execute('''
+SELECT product_id, id, quantity, add_date, ordered
+FROM Prod_Sell_Rev_Cat_Ord
+WHERE Orders.prod_id = Products.product_id AND ordered = 'N' AND Prod_Sell_Rev_Cat_Ord.id = :id
+        ''',id= id)
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows]     
     # @staticmethod
     # def checkout_cart(uid, sellers_amounts_dict):
     #     keys = sellers_amounts_dict.keys()
