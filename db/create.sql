@@ -122,7 +122,7 @@ CREATE VIEW Product_Review_User_Information AS(
 CREATE VIEW Seller_Review_User_Information AS(
     SELECT sr.rid, sr.sid, sr.email, u.id, u.firstname, u.lastname
     FROM Seller_review as sr, Users as u
-    Where sr.sid = u.id);
+    Where sr.uid = u.id);
 
 CREATE VIEW Past_Order_Info AS(
     SELECT po.prod_id, po.uid, po.order_quantity, po.add_date, po.ordered, po.product_name, po.price, po.seller_id, c.cat_name, po.order_quantity*po.price as total_spent

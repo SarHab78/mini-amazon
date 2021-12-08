@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+<h2>Welcome to {{ user_info.firstname}}'s Profile</h2>
+<br>
+<div class="card">
+  <div class="card-header">
+    Information
+  </div>
+<div class="card-body">
+<p class="card-text">
+<strong>User ID: </strong>{{ user_info.id }}<br/>
+<strong>Name: </strong>{{ user_info.firstname }} {{ user_info.lastname }}<br/>
+
+  </div>
+</div>
+
+{% endblock %}
