@@ -18,14 +18,14 @@ from .models.base_model import User
 from flask import Blueprint
 bp = Blueprint('checkout', __name__)
 
-class Checkout(FlaskForm):
+class Checkoutform(FlaskForm):
     add_date2 = StringField(_l('add_date2'), validators=[DataRequired()])
     submit = SubmitField('Checkout')
 
 
 @bp.route('/checkout', methods=['GET','POST'])
 def checkout():
-    form = Checkout()
+    form = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
     # balance = current_user.balance
     # price = Order.total_price(current_user.id)
