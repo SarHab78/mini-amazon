@@ -17,6 +17,7 @@
       <th scope="col">Quantity Ordered</th>
       <th scope="col">Price Per Item</th>
       <th scope="col">Add Date</th>
+      <th scope="col">Remove item from Cart</th>
 
     </tr>
   </thead>
@@ -30,6 +31,9 @@
         <td>{{item.order_quantity}}</td>
         <td>{{item.price}}</td>
         <td>{{item.add_date}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('product_page.delete_item', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
+          style = "background: #57edf6; color: black">Delete/Change Quantity</a></td>
+
       </tr>
     {% endfor %}
   </tbody>
