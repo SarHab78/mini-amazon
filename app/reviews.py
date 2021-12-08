@@ -8,7 +8,7 @@ from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
-from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired, NumberRange
+from wtforms.validators import ValidationError, DataRequired, EqualTo, InputRequired, NumberRange, NoneOf
 from flask_babel import _, lazy_gettext as _l
 import datetime 
 import time
@@ -25,13 +25,13 @@ from flask import Blueprint
 bp = Blueprint('reviews', __name__)
 
 class reviews(FlaskForm):
-    rid = StringField(_l('rid'), validators=[DataRequired()])
-    pid = IntegerField(_l('pid'), validators=[DataRequired()])
-    uid = IntegerField(_l('uid'), validators=[DataRequired()])
-    email = StringField(_l('email'), validators=[DataRequired()])
+    rid = StringField(_l('rid'), validators=[DataRequired(),  NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    pid = IntegerField(_l('pid'), validators=[DataRequired(),  NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    uid = IntegerField(_l('uid'), validators=[DataRequired(),  NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    email = StringField(_l('email'), validators=[DataRequired(),  NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     #rev_timestamp = DateTimeField(_l('rev_timestamp'), validators=[DataRequired()])
-    rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
-    review = StringField(_l('review'), validators=[DataRequired()])
+    rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range"),  NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    review = StringField(_l('review'), validators=[DataRequired(),  NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality?
 
@@ -103,13 +103,13 @@ def add_a_review(product_id):
 
 
 class EditReviewForm(FlaskForm):
-    rid = StringField(_l('rid'), validators=[DataRequired()])
-    pid = IntegerField(_l('pid'), validators=[DataRequired()])
-    uid = IntegerField(_l('uid'), validators=[DataRequired()])
-    email = StringField(_l('email'), validators=[DataRequired()])
+    rid = StringField(_l('rid'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    pid = IntegerField(_l('pid'), validators=[DataRequired(),NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    uid = IntegerField(_l('uid'), validators=[DataRequired(),NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    email = StringField(_l('email'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     #rev_timestamp = DateTimeField(_l('rev_timestamp'), validators=[DataRequired()])
-    rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range")])
-    review = StringField(_l('review'), validators=[DataRequired()])
+    rating = IntegerField(_l('rating'), validators=[DataRequired(), NumberRange(min=1, max = 5, message="Invalid range"), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
+    review = StringField(_l('review'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     submit = SubmitField(_l('Submit'))
     # def validate_email(self, email): when we have cart functionality?
 
