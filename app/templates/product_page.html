@@ -226,6 +226,7 @@ html, body {
   <thead class="thead-dark">
     <tr>
       <th scope="col">User</th>
+      <th scope="col">Reviewer Name</th>
       <th scope="col">Rating</th>
       <th scope="col">Reviews</th>
     </tr>
@@ -233,14 +234,10 @@ html, body {
   <tbody>
     {% for review in product_reviews %} 
       <tr>
-        <th><details>
-    <summary>{{review.uid}}</summary>
+        <td> {{review.uid}} </td>
     {% for user in user_info %} 
-      <p>Reviewer ID: {{user.id}}</p>
-      <p>Reviewer Name: {{user.firstname}} {{user.lastname}}</p>
+       <td>Reviewer Name: {{user.firstname}} {{user.lastname}}</td>
     {% endfor %}
-
-</details></th>
         
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
