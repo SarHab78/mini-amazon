@@ -11,17 +11,28 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">Product ID</th>
-      <th scope="col">Price</th>
-      <th scope="col">Quantity</th>
+      <th scope="col">Seller ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Quantity Ordered</th>
+      <th scope="col">Price Per Item</th>
+      <th scope="col">Add Date</th>
+      <th scope="col">Remove item from Cart</th>
 
     </tr>
   </thead>
   <tbody>
     {% for item in user_cart%}
       <tr>
-        <th scope="row">{{item.prod_id}}</th>
+        <th scope="row">{{item.product_id}}</th>
+        <td>{{item.seller_id}}</td>
+        <td>{{item.product_name}}</td>
+        <td><img src="{{item.image_url}}" alt="" height=100></img></td>
         <td>{{item.order_quantity}}</td>
+        <td>{{item.price}}</td>
         <td>{{item.add_date}}</td>
+        <td><a class="btn btn-secondary" href="{{ url_for('carts.delete_item', uid=item.uid, prod_id = item.product_id)}}" role="button"
+          style = "background: #57edf6; color: black">Delete/Change Quantity</a></td>
       </tr>
     {% endfor %}
   </tbody>

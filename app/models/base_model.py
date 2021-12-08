@@ -38,7 +38,7 @@ SELECT pwd, id, email, firstname, lastname, address, balance, is_seller
 FROM Users
 WHERE email = :email
 """,
-                              email=email)
+        email=email)
         if not rows:  # email not found
             return None
         elif not check_password_hash(rows[0][0], password):
@@ -890,6 +890,18 @@ class Orders:
         self.ordered = ordered
     
     @staticmethod
+    def delete_item(uid, prod_id):
+        delete = app.db.execute('''
+DELETE FROM Orders
+WHERE uid = :uid AND prod_id = :prod_id
+RETURNING *
+        ''',
+                uid= uid,
+                prod_id = prod_id)
+        return Orders.get_cart(uid)
+
+
+    @staticmethod
     def checkout_cart(uid):
         rows = app.db.execute('''
 UPDATE Orders
@@ -897,7 +909,6 @@ SET ordered = 'Y'
 WHERE ordered = 'N' AND uid = :uid
 RETURNING uid
         ''',
-                # add_date = add_date,
                 uid= uid)
         return Orders.get_cart(uid)
 
@@ -1054,7 +1065,7 @@ AND product_id <> :product_id
     @staticmethod
     def get_search_result(search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
         if filt_list == 'all':
-            filt_list = all_categories
+            filt_list = Prod_Sell_Rev_Cat.all_categories
         base_query = '''
         SELECT * 
         FROM Prod_Sell_Rev_Cat 
@@ -1134,6 +1145,169 @@ class Prod_Sell_Rev_Cat_Ord:
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
     'Video DVD & Blu-ray','Video Games','Watches'])  
+    
+
+    def get_sellers_and_incs(self):
+        l = [''] * len(self)
+        l2 = [''] * len(self)
+        for i in range(0, len(l)):
+            l[i] = self[i].seller_id
+            l2[i] = float(self[i].price * self[i].order_quantity)
+
+        d = dict(zip(l, l2))
+        return(d)
+    
+    def get_buyers_and_decs(self):
+        if len(self) > 0:
+            l = [self[0].uid]
+            l2 = [0]
+            for i in range(0, len(self)):
+                l2[0] = l2[0] + float(self[i].price * self[i].order_quantity)
+
+            d = dict(zip(l, l2))
+            return(d)
+        else:
+            return {}
+    
+    def get_products_and_decs(self):
+        l = [''] * len(self)
+        l2 = [''] * len(self)
+        for i in range(0, len(l)):
+            l[i] = self[i].product_id
+            l2[i] = int(self[i].order_quantity)
+
+        d = dict(zip(l, l2))
+        return(d)
+    
+    @staticmethod
+    def get_cart(uid):
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev_Cat_Ord
+WHERE ordered = 'N' AND uid = :uid
+        ''',uid= uid)
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
+
+        
+    @staticmethod
+    def checkout_cart(uid, sellers_amounts_dict, buyers_amounts_dict, products_amounts_dict):
+        skeys = sellers_amounts_dict.keys()
+        pkeys = products_amounts_dict.keys()
+
+        ###### update orders - set Ordered to Y where appropriate
+        rows = app.db.execute('''
+    UPDATE Orders
+    SET ordered = 'Y' 
+    WHERE ordered = 'N' AND uid = :uid
+    RETURNING uid
+            ''',
+                    # add_date = add_date,
+                    uid= uid)
+
+    @staticmethod
+    def get_cart_all_info(id):
+        rows = app.db.execute('''
+SELECT *
+FROM Prod_Sell_Rev_Cat_Ord
+WHERE ordered = 'N' AND uid = :uid
+        ''',uid= uid)
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
+
+        
+    @staticmethod
+    def checkout_cart(uid, sellers_amounts_dict, buyers_amounts_dict, products_amounts_dict):
+        skeys = sellers_amounts_dict.keys()
+        pkeys = products_amounts_dict.keys()
+
+        ###### update orders - set Ordered to Y where appropriate
+        rows = app.db.execute('''
+    UPDATE Orders
+    SET ordered = 'Y' 
+    WHERE ordered = 'N' AND uid = :uid
+    RETURNING uid
+            ''',
+                    # add_date = add_date,
+                    uid= uid)
+        
+        ####### Loop through sellers and make corresponding changes
+        for k in skeys:
+            seller_id = k
+            amount = sellers_amounts_dict[k]
+
+            # get the seller's current balance
+            sell_current_balance = app.db.execute('''
+    SELECT balance
+    FROM Users
+    WHERE id = :seller_id
+            ''',
+                    seller_id = seller_id)
+
+            # format the seller's current balance
+            sell_current_balance = float(("").join([str(float(r)) for (r,) in sell_current_balance]))
+            
+            # increment the seller's balance
+            rows = app.db.execute('''
+    UPDATE Users
+    SET balance = :new_amount
+    WHERE id = :seller_id
+    RETURNING id
+            ''',
+                    seller_id = seller_id,
+                    new_amount = sell_current_balance + amount)
+
+        ##### Make changes to buyres
+        buyer_id = uid
+        buy_amount = buyers_amounts_dict[buyer_id]
+
+        # get the buyer's current balance
+        buy_current_balance = app.db.execute('''
+SELECT balance
+FROM Users
+WHERE id = :buyer_id
+        ''',
+                buyer_id = buyer_id)
+
+        # format the buyer's current balance
+        buy_current_balance = float(("").join([str(float(r)) for (r,) in buy_current_balance]))
+        
+        # decrement the buyer's balance
+        rows = app.db.execute('''
+UPDATE Users
+SET balance = :new_amount
+WHERE id = :buyer_id
+RETURNING id
+        ''',
+                buyer_id = buyer_id,
+                new_amount = buy_current_balance - buy_amount)
+
+        ###### Loop through products and make the changes
+        for k in pkeys:
+            product_id = k
+            quant = products_amounts_dict[k]
+
+            # get the product's current quantity
+            prod_current_quant = app.db.execute('''
+    SELECT quantity
+    FROM Products
+    WHERE product_id = :product_id
+            ''',
+                    product_id = product_id)
+
+            # format the product's current quantity
+            prod_current_quant = int(("").join([str(r) for (r,) in prod_current_quant]))
+            
+            # decrement the product's quantity
+            rows = app.db.execute('''
+    UPDATE Products
+    SET quantity = :new_amount
+    WHERE product_id = :product_id
+    RETURNING product_id
+            ''',
+                    product_id = product_id,
+                    new_amount = prod_current_quant - quant)
+        
+        return Prod_Sell_Rev_Cat_Ord.get_cart(uid)
+
 
     @staticmethod
     def get_all(seller_id):

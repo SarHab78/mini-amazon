@@ -6,7 +6,7 @@ Create Table Users(
     email VARCHAR(256) UNIQUE NOT NULL,
 	pwd VARCHAR(256) NOT NULL,
 	address VARCHAR (256)NOT NULL,
-	balance INTEGER NOT NULL,
+	balance DECIMAL(12,2) NOT NULL,
 	is_seller VARCHAR(2) NOT NULL
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE Orders(
     order_quantity INT NOT NULL,
     add_date TIMESTAMP, --DEFAULT current_timestamp,    
     ordered VARCHAR(256) NOT NULL,
-    PRIMARY KEY(uid, prod_id, ordered)
+    PRIMARY KEY(uid, prod_id, ordered, add_date)
 );
 
 CREATE VIEW Prod_Sell_Rev_Cat AS(
