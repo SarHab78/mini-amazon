@@ -41,7 +41,7 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
-
+#create flask registration form
 class RegistrationForm(FlaskForm):
     firstname = StringField(_l('First Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     lastname = StringField(_l('Last Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
@@ -59,7 +59,7 @@ class RegistrationForm(FlaskForm):
         if User.email_exists(email.data):
             raise ValidationError(_('Already a user with this email.'))
 
-
+#create registration method and route
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -77,20 +77,21 @@ def register():
             return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
+#logout method and route
 @bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
 
-
+#edit profile method and route (takes in user ID)
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
     
-    ordered = Past_Order_Info.get_user_orders(uid=id)
+    ordered = Past_Order_Info.get_user_orders(uid=id) #Past_Order_Info uses a view created in create.sql to get a user's order history
     return render_template('profile.html',ordered=ordered, id=id)
 
-
+#edit profile form (similar to registration form)
 class EditProfileForm(FlaskForm):
     
     firstname = StringField(_l('First Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
@@ -105,6 +106,7 @@ class EditProfileForm(FlaskForm):
                                            EqualTo('password')])
     submit = SubmitField('Update Profile')
 
+#edit profile route and method that updates table in the database with key User ID
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
 def editprofile(id):
     form = EditProfileForm()
@@ -122,6 +124,7 @@ def editprofile(id):
             return render_template("profile.html") 
     return render_template("edit.html", form=form, id=id)
 
+#forms and routes that edit individual profile elements instead of the entire thing (balance and firstname)
 class EditFirstnameForm(FlaskForm):
     id = IntegerField(_l('id'), validators=[DataRequired()])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
