@@ -8,7 +8,7 @@ from wtforms.fields import DateTimeField
 
 from .. import login
 
-
+#user class (elements from Users table in create.sql)
 class User(UserMixin):
     def __init__(self, id, firstname, lastname, email, address, balance, is_seller):
         self.id = id
@@ -19,6 +19,7 @@ class User(UserMixin):
         self.balance = balance
         self.is_seller = is_seller
 
+#method to decrease balance after a user purchases something
     @staticmethod
     def decrement_balance(id, balance, total):
         bal = app.db.execute("""
@@ -31,6 +32,7 @@ class User(UserMixin):
 )
         return bal
 
+#authorizes user based on email and password
     @staticmethod
     def get_by_auth(email, password):
         rows = app.db.execute("""
@@ -47,6 +49,7 @@ WHERE email = :email
         else:
             return User(*(rows[0][1:]))
 
+
     @staticmethod
     def email_exists(email):
         rows = app.db.execute("""
@@ -57,6 +60,7 @@ WHERE email = :email
                               email=email)
         return len(rows) > 0
 
+#checks to see if a user is a seller (is_seller='Y')
     @staticmethod
     def can_sell(id):
         rows = app.db.execute("""
@@ -68,6 +72,7 @@ AND is_seller = 'Y'
                               id=id)
         return ['Y'] if rows else []
 
+#registration method--inserts values into Users table in database
     @staticmethod
     def register(email, password, firstname, lastname, address, balance, is_seller):
         try:
@@ -90,6 +95,7 @@ RETURNING id
             # reporting needed
             return None
 
+#gets all information about a user based on their User ID
     @staticmethod
     @login.user_loader
     def get(id):
@@ -101,6 +107,7 @@ WHERE id = :id
                               id=id)
         return User(*(rows[0])) if rows else None
 
+#method to edit a profile--updates elements in Users table in the database by using User ID as a key
     @staticmethod
     def edit(id, email, password, firstname, lastname, address, balance, is_seller):
         #try:
@@ -126,6 +133,7 @@ RETURNING id, email, pwd, firstname, lastname, address, balance, is_seller
             # reporting needed
           #  return 'test'
 
+#below are a series of methods that can be used to edit individual profile elements by updating just that element in the Users table
     @staticmethod
     def edit_firstname(id, firstname):
         #try:
@@ -241,7 +249,7 @@ RETURNING id, password
             id = rows[0][0]
             print(rows)
             return User.get(id)
-
+#end update methods
     
 
 
@@ -1361,6 +1369,8 @@ ORDER BY Prod_Sell_Rev_Cat_Ord.add_date DESC
                             search_str = '%' + search_str.lower() + '%',  order_by = order_by, direc=direc, filt_list=filt_list, seller_id = seller_id)
 
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows]
+
+
 class Seller_Information:
     def __init__(self, product_name, product_id, firstname, lastname, email, address, id):
         self.product_name = product_name
@@ -1382,6 +1392,7 @@ WHERE p.product_id = :product_id
         ''',
                                 product_id = product_id)
         return [Seller_Information(*row) for row in rows] 
+#corresponds to a view used to get information about people who have written product reviews so their info can be displayed
 
 class Prod_user_rev:
     def __init__(self, rid, pid, email, id, firstname, lastname):
@@ -1392,6 +1403,7 @@ class Prod_user_rev:
         self.firstname=firstname
         self.lastname=lastname
 
+#gets information about a user based on their review that corresponds to a product_review
     @staticmethod
     def get_user_info(pid):
         rows = app.db.execute('''
@@ -1401,6 +1413,7 @@ WHERE Product_Review_User_Information.pid = :pid
         ''',pid= pid)
         return [Prod_user_rev(*row) for row in rows]
 
+#corresponds to a view in create.sql to get information from products, users, and orders for the order history element on the profile page
 class Past_Order_Info:
     def __init__(self, prod_id, uid, order_quantity, add_date, ordered, product_name, price, seller_id, cat_name, total_spent):
         self.prod_id=prod_id
