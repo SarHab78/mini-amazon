@@ -18,12 +18,13 @@ from flask import Blueprint
 bp = Blueprint('seller_order_history', __name__)
 
 class SortForm(FlaskForm):
+    #use this to let the user sort through their orders
     sort_attribute = SelectField(_l('Sort By'), choices=[('name','name'),('price','price'),('category','category'), ('rating','rating')], validators=[DataRequired()])
     up_or_down = SelectField(_l('Sort By'), validators=[DataRequired()], choices=[('high-to-low','high-to-low'),('low-to-high','low-to-high')])
     submit = SubmitField('Sort')
 
 class FilterForm(FlaskForm):
-    # get all amazon categories list by reading the amazon_categories.csv file
+    #this is how to filter different categories
     filter_fields = SelectMultipleField(_l('Filter By Category'), validators=[DataRequired()], choices=[('Automotive & Powersports', 'Automotive & Powersports'),
                             ('Baby Products', 'Baby Products'),
                             ('Books', 'Books'),
@@ -84,7 +85,7 @@ def order_history():
             filter_fields = session['filter_fields']
         searched_products = Prod_Sell_Rev_Cat_Ord.get_search_result(sell_id, search_str=search_str, order_by=order_by, direc=direc, filt_list = filter_fields)
 
-        # If user is signed in, get all their purchases
+        
         
 
         return render_template('seller_order_history.html',
