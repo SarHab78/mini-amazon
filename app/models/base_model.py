@@ -880,7 +880,7 @@ RETURNING rid
             return None
 
     
-
+# class takes care of all things in orders table
 class Orders:
     def __init__(self, prod_id, uid, order_quantity, add_date, ordered):
         self.prod_id = prod_id
@@ -888,7 +888,7 @@ class Orders:
         self.order_quantity = order_quantity
         self.add_date = add_date
         self.ordered = ordered
-    
+    # allows items to be deleted, buggy right now
     @staticmethod
     def delete_item(uid, prod_id):
         delete = app.db.execute('''
@@ -900,7 +900,7 @@ RETURNING *
                 prod_id = prod_id)
         return Orders.get_cart(uid)
 
-
+# changes values in carts to indicate the item haas been purchased and is no longer in the cart
     @staticmethod
     def checkout_cart(uid):
         rows = app.db.execute('''
@@ -911,7 +911,7 @@ RETURNING uid
         ''',
                 uid= uid)
         return Orders.get_cart(uid)
-
+# accessing past orders using ordered = 'y' that is changed from n to y when person checks out
     @staticmethod
     def past_orders(uid):
         rows = app.db.execute('''
@@ -923,7 +923,7 @@ WHERE Orders.ordered = 'Y' AND Orders.uid = :uid
                         uid = uid)
         return [Orders(*row) for row in rows] 
 
-
+# grabs all data inside the cart table when they have not yet checked out
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
