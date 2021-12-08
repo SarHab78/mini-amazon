@@ -902,6 +902,7 @@ class Orders:
 UPDATE Orders
 SET ordered = 'Y' 
 WHERE ordered = 'N' AND uid = :uid
+RETURNING uid
         ''',
                 # add_date = add_date,
                 uid= uid)
