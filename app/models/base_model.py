@@ -901,7 +901,6 @@ class Orders:
         rows = app.db.execute('''
 UPDATE Orders.ordered
 SET Orders.ordered = 'Y' 
-# AND Date = :add_date
 WHERE Orders.ordered = 'N' AND Orders.uid = :uid
         ''',
                 # add_date = add_date,
