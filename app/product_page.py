@@ -21,7 +21,7 @@ from .models.base_model import Seller_review
 
 from flask import Blueprint
 bp = Blueprint('product_page', __name__)
-
+#form to get the quantity that a user wants to order
 class QuantityForm(FlaskForm):
     #quantity = IntegerField(_l('Quantity to Purchase'), validators=[DataRequired()])
     #quantity = SelectField(_l('Quantity to Purchase'), validators=[DataRequired()], choices=choices)
