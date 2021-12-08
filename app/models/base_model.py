@@ -1156,7 +1156,7 @@ WHERE ordered = 'N' AND uid = :uid
     @staticmethod
     def get_cart_all_info(id):
         rows = app.db.execute('''
-SELECT product_id, id, quantity, add_date, ordered
+SELECT product_id, id, quantity, add_date, ordered, image_url, price
 FROM Prod_Sell_Rev_Cat_Ord
 WHERE Orders.prod_id = Products.product_id AND ordered = 'N' AND Prod_Sell_Rev_Cat_Ord.id = :id
         ''',id= id)
