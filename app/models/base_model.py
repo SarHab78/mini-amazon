@@ -899,7 +899,7 @@ class Orders:
     @staticmethod
     def checkout_cart(uid):
         rows = app.db.execute('''
-UPDATE Orders.ordered
+UPDATE Orders
 SET Orders.ordered = 'Y' 
 WHERE Orders.ordered = 'N' AND Orders.uid = :uid
         ''',
