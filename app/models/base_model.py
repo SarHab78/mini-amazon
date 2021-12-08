@@ -1135,15 +1135,15 @@ class Prod_Sell_Rev_Cat_Ord:
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
     'Video DVD & Blu-ray','Video Games','Watches'])  
     
-    def get_sellers_and_decs(self):
-        l = [''] * len(self)
-        l2 = [''] * len(self)
-        for i in range(0, len(l)):
-            l[i] = self[i].seller_id
-            l2[i] = self[i].price * self[i].order_quantity
+    # def get_sellers_and_decs(self):
+    #     l = [''] * len(self)
+    #     l2 = [''] * len(self)
+    #     for i in range(0, len(l)):
+    #         l[i] = self[i].seller_id
+    #         l2[i] = self[i].price * self[i].order_quantity
 
-        d = dict(zip(l, l2))
-        return(d)
+    #     d = dict(zip(l, l2))
+    #     return(d)
     
     @staticmethod
     def get_cart(uid):
@@ -1155,38 +1155,38 @@ WHERE ordered = 'N' AND uid = :uid
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
 
         
-    @staticmethod
-    def checkout_cart(uid, sellers_amounts_dict):
-        keys = sellers_amounts_dict.keys()
-        for k in keys:
-            seller_id = k
-            amount = sellers_amounts_dict[k]
+    # @staticmethod
+    # def checkout_cart(uid, sellers_amounts_dict):
+    #     keys = sellers_amounts_dict.keys()
+    #     for k in keys:
+    #         seller_id = k
+    #         amount = sellers_amounts_dict[k]
 
-            current_balance = app.dp.execute('''
-    SELECT balance
-    FROM Users
-    WHERE uid = :seller_id
-            ''',
-                    seller_id = seller_id)
+    #         current_balance = app.dp.execute('''
+    # SELECT balance
+    # FROM Users
+    # WHERE uid = :seller_id
+    #         ''',
+    #                 seller_id = seller_id)
 
-            current_balance = int(("").join([r for (r,) in target_name]))
+    #         current_balance = int(("").join([r for (r,) in target_name]))
 
-            rows = app.db.execute('''
-    UPDATE Orders
-    SET ordered = 'Y' 
-    WHERE ordered = 'N' AND uid = :uid
-    RETURNING uid
-            ''',
-                    # add_date = add_date,
-                    uid= uid)
-            rows = app.db.execute('''
-    UPDATE Users
-    SET balance = new_amount
-    WHERE uid = :seller_id
-            ''',
-                    seller_id = seller_id,
-                    new_amount = current_balance - amount)
-        return Orders.get_cart(uid)
+    #         rows = app.db.execute('''
+    # UPDATE Orders
+    # SET ordered = 'Y' 
+    # WHERE ordered = 'N' AND uid = :uid
+    # RETURNING uid
+    #         ''',
+    #                 # add_date = add_date,
+    #                 uid= uid)
+    #         rows = app.db.execute('''
+    # UPDATE Users
+    # SET balance = new_amount
+    # WHERE uid = :seller_id
+    #         ''',
+    #                 seller_id = seller_id,
+    #                 new_amount = current_balance - amount)
+    #     return Orders.get_cart(uid)
 
 
     @staticmethod
