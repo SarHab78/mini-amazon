@@ -891,7 +891,7 @@ class Orders:
     
     @staticmethod
     def delete_item(uid, prod_id):
-        delete = rows = app.db.execute('''
+        delete = app.db.execute('''
 DELETE FROM Orders
 WHERE uid = :uid AND prod_id = :prod_id
 RETURNING *
