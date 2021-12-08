@@ -18,12 +18,13 @@ from .models.base_model import User
 from flask import Blueprint
 bp = Blueprint('checkout', __name__)
 
-class Checkoutform(FlaskForm):
-    add_date2 = StringField(_l('add_date2'), validators=[DataRequired()])
-    submit = SubmitField('Checkout')
+# class Checkoutform(FlaskForm):
+#     add_date2 = StringField(_l('add_date2'), validators=[DataRequired()])
+#     submit = SubmitField('Checkout')
 
 
-@bp.route('/checkout', methods=['GET','POST'])
+@bp.route('/checkout')
+# , methods=['GET','POST'])
 def checkout():
     form1 = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
@@ -39,9 +40,11 @@ def checkout():
         print('not submitted')
         flash('Error, please try again later')
     checking_out = Orders.checkout_cart(current_user.id, add_date2)
-    return render_template('checkout.html', 
+    return render_template('checkout.html'
+    , 
                                 checking_out=checking_out, 
-                                form1=form1)
+                                form1=form1
+                                )
 
 
 
