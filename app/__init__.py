@@ -63,6 +63,10 @@ def create_app():
     from .sellerinfo import bp as sellerinfo_bp
     app.register_blueprint(sellerinfo_bp)
 
+    from .checkout import bp as checkout_bp
+    app.register_blueprint(checkout_bp)
+
+
     return app
 
 
