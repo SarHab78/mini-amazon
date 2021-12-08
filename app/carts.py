@@ -15,6 +15,8 @@ from .models.base_model import Prod_Sell_Rev_Cat
 from .models.base_model import Orders
 from .models.base_model import Prod_user_rev
 from .models.base_model import Seller_review
+from .models.base_model import Prod_Sell_Rev_Cat_Ord
+
 
 
 from flask import Blueprint
@@ -24,7 +26,10 @@ bp = Blueprint('carts', __name__)
 @bp.route('/carts')
 def carts():
     if current_user.is_authenticated:
-        my_cart = Orders.get_cart(current_user.id)
+        # my_cart = Orders.get_cart(current_user.id)
+        my_cart = Prod_Sell_Rev_Cat_Ord.get_cart(current_user.id)
+        sellers_amounts_dic = Prod_Sell_Rev_Cat_Ord.get_sellers_and_decs(my_cart)
+
     else:
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
