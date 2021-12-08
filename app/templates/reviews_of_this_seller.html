@@ -19,9 +19,7 @@
   <tbody>
     {% for review in sellers_reviews %} 
       <tr>
-        {% for u in reviewer_info %} 
-       <td> <a href="{{ url_for('users.public_info', id=u.id) }}" role="button" class="btn btn-primary" color=#FF5733>{{review.uid}}</a></td>
-       {% endfor %}
+       <td> <a href="{{ url_for('users.public_info', id=review.id) }}" role="button" class="btn btn-primary" color=#FF5733>{{review.uid}}</a></td>
         <td>{{review.rating}}</td>
         <td>{{review.review}}</td>
       </tr>
