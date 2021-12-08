@@ -88,6 +88,31 @@ CREATE VIEW Prod_Sell_Rev_Cat AS(
             WHERE PU.product_id = R.product_id) AS PUR, Category AS C
             WHERE PUR.product_id = C.pid
 );
+CREATE VIEW Prod_Sell_Rev_Cat_Ord AS(
+	SELECT PORC.product_name, PORC.product_id, PORC.product_description, PORC.image_url, PORC.price, PORC.seller_id, PORC.quantity,
+    PORC.available, PORC.uid, PORC.order_quantity, PORC.add_date, PORC.ordered, PORC.avg_rating, PORC.cat_name,
+		U.id, U.firstname, U.lastname, U.address, U.email
+		FROM
+    (SELECT POR.product_name, POR.product_id, POR.product_description, POR.image_url, POR.price, POR.seller_id, POR.quantity,
+    POR.available, POR.uid, POR.order_quantity, POR.add_date, POR.ordered, POR.avg_rating, C.cat_name
+    FROM(
+        SELECT PO.product_name, PO.product_id, PO.product_description, PO.image_url, PO.price, PO.seller_id, PO.quantity,
+        PO.available, PO.uid, PO.order_quantity, PO.add_date, PO.ordered, ROUND(R.avg_rating, 1) AS avg_rating
+        FROM (SELECT P.product_name, P.product_id, P.product_description, P.image_url, P.price, P.seller_id, P.quantity, P.available,
+            O.uid, O.order_quantity, O.add_date, O.ordered
+            FROM Products AS P, Orders AS O
+            WHERE P.product_id = O.prod_id) AS PO, 
+            (SELECT product_id, avg_rating
+            FROM Products AS Prod
+            LEFT JOIN (SELECT AVG(rating) AS avg_rating, pid
+                    FROM product_review
+                    GROUP BY pid)
+                    AS Rev
+            ON Prod.product_id = Rev.pid) AS R
+            WHERE PO.product_id = R.product_id) AS POR, Category AS C
+            WHERE POR.product_id = C.pid) AS PORC, Users as U
+						WHERE PORC.uid = U.id
+);
 
 CREATE VIEW Product_Review_User_Information AS(
     SELECT pr.rid, pr.pid, pr.email, u.id, u.firstname, u.lastname
