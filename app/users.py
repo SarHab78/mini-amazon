@@ -87,8 +87,6 @@ def logout():
 def profile(id):
     
     ordered = Past_Order_Info.get_user_orders(uid=id)
-    for order in ordered:
-        total_spent=order.price * order.order_quantity
     return render_template('profile.html',ordered=ordered, total_spent=total_spent, id=id)
 
 
