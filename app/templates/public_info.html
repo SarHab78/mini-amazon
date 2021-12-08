@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br><br>
+
+{% for u in user_info %}
+<h2>Welcome to {{ u.firstname}}'s Profile</h2>
+<br>
+<div class="card">
+  <div class="card-header">
+    Information
+  </div>
+<div class="card-body">
+<p class="card-text">
+<strong>User ID: </strong>{{ u.id }}<br/>
+<strong>Name: </strong>{{ u.firstname }}{{ u.lastname }}<br/>
+  </div>
+</div>
+
+{% endblock %}
