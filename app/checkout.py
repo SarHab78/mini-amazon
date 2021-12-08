@@ -26,6 +26,9 @@ class Checkout(FlaskForm):
 @bp.route('/checkout', methods=['GET','POST'])
 def checkout():
     form = Checkout()
+    # my_cart = Order.get_cart(current_user.id)
+    # balance = current_user.balance
+    # price = Order.total_price(current_user.id)
     time = datetime.datetime.now()
     form.add_date2.data = time
 
@@ -36,15 +39,15 @@ def checkout():
         print('not submitted')
         flash('Error, please try again later')
     checking_out = Orders.checkout_cart(current_user.id, add_date2)
-    return render_template('checkout.html', checking_out=checking_out, form=form)
+    return render_template('checkout.html', 
+                                checking_out=checking_out, 
+                                form=form)
 
 
 
 @bp.route('/final_checkout')
 def final_checkout():
-    my_cart = Order.get_cart(current_user.id)
-    balance = current_user.balance
-    price = Order.total_price(current_user.id)
+    
     if form.validate_on_submit():
         if balance < total:
             flash('Insufficient Funds, you current have a balance of ${}, your cart total is ${}', balance, total)
