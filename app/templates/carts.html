@@ -10,7 +10,7 @@
 <table class='table table-hover table-bordered container'>
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Product ID</th>
+      <th scope="col">Product Preview</th>
       <th scope="col">Price</th>
       <th scope="col">Quantity</th>
 
@@ -19,9 +19,9 @@
   <tbody>
     {% for item in user_cart%}
       <tr>
-        <th scope="row">{{item.prod_id}}</th>
-        <td>{{item.order_quantity}}</td>
-        <td>{{item.add_date}}</td>
+        <th scope="row">{{item.image_url}}</th>
+        <td>{{item.price}}</td>
+        <td>{{item.quantity}}</td>
       </tr>
     {% endfor %}
   </tbody>
