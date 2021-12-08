@@ -295,7 +295,7 @@ class Add_Product:
         self.quantity = quantity
         self.available = available
         
-        
+        #how to add to a table with an new product, a trigger is reference on update of this so that conditions are met
     @staticmethod
     def add_product(product_name, product_description, image_url, price, seller_id, quantity, available):
         try:
@@ -317,7 +317,7 @@ RETURNING seller_id
             
         except Exception:
             return None
-
+#this makes sure to add to the category table by first getting the newly generated product id and then adding that and the category selected on the form to the correct table. 
     @staticmethod
     def add_category(category, product_name):
         add_to_category = app.db.execute("""
@@ -327,7 +327,7 @@ WHERE product_name = :product_name
 """,
         product_name = product_name)
         
-        #add_to_category = ', '.join(map(str, add_to_category))
+        
         
         add_to_category = ("").join([str(r) for (r,) in add_to_category])
         print(type(add_to_category))
@@ -381,7 +381,7 @@ class Product:
         self.avg_rating = avg_rating
         
     
-
+#this makes sure to get all the necessary information for a product, including the rating and the product information so that users can get enough detail about a product. 
     @staticmethod
     def get_seller_products(id):
         
@@ -418,7 +418,7 @@ AND available = 'Y'
         return [Product(*row) for row in rows] if rows else []
 
    
-
+#this only gets products that have the correct available designation of Y
     @staticmethod
     def get_all(available = 'Y'):
         rows = app.db.execute('''
@@ -1002,6 +1002,7 @@ RETURNING rid
             # reporting needed
             return None
 
+#this references a view that was created in create.sql to join the product, user/seller, review, and category tables to get all the necessary information for the following functions
 class Prod_Sell_Rev_Cat:
     def __init__(self, product_name, product_id, product_description, image_url, price, quantity, firstname, lastname, email, address, id, available, avg_rating, cat_name):
         self.product_id = product_id
@@ -1022,7 +1023,7 @@ class Prod_Sell_Rev_Cat:
     
         
         
-    
+    #predefined list of categories
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
@@ -1126,6 +1127,7 @@ ORDER BY avg_rating DESC NULLS LAST, price DESC
                                 available = available)
         return [Prod_Sell_Rev_Cat(*row) for row in rows] if rows else []
 
+#this references a view that is created from the products, users, reviews, categories, and orders table to get all the necessary information for the following functions
 class Prod_Sell_Rev_Cat_Ord:
     def __init__(self, product_name, product_id, product_description, image_url, price, seller_id, quantity, available, uid, order_quantity, add_date, ordered, avg_rating, cat_name, id, firstname, lastname, address, email):
         self.product_name = product_name
@@ -1148,7 +1150,7 @@ class Prod_Sell_Rev_Cat_Ord:
         self.address = address
         self.email = email
 
-       
+       #predefined categories list
     all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
     'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
