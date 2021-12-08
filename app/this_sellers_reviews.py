@@ -13,6 +13,8 @@ from .models.base_model import Purchase
 #from .models.base_model import Product_review
 from .models.base_model import Seller_review
 from .models.base_model import Add_seller_review
+from .models.base_model import Sell_user_rev
+from .models.base_model import User
 
 from flask import Blueprint
 bp = Blueprint('this_sellers_reviews', __name__)
@@ -23,9 +25,13 @@ def sellers_reviews(sid):
     sellrevs = Seller_review.get_seller_reviews(sid = sid)
     avg = Seller_review.avg_seller_rating(sid = sid)
     ct = Seller_review.count_seller_reviews(sid = sid)
+    reviewer_info = Sell_user_rev.get_user_info(sid=sid)
+    seller_info = User.get(sid)
 
     return render_template('reviews_of_this_seller.html',
                            sid = sid,
                            sellers_reviews = sellrevs,
                            avg_seller_rating = avg,
-                           num_seller_reviews = ct)
+                           num_seller_reviews = ct, 
+                           reviewer_info=reviewer_info,
+                           seller_info = seller_info)
