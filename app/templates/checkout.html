@@ -3,30 +3,10 @@
 {% block content %}
 
 <br><br>
-<h2>Please expect the following items to arrive soon!</h2>
-{% if user_cart != None %}
-
-
-<table class='table table-hover table-bordered container'>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Product Name</th>
-      <th scope="col">Price</th>
-      <th scope="col">Quantity</th>
-
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in user_cart%}
-      <tr>
-        <th scope="row">{{item.id}}</th>
-        <td>{{item.pid}}</td>
-        <td>{{item.time_purchased}}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endif %}
+<body>
+      <h1 style="color:black; text-align: center">Please expect your items to arrive soon! </h1>
+      <div style="color: black; text-align: right; margin-bottom: 25px">
+</body>
 
 
 {% endblock %}

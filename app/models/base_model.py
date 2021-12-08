@@ -897,7 +897,6 @@ SET ordered = 'Y'
 WHERE ordered = 'N' AND uid = :uid
 RETURNING uid
         ''',
-                # add_date = add_date,
                 uid= uid)
         return Orders.get_cart(uid)
 
@@ -1135,6 +1134,7 @@ class Prod_Sell_Rev_Cat_Ord:
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
     'Video DVD & Blu-ray','Video Games','Watches'])  
     
+<<<<<<< HEAD
     def get_sellers_and_incs(self):
         l = [''] * len(self)
         l2 = [''] * len(self)
@@ -1166,12 +1166,45 @@ class Prod_Sell_Rev_Cat_Ord:
 
         d = dict(zip(l, l2))
         return(d)
+=======
+    # def get_sellers_and_decs(self):
+    #     l = [''] * len(self)
+    #     l2 = [''] * len(self)
+    #     for i in range(0, len(l)):
+    #         l[i] = self[i].seller_id
+    #         l2[i] = self[i].price * self[i].order_quantity
+
+    #     d = dict(zip(l, l2))
+    #     return(d)
+>>>>>>> 171f0b068649f11570cb22af8df23a17a08be2b3
     
+#     @staticmethod
+#     def get_cart(uid):
+#         rows = app.db.execute('''
+# SELECT *
+# FROM Prod_Sell_Rev_Cat_Ord
+# WHERE ordered = 'N' AND uid = :uid
+#         ''',uid= uid)
+#         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
+#     @staticmethod
+#     def checkout_cart(uid):
+#         rows = app.db.execute('''
+# UPDATE Orders
+# SET ordered = 'Y' 
+# WHERE ordered = 'N' AND uid = :uid
+# RETURNING uid
+#         ''',
+#                 uid= uid)
+#         return Prod_Sell_Rev_cat.get_cart_all_info(uid)
+
+
+
     @staticmethod
-    def get_cart(uid):
+    def get_cart_all_info(id):
         rows = app.db.execute('''
 SELECT *
 FROM Prod_Sell_Rev_Cat_Ord
+<<<<<<< HEAD
 WHERE ordered = 'N' AND uid = :uid
         ''',uid= uid)
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
@@ -1270,6 +1303,43 @@ RETURNING id
                     new_amount = prod_current_quant - quant)
         
         return Prod_Sell_Rev_Cat_Ord.get_cart(uid)
+=======
+WHERE ordered = 'N' AND Prod_Sell_Rev_Cat_Ord.id = :id
+        ''',id= id)
+        return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows]     
+    # @staticmethod
+    # def checkout_cart(uid, sellers_amounts_dict):
+    #     keys = sellers_amounts_dict.keys()
+    #     for k in keys:
+    #         seller_id = k
+    #         amount = sellers_amounts_dict[k]
+
+    #         current_balance = app.dp.execute('''
+    # SELECT balance
+    # FROM Users
+    # WHERE uid = :seller_id
+    #         ''',
+    #                 seller_id = seller_id)
+
+    #         current_balance = int(("").join([r for (r,) in target_name]))
+
+    #         rows = app.db.execute('''
+    # UPDATE Orders
+    # SET ordered = 'Y' 
+    # WHERE ordered = 'N' AND uid = :uid
+    # RETURNING uid
+    #         ''',
+    #                 # add_date = add_date,
+    #                 uid= uid)
+    #         rows = app.db.execute('''
+    # UPDATE Users
+    # SET balance = new_amount
+    # WHERE uid = :seller_id
+    #         ''',
+    #                 seller_id = seller_id,
+    #                 new_amount = current_balance - amount)
+    #     return Orders.get_cart(uid)
+>>>>>>> 171f0b068649f11570cb22af8df23a17a08be2b3
 
 
     @staticmethod

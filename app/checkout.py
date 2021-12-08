@@ -26,6 +26,7 @@ bp = Blueprint('checkout', __name__)
 
 @bp.route('/checkout')# , methods=['GET','POST'])
 def checkout():
+<<<<<<< HEAD
     my_cart = Prod_Sell_Rev_Cat_Ord.get_cart(current_user.id)
 
     sellers_amounts_dict = Prod_Sell_Rev_Cat_Ord.get_sellers_and_incs(my_cart)
@@ -37,6 +38,11 @@ def checkout():
     print(products_amounts_dict)
 
     checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(uid=current_user.id, sellers_amounts_dict = sellers_amounts_dict, buyers_amounts_dict = buyers_amounts_dict, products_amounts_dict = products_amounts_dict)
+=======
+#     my_cart = Prod_Sell_Rev_Cat_Ord.get_cart(current_user.id)
+#     sellers_amounts_dic = Prod_Sell_Rev_Cat_Ord.get_sellers_and_decs(my_cart)
+#     checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(sellers_amounts_dic)
+>>>>>>> 171f0b068649f11570cb22af8df23a17a08be2b3
     # form1 = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
     # balance = current_user.balance
@@ -50,8 +56,16 @@ def checkout():
     # else:        
     #     print('not submitted')
     #     flash('Error, please try again later')
+<<<<<<< HEAD
     return render_template('checkout.html', 
     checking_out=checking_out)
+=======
+    checking_out = Orders.checkout_cart(current_user.id)
+    return render_template('checkout.html'
+    , 
+                        checking_out=checking_out                                # form1=form1
+                                )
+>>>>>>> 171f0b068649f11570cb22af8df23a17a08be2b3
 
 
 
