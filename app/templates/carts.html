@@ -31,7 +31,7 @@
         <td>{{item.order_quantity}}</td>
         <td>{{item.price}}</td>
         <td>{{item.add_date}}</td>
-        <td><a class="btn btn-secondary" href="{{ url_for('product_page.delete_item', name=(product.product_name).replace(' ', '_'), product_id = product.product_id)}}" role="button"
+        <td><a class="btn btn-secondary" href="{{ url_for('product_page.delete_item', name=(item.product_name).replace(' ', '_'), product_id = item.product_id)}}" role="button"
           style = "background: #57edf6; color: black">Delete/Change Quantity</a></td>
 
       </tr>
