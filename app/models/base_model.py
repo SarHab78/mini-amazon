@@ -1415,6 +1415,26 @@ WHERE Product_Review_User_Information.pid = :pid
         ''',pid= pid)
         return [Prod_user_rev(*row) for row in rows]
 
+class Sell_user_rev:
+    def __init__(self, rid, pid, email, id, firstname, lastname):
+        self.rid=rid
+        self.sid=sid
+        self.email=email
+        self.id=id
+        self.firstname=firstname
+        self.lastname=lastname
+
+#gets information about a user based on their review that corresponds to a product_review
+    @staticmethod
+    def get_user_info(sid):
+        rows = app.db.execute('''
+SELECT *
+FROM Seller_Review_User_Information
+WHERE Seller_Review_User_Information.sid = :sid
+        ''',sid= sid)
+        return [Sell_user_rev(*row) for row in rows]
+
+
 #corresponds to a view in create.sql to get information from products, users, and orders for the order history element on the profile page
 class Past_Order_Info:
     def __init__(self, prod_id, uid, order_quantity, add_date, ordered, product_name, price, seller_id, cat_name, total_spent):
