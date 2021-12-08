@@ -6,21 +6,22 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, AnyOf, NoneOf
 from flask_babel import _, lazy_gettext as _l
 
+#importing necessary classes from base model
 from .models.base_model import User
 from .models.base_model import Past_Order_Info
 
-
+#creating blueprint for Users
 from flask import Blueprint
 bp = Blueprint('users', __name__)
 
-
+#creating flask login form that takes email and password
 class LoginForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     remember_me = BooleanField(_l('Remember Me'))
     submit = SubmitField(_l('Sign In'))
 
-
+#creating the login method and route--allows users to log into website if email and password are correct
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -40,7 +41,7 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
-
+#create flask registration form
 class RegistrationForm(FlaskForm):
     firstname = StringField(_l('First Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
     lastname = StringField(_l('Last Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
@@ -58,7 +59,7 @@ class RegistrationForm(FlaskForm):
         if User.email_exists(email.data):
             raise ValidationError(_('Already a user with this email.'))
 
-
+#create registration method and route--insert new values into Users table if registration is succesful 
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -76,20 +77,22 @@ def register():
             return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form)
 
+#logout method and route
 @bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
 
 
-
+#create profile route and method
 @bp.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
     
-    ordered = Past_Order_Info.get_user_orders(uid=id)
+    ordered = Past_Order_Info.get_user_orders(uid=id) #gets past orders from a view created in create.sql
     return render_template('profile.html',ordered=ordered, id=id)
 
 
+#edit profile form in flask
 class EditProfileForm(FlaskForm):
     
     firstname = StringField(_l('First Name'), validators=[DataRequired(), NoneOf(values=[';','--', 'DROP', 'drop', 'Drop'])])
@@ -104,6 +107,7 @@ class EditProfileForm(FlaskForm):
                                            EqualTo('password')])
     submit = SubmitField('Update Profile')
 
+#edit method similar to registration but updates Users table with ID instead of inserting
 @bp.route('/editprofile/<int:id>', methods=['GET', 'POST'])
 def editprofile(id):
     form = EditProfileForm()
@@ -121,6 +125,7 @@ def editprofile(id):
             return render_template("profile.html") 
     return render_template("edit.html", form=form, id=id)
 
+#forms and methods to edit single elements in the profile instead of the entire profile all together
 class EditFirstnameForm(FlaskForm):
     id = IntegerField(_l('id'), validators=[DataRequired()])
     firstname = StringField(_l('First Name'), validators=[DataRequired()])
