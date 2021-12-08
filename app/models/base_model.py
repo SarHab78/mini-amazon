@@ -1416,7 +1416,7 @@ WHERE Product_Review_User_Information.pid = :pid
         return [Prod_user_rev(*row) for row in rows]
 
 class Sell_user_rev:
-    def __init__(self, rid, pid, email, id, firstname, lastname):
+    def __init__(self, rid, sid, email, id, firstname, lastname):
         self.rid=rid
         self.sid=sid
         self.email=email
