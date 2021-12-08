@@ -19,7 +19,10 @@
   <tbody>
     {% for item in user_cart%}
       <tr>
-        <th scope="row">{{item.image_url}}</th>
+                <!-- <img data-image="black" src="{{product.image_url}}" height=500 alt=""> -->
+
+
+        <img scope="row">{{item.image_url}}</img>
         <td>{{item.price}}</td>
         <td>{{item.quantity}}</td>
       </tr>
