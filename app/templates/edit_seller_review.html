@@ -8,28 +8,28 @@
   {{ form.hidden_tag() }}
   <p>
     {{ form.rid.label }} (auto-generated) <br/>
-    {{ form.rid(size=32, value=rid) }}<br/>
+    {{ form.rid(size=32, value=rid, readonly=True) }}<br/>
     {% for error in form.rid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.uid.label }} : your user id<br/>
-    {{ form.uid(size=32, value = uid) }}<br/>
+    {{ form.uid(size=32, value = uid, readonly=True) }}<br/>
     {% for error in form.uid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.sid.label }} : seller you are reviewing<br/>
-    {{ form.sid(size=32, value = sid) }}<br/>
+    {{ form.sid(size=32, value = sid, readonly=True) }}<br/>
     {% for error in form.sid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.email.label }} <br/>
-    {{ form.email(size=32, value = email) }}<br/>
+    {{ form.email(size=32, value = email, readonly=True) }}<br/>
     {% for error in form.email.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}

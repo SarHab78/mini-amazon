@@ -8,21 +8,21 @@
   {{ form.hidden_tag() }}
   <p>
     {{ form.rid.label }} (auto-generated) <br/>
-    {{ form.rid(size=32) }}<br/>
+    {{ form.rid(size=32, readonly=True) }}<br/>
     {% for error in form.rid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.uid.label }} : your user id<br/>
-    {{ form.uid(size=32) }}<br/>
+    {{ form.uid(size=32, readonly=True) }}<br/>
     {% for error in form.uid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
   </p>
   <p>
     {{ form.pid.label }} : product you are reviewing<br/>
-    {{ form.pid(size=32) }}<br/>
+    {{ form.pid(size=32, readonly=True) }}<br/>
     {% for error in form.pid.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}

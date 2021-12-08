@@ -96,7 +96,7 @@ def add_a_review(product_id):
                             rating,
                             review)
                 #print('review submitted')
-                flash('thanks for submitting your review!')
+                #flash('thanks for submitting your review!')
                 return redirect(url_for('users_review_page.myreviews'))
     return render_template('review_form.html', title='reviews', form=form)
 
