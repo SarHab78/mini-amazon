@@ -25,7 +25,7 @@ class Checkoutform(FlaskForm):
 
 @bp.route('/checkout', methods=['GET','POST'])
 def checkout():
-    form = Checkoutform()
+    form1 = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
     # balance = current_user.balance
     # price = Order.total_price(current_user.id)
@@ -41,7 +41,7 @@ def checkout():
     checking_out = Orders.checkout_cart(current_user.id, add_date2)
     return render_template('checkout.html', 
                                 checking_out=checking_out, 
-                                form=form)
+                                form1=form1)
 
 
 
