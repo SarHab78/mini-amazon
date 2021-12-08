@@ -897,13 +897,14 @@ class Orders:
         self.ordered = ordered
     
     @staticmethod
-    def checkout_cart(uid, add_date):
+    def checkout_cart(uid):
         rows = app.db.execute('''
 UPDATE Orders.ordered
-SET Orders.ordered = 'Y' AND Date = :add_date
+SET Orders.ordered = 'Y' 
+# AND Date = :add_date
 WHERE Orders.ordered = 'N' AND Orders.uid = :uid
         ''',
-                add_date = add_date,
+                # add_date = add_date,
                 uid= uid)
         return [Orders(*row) for row in rows] 
 
