@@ -21,7 +21,7 @@ bp = Blueprint('interim', __name__)
 class Ordered_date(FlaskForm):
     add_date = StringField(_l('add_date'), validators=[DataRequired()])
 
-
+# notifies user that item has successfully added to cart, new html page
 @bp.route('/<name>/<product_id>/<quant>successfully_added')
 def interim(uid, name, product_id, quant, add_date):
     # form = Ordered_date()
