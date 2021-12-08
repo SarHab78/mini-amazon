@@ -15,7 +15,7 @@ from .models.base_model import User
 from .models.base_model import Prod_Sell_Rev_Cat_Ord
 
 
-
+# allows user to checkout a cart
 from flask import Blueprint
 bp = Blueprint('checkout', __name__)
 
@@ -35,7 +35,7 @@ def checkout():
     print(sellers_amounts_dict)
     print(buyers_amounts_dict)
     print(products_amounts_dict)
-
+# decrements values
     checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(uid=current_user.id, sellers_amounts_dict = sellers_amounts_dict, buyers_amounts_dict = buyers_amounts_dict, products_amounts_dict = products_amounts_dict)
     # form1 = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
