@@ -28,9 +28,16 @@ def carts():
     if current_user.is_authenticated:
         # my_cart = Orders.get_cart(current_user.id)
         my_cart = Prod_Sell_Rev_Cat_Ord.get_cart(current_user.id)
-        sellers_amounts_dic = Prod_Sell_Rev_Cat_Ord.get_sellers_and_decs(my_cart)
+        sellers_amounts_dict = Prod_Sell_Rev_Cat_Ord.get_sellers_and_incs(my_cart)
+        buyers_amounts_dict = Prod_Sell_Rev_Cat_Ord.get_buyers_and_decs(my_cart)
+        products_amounts_dict = Prod_Sell_Rev_Cat_Ord.get_products_and_decs(my_cart)
+
+        print(sellers_amounts_dict)
+        print(buyers_amounts_dict)
+        print(products_amounts_dict)
 
     else:
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
+
 

@@ -6,7 +6,7 @@ Create Table Users(
     email VARCHAR(256) UNIQUE NOT NULL,
 	pwd VARCHAR(256) NOT NULL,
 	address VARCHAR (256)NOT NULL,
-	balance INTEGER NOT NULL,
+	balance DECIMAL(12,2) NOT NULL,
 	is_seller VARCHAR(2) NOT NULL
 );
 
