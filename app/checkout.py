@@ -26,24 +26,24 @@ bp = Blueprint('checkout', __name__)
 @bp.route('/checkout')
 # , methods=['GET','POST'])
 def checkout():
-    form1 = Checkoutform()
+    # form1 = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
     # balance = current_user.balance
     # price = Order.total_price(current_user.id)
-    time = datetime.datetime.now()
-    form.add_date2.data = time
+    # time = datetime.datetime.now()
+    # form.add_date2.data = time
 
-    if form.validate_on_submit():
-        print('made it')
-        add_date2 = request.form['add_date2']
-    else:        
-        print('not submitted')
-        flash('Error, please try again later')
-    checking_out = Orders.checkout_cart(current_user.id, add_date2)
+    # if form.validate_on_submit():
+    #     print('made it')
+    #     add_date2 = request.form['add_date2']
+    # else:        
+    #     print('not submitted')
+    #     flash('Error, please try again later')
+    checking_out = Orders.checkout_cart(current_user.id)
     return render_template('checkout.html'
     , 
                                 checking_out=checking_out, 
-                                form1=form1
+                                # form1=form1
                                 )
 
 
