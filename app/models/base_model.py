@@ -894,7 +894,7 @@ class Orders:
         delete = rows = app.db.execute('''
 DELETE FROM Orders
 WHERE uid = :uid AND prod_id = :prod_id
-RETURNING uid
+RETURNING *
         ''',
                 uid= uid,
                 prod_id = prod_id)
