@@ -581,7 +581,7 @@ class Product_review:
 SELECT rid, pid, uid, email, rev_timestamp, rating, review
 FROM product_review
 WHERE pid = :pid
-ORDER BY rev_timestamp
+ORDER BY rev_timestamp DESC
 ''',
                               pid=pid)
         return [Product_review(*row) for row in rows] 
@@ -593,7 +593,7 @@ ORDER BY rev_timestamp
 SELECT rid, pid, uid, email, rev_timestamp, rating, review
 FROM product_review
 WHERE uid = :uid
-ORDER BY rev_timestamp
+ORDER BY rev_timestamp DESC
 ''',
                               uid=uid)
         return [Product_review(*row) for row in rows] 
@@ -756,7 +756,7 @@ ORDER BY rev_timestamp
 SELECT rid, uid, sid, email, rev_timestamp, rating, review
 FROM Seller_review
 WHERE uid = :uid
-ORDER BY rev_timestamp
+ORDER BY rev_timestamp DESC
 ''',
                               uid=uid)
         return [Seller_review(*row) for row in rows] 
