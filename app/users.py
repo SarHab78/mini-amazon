@@ -6,21 +6,22 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Integ
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, AnyOf, NoneOf
 from flask_babel import _, lazy_gettext as _l
 
+#classes from base model that are necessary for Users
 from .models.base_model import User
 from .models.base_model import Past_Order_Info
 
-
+#create the Blueprint for this page
 from flask import Blueprint
 bp = Blueprint('users', __name__)
 
-
+#Form for login (enter email and password)
 class LoginForm(FlaskForm):
     email = StringField(_l('Email'), validators=[DataRequired(), Email()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     remember_me = BooleanField(_l('Remember Me'))
     submit = SubmitField(_l('Sign In'))
 
-
+#actual login method (submits information from login form--allows users to login if info is correct)
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
