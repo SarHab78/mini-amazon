@@ -1146,6 +1146,7 @@ class Prod_Sell_Rev_Cat_Ord:
     'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
     'Video DVD & Blu-ray','Video Games','Watches'])  
     
+
     def get_sellers_and_incs(self):
         l = [''] * len(self)
         l2 = [''] * len(self)
