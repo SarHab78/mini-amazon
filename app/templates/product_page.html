@@ -126,13 +126,15 @@ html, body {
         
       </div>
 
-      {% if have_reviewed_seller != True %}
-        {% for thing in seller %}
+      
+      {% for thing in seller %}
         <a class="btn btn-secondary" href="{{ url_for('this_sellers_reviews.sellers_reviews', sid=thing.seller_id) }}" role="button" color="blue">View Reviews About This Seller</a> 
         <br<></br><br<></br><br<>
+        {% if have_reviewed_seller != True %}
         <a class="btn btn-secondary" href="{{ url_for('seller_reviews.add_a_seller_review', sid=thing.seller_id, pid=product.product_id) }}" role="button" color="blue">Write a Review of this Seller</a> 
-        {% endfor %}
-      {% endif %}
+        {% endif %}
+      {% endfor %}
+      
       <br<></br><br<></br><br<>
       
 
