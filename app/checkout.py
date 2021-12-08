@@ -48,14 +48,14 @@ def checkout():
 
 
 
-@bp.route('/final_checkout')
-def final_checkout():
+# @bp.route('/final_checkout')
+# def final_checkout():
     
-    if form.validate_on_submit():
-        if balance < total:
-            flash('Insufficient Funds, you current have a balance of ${}, your cart total is ${}', balance, total)
-        else:
-            return Order.checkout_cart(balance = balance, uid = current_user.id)
-    if form.is_submitted() and not form.validate():
+#     if form.validate_on_submit():
+#         if balance < total:
+#             flash('Insufficient Funds, you current have a balance of ${}, your cart total is ${}', balance, total)
+#         else:
+#             return Order.checkout_cart(balance = balance, uid = current_user.id)
+#     if form.is_submitted() and not form.validate():
 
-        return render_template('finalized_order.html')
+#         return render_template('finalized_order.html')
