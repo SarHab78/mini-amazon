@@ -33,8 +33,6 @@
         <td>{{item.add_date}}</td>
         <td><a class="btn btn-secondary" href="{{ url_for('carts.delete_item', uid=item.uid, prod_id = item.product_id)}}" role="button"
           style = "background: #57edf6; color: black">Delete/Change Quantity</a></td>
-
-
       </tr>
     {% endfor %}
   </tbody>
