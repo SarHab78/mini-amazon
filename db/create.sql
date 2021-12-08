@@ -65,7 +65,7 @@ CREATE TABLE Orders(
     order_quantity INT NOT NULL,
     add_date TIMESTAMP, --DEFAULT current_timestamp,    
     ordered VARCHAR(256) NOT NULL,
-    PRIMARY KEY(uid, prod_id, ordered)
+    PRIMARY KEY(uid, prod_id, ordered, add_date)
 );
 
 CREATE VIEW Prod_Sell_Rev_Cat AS(

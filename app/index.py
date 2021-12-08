@@ -152,6 +152,7 @@ def index():
                 if product_query.lower() == "all":
                      searched_products = Prod_Sell_Rev_Cat.get_all()
                      session['current_query'] = ''
+                     session['filter_fields'] = 'all'
                 else:
                     searched_products = Prod_Sell_Rev_Cat.get_search_result(search_str=product_query)
                 

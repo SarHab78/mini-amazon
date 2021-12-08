@@ -1065,7 +1065,7 @@ AND product_id <> :product_id
     @staticmethod
     def get_search_result(search_str='', available='Y', order_by = 'price', direc='high-to-low', filt_list=all_categories):
         if filt_list == 'all':
-            filt_list = all_categories
+            filt_list = Prod_Sell_Rev_Cat.all_categories
         base_query = '''
         SELECT * 
         FROM Prod_Sell_Rev_Cat 
