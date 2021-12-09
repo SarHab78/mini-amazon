@@ -898,14 +898,15 @@ class Orders:
         self.ordered = ordered
     # allows items to be deleted, buggy right now
     @staticmethod
-    def delete_item(uid, prod_id):
+    def delete_item(uid, prod_id, add_date):
         delete = app.db.execute('''
 DELETE FROM Orders
-WHERE uid = :uid AND prod_id = :prod_id
+WHERE uid = :uid AND prod_id = :prod_id AND add_date = :add_date
 RETURNING *
         ''',
                 uid= uid,
-                prod_id = prod_id)
+                prod_id = prod_id,
+                add_date = add_date)
         return Orders.get_cart(uid)
 
 # changes values in carts to indicate the item haas been purchased and is no longer in the cart
@@ -1222,6 +1223,22 @@ FROM Prod_Sell_Rev_Cat_Ord
 WHERE ordered = 'N' AND uid = :uid
         ''',uid= uid)
         return [Prod_Sell_Rev_Cat_Ord(*row) for row in rows] 
+
+    @staticmethod
+    def make_sure_user_can_purchase(id, amount):
+    # get the seller's current balance
+            buy_current_balance = app.db.execute('''
+    SELECT balance
+    FROM Users
+    WHERE id = :id
+            ''',
+                    id = id)
+
+            # format the seller's current balance
+            buy_current_balance = float(("").join([str(float(r)) for (r,) in sell_current_balance]))
+
+            if amount > buy_current_balance:
+                raise Exception('Your balance is not high enough to purchase these items. Please update balance or remove items from cart.')
 
         
     @staticmethod

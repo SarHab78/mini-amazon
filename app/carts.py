@@ -41,8 +41,8 @@ def carts():
         my_cart = None
     return render_template('carts.html', user_cart = my_cart)
 # not working, but will be able to delete item
-@bp.route('/delete/<prod_id>/from_cart')
-def delete_item(prod_id):
-    my_cart = Orders.delete_item(current_user.id, prod_id)
+@bp.route('/delete/<prod_id>/<add_date>/from_cart')
+def delete_item(prod_id, add_date):
+    my_cart = Orders.delete_item(current_user.id, prod_id, add_date)
     return render_template('item_deleted.html', my_cart = my_cart)
 
