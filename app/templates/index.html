@@ -15,7 +15,6 @@
 
   <td><a class="btn btn-primary" href="{{ url_for('seller_inventory.inventory') }}" role="button" color="blue"><i class="fa fa-folder"> </i> Seller Inventory</a></td>
 
-
   <h1><center>Products</center></h1>
   <form class="example" method="post" action="" 
    style="color:blue; margin: 0 auto;width:600px">
@@ -63,7 +62,11 @@
 
 
 {% if current_user.is_authenticated %}
-  
+
+<p style="margin-bottom:0;"><b>Search by:</b> {{product_query}}</p>
+<p style="margin : 0; padding-top:0;"><b>Categories shown:</b> {{filter_fields}}</p>
+
+<br>
 
 <h2>Products for sale:</h2>
 <table class='table table-hover table-bordered container'>

@@ -99,12 +99,22 @@ def index():
             purchases = None
             user = None
 
+        # format filter fields for output on the website
+        if 'filter_fields' in session:
+            if not filter_fields == 'all':
+                filter_fields = session['filter_fields']
+                filter_fields = (', ').join(filter_fields)
+        else:
+            filter_fields = 'all'
+
         return render_template('index.html',
                             avail_products=searched_products,
                             purchase_history=purchases,
                             curr_uid = user,
                             sortform = sortform,
-                            filterform = filterform)
+                            filterform = filterform,
+                            product_query = search_str,
+                            filter_fields = filter_fields)
 
     elif filterform.validate_on_submit():
         search_str = ''
@@ -138,8 +148,9 @@ def index():
                             purchase_history=purchases,
                             curr_uid = user,
                             sortform = sortform,
-                            filterform = filterform)
-
+                            filterform = filterform,
+                            product_query = search_str,
+                            filter_fields = (', ').join(filter_fields))
 
     else:
         if request.method == "POST":
@@ -165,13 +176,22 @@ def index():
                 else:
                     user = None
                     purchases = None
+                
+                filter_fields = 'all'
+                if 'filter_fields' in session:
+                    if not filter_fields  == 'all':
+                        filter_fields = session['filter_fields']
+                        # format filter fields
+                        filter_fields = (', ').join(filter_fields)
 
                 return render_template('index.html',
                                 avail_products=searched_products,
                                 purchase_history=purchases,
                                 curr_uid = user,
                                 sortform = sortform,
-                                filterform = filterform)
+                                filterform = filterform,
+                                product_query = product_query,
+                                filter_fields = filter_fields)
 
 
     return render_template('index.html',
@@ -179,7 +199,9 @@ def index():
                            purchase_history=purchases,
                            curr_uid = user,
                            sortform = sortform,
-                           filterform = filterform)
+                           filterform = filterform,
+                           product_query = 'top rated products',
+                           filter_fields = 'all')
 
 
 
