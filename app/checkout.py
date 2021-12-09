@@ -36,8 +36,12 @@ def checkout():
     print(buyers_amounts_dict)
     print(products_amounts_dict)
 # decrements values
-    #can_purchase = Prod_Sell_Rev_Cat_Ord.make_sure_user_can_purchase(current_user.id, buyers_amounts_dict[current_user.id])
-    checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(uid=current_user.id, sellers_amounts_dict = sellers_amounts_dict, buyers_amounts_dict = buyers_amounts_dict, products_amounts_dict = products_amounts_dict)
+    if len(my_cart) > 0:
+        #can_purchase = Prod_Sell_Rev_Cat_Ord.make_sure_user_can_purchase(current_user.id, buyers_amounts_dict[current_user.id])
+        checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(uid=current_user.id, sellers_amounts_dict = sellers_amounts_dict, buyers_amounts_dict = buyers_amounts_dict, products_amounts_dict = products_amounts_dict)
+    else:
+        checking_out = None
+        return render_template('carts.html', user_cart = my_cart)
     # form1 = Checkoutform()
     # my_cart = Order.get_cart(current_user.id)
     # balance = current_user.balance
