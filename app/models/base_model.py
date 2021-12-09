@@ -1336,8 +1336,13 @@ ORDER BY Prod_Sell_Rev_Cat_Ord.add_date DESC
 
     @staticmethod
     def get_search_result(seller_id, search_str='', order_by = 'price', direc='high-to-low', filt_list=all_categories):
+        all_categories = tuple(['Automotive & Powersports','Baby Products','Beauty','Books','Camera & Photo','Cell Phones & Accessories','Collectible Coins','Clothing','Consumer Electronics',
+    'Entertainment Collectibles','Fine Art','Grocery & Gourmet Foods','Health & Personal Care','Home & Garden','Independent Design','Industrial & Scientific','Major Appliances','Misc','Music and DVD','Musical Instruments',
+    'Office Products','Outdoors','Personal Computers','Pet Supplies','Software','Sports','Sports Collectibles','Tools & Home Improvement','Toys & Games',
+    'Video DVD & Blu-ray','Video Games','Watches'])  
+    
         if filt_list == 'all':
-            filt_list = all_categories
+           filt_list = all_categories
         
         base_query = '''
         SELECT * 
