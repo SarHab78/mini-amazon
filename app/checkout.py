@@ -37,8 +37,11 @@ def checkout():
     print(products_amounts_dict)
 # decrements values
     if len(my_cart) > 0:
-        #can_purchase = Prod_Sell_Rev_Cat_Ord.make_sure_user_can_purchase(current_user.id, buyers_amounts_dict[current_user.id])
-        checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(uid=current_user.id, sellers_amounts_dict = sellers_amounts_dict, buyers_amounts_dict = buyers_amounts_dict, products_amounts_dict = products_amounts_dict)
+        can_purchase = Prod_Sell_Rev_Cat_Ord.make_sure_user_can_purchase(current_user.id, buyers_amounts_dict[current_user.id])
+        if can_purchase == 1:
+            checking_out = Prod_Sell_Rev_Cat_Ord.checkout_cart(uid=current_user.id, sellers_amounts_dict = sellers_amounts_dict, buyers_amounts_dict = buyers_amounts_dict, products_amounts_dict = products_amounts_dict)
+        else:
+            checking_out = None
     else:
         checking_out = None
         return render_template('carts.html', user_cart = my_cart)
@@ -56,7 +59,8 @@ def checkout():
     #     print('not submitted')
     #     flash('Error, please try again later')
     return render_template('checkout.html', 
-    checking_out=checking_out)
+    checking_out=checking_out,
+    can_purchase = can_purchase)
 
 
 

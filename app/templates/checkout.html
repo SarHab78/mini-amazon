@@ -2,11 +2,14 @@
 
 {% block content %}
 
+{% if can_purchase == 1 %}
 <br><br>
 <body>
       <h1 style="color:black; text-align: center">Please expect your items to arrive soon! </h1>
       <div style="color: black; text-align: right; margin-bottom: 25px">
 </body>
-
+{% else %}
+<h3> Your balance is not high enough to purchase these items. Please add to your balance or remove items from cart.</h3>
+{% endif %}
 
 {% endblock %}

@@ -1226,7 +1226,7 @@ WHERE ordered = 'N' AND uid = :uid
 
     @staticmethod
     def make_sure_user_can_purchase(id, amount):
-    # get the seller's current balance
+    # get the buyer's current balance
             buy_current_balance = app.db.execute('''
     SELECT balance
     FROM Users
@@ -1234,12 +1234,13 @@ WHERE ordered = 'N' AND uid = :uid
             ''',
                     id = id)
 
-            # format the seller's current balance
-            buy_current_balance = float(("").join([str(float(r)) for (r,) in sell_current_balance]))
+            # format the buyer's current balance
+            buy_current_balance = float(("").join([str(float(r)) for (r,) in buy_current_balance]))
 
+            # if you're trying to purchase more than your balance
             if amount > buy_current_balance:
-                raise Exception('Your balance is not high enough to purchase these items. Please update balance or remove items from cart.')
-
+                return 0
+            return 1
         
     @staticmethod
     def checkout_cart(uid, sellers_amounts_dict, buyers_amounts_dict, products_amounts_dict):
